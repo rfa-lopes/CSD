@@ -8,10 +8,10 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>csd</groupId>
-	<artifactId>wallet</artifactId>
+	<groupId>CSD</groupId>
+	<artifactId>Wallet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wallet</name>
+	<name>CSD-Wallet</name>
 	<description>CSD - Wallet</description>
 
 	<properties>
