@@ -8,6 +8,6 @@ $git pull origin master
 
 $git add .
 
-$git commit -m "Message"
+$git commit -m "Initial commit"
 
 $git push
