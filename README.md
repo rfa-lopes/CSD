@@ -1,7 +1,7 @@
 # CSD
 Confiabilidade de Sistemas Distribuidos
 
-#Git Commands
+# Git Commands
 
 $git clone https://github.com/rfa-lopes/CSD.git
 
