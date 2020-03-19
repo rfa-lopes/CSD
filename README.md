@@ -2,12 +2,13 @@
 Confiabilidade de Sistemas Distribuidos
 
 # Git Commands
-$git clone https://github.com/rfa-lopes/CSD.git
 
-$git pull origin master
+git clone https://github.com/rfa-lopes/CSD.git
 
-$git add .
+git pull origin master
 
-$git commit -m "Initial commit"
+git add .
 
-$git push
+git commit -m "Initial commit"
+
+git push
