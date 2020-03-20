@@ -1,6 +1,13 @@
 # Confiabilidade de Sistemas Distribuidos
 
 ## MySQL
+Instalação mysql-server
+```bash
+sudo apt update
+sudo apt install mysql-server
+mysql_secure_installation
+```
+
 Criação da base de dados.
 ```SQL
 create database wallet;
