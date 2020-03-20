@@ -1,7 +1,7 @@
 # Confiabilidade de Sistemas Distribuidos
 
 ## MySQL
-Instalação e configuração mysql-server
+Instalação e configuração MySQL.
 
 Referencia [aqui](https://www.digitalocean.com/community/tutorials/como-instalar-o-mysql-no-ubuntu-18-04-pt).
 
@@ -12,7 +12,7 @@ $ mysql_secure_installation
 $ systemctl status mysql.service
 ```
 
-Criação da base de dados.
+###Criação da base de dados.
 ```
 $ sudo mysql
 ```
