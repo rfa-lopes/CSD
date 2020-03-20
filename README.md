@@ -12,7 +12,7 @@ $ mysql_secure_installation
 $ systemctl status mysql.service
 ```
 
-###Criação da base de dados.
+Criação da base de dados.
 ```
 $ sudo mysql
 ```
