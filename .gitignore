@@ -2,7 +2,7 @@ target/*
 .idea/*
 *.iml
 /target/
+/src/main/resources/application.properties
 .setting/*
 .classpath
 .project
-/src/main/resources/application.properties
