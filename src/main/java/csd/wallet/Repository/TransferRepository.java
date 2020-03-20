@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import csd.wallet.Models.Transfer;
 
-public interface TransferRepository extends CrudRepository<Transfer,Long>{
+import java.util.List;
 
+public interface TransferRepository extends CrudRepository<Transfer,Long>{
+                        //TODO: JpaRepository ? diferenças?
 }

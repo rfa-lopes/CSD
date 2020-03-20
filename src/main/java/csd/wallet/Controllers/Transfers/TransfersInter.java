@@ -1,6 +1,7 @@
 package csd.wallet.Controllers.Transfers;
 
 import csd.wallet.Controllers.Wallets.WalletsInter;
+import csd.wallet.Models.Transfer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +10,10 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @RestController
-@RequestMapping(value = WalletsInter.BASE_URL)
+@RequestMapping(value = TransfersInter.BASE_URL)
 public interface TransfersInter {
 
-    String BASE_URL = "/transfers";
+    String BASE_URL       = "/transfers";
 
     String ADD_MONEY      = "/add/{id}/{amount}";
     String REMOVE_MONEY   = "/remove/{id}/{amount}";
