@@ -1,7 +1,12 @@
-# CSD
-Confiabilidade de Sistemas Distribuidos
+# Confiabilidade de Sistemas Distribuidos
 
-# Git Commands
+## MySQL
+Criação da base de dados.
+```SQL
+create database wallet;
+```
+
+## Git Commands
 ```bash
 git clone https://github.com/rfa-lopes/CSD.git
 ```
