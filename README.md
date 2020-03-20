@@ -2,7 +2,10 @@
 
 Descrição.
 
+[comment]: <> (========================================================================================)
+
 ## MySQL
+[comment]: <> (........................................................)
 ### Instalação e configuração MySQL.
 Referencia [aqui](https://www.digitalocean.com/community/tutorials/como-instalar-o-mysql-no-ubuntu-18-04-pt).
 ```bash
@@ -12,16 +15,18 @@ $ mysql_secure_installation
 $ systemctl status mysql.service
 $ sudo mysql
 ```
-### Criação da base de dados.
+[comment]: <> (........................................................)
+### Criação da base de dados
 ```SQL
 mysql> create database wallet;
 ```
+[comment]: <> (........................................................)
 ### Comandos MySQL
 Mostrar bases de dados.
 ```bash
 mysql> show databases;
 ```
-Usar base de dados 'wallet'
+Usar base de dados 'wallet'.
 ```bash
 mysql> use wallet;
 ```
@@ -29,14 +34,17 @@ Mostrar tabelas da base de dados escolhida.
 ```bash
 mysql> show tables;
 ```
-Parar base de dados MySQL
+Parar base de dados MySQL.
 ```bash
 $sudo systemctl stop mysql
 ```
-Iniciar base de dados MySQL
+Iniciar base de dados MySQL.
 ```bash
 $sudo systemctl start mysql
 ```
+[comment]: <> (........................................................)
+
+[comment]: <> (========================================================================================)
 
 
 ## Comandos Git
