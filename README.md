@@ -29,6 +29,15 @@ Mostrar tabelas da base de dados escolhida.
 ```bash
 mysql> show tables;
 ```
+Parar base de dados MySQL
+```bash
+$sudo systemctl stop mysql
+```
+Iniciar base de dados MySQL
+```bash
+$sudo systemctl start mysql
+```
+
 
 ## Comandos Git
 ```bash
