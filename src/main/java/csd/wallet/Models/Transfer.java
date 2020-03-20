@@ -1,8 +1,6 @@
 package csd.wallet.Models;
 
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +14,15 @@ import java.util.Date;
 public class Transfer {
 
     public static final String FORMAT_DATE = "yyyy/MM/dd HH:mm:ss";
+
+    public Transfer(){}
+
+    public Transfer(long fromId, long toId, long amount){
+        this.fromId = fromId;
+        this.toId = toId;
+        this.amount = amount;
+        this.date = getActualDate();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,8 +76,10 @@ public class Transfer {
         return date;
     }
 
-    public void setDate() {
-        this.date = new SimpleDateFormat(FORMAT_DATE).format(new Date());
+    public void setDate(String date) {
+        this.date = date;
     }
+
+    private String getActualDate() {return new SimpleDateFormat(FORMAT_DATE).format(new Date());}
 
 }

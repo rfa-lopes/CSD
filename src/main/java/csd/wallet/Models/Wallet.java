@@ -49,4 +49,8 @@ public class Wallet implements Serializable{
 	public void setAmount(long value) {
 		this.amount = value;
 	}
+
+	public void addAmount(long value){this.amount += value;}
+
+	public void removeAmount(long value){this.amount -= value;}
 }

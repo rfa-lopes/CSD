@@ -1,6 +1,6 @@
 package csd.wallet.Controllers.Transfers;
 
-import csd.wallet.Controllers.Wallets.WalletsInter;
+import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.Transfer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,53 +15,52 @@ public interface TransfersInter {
 
     String BASE_URL       = "/transfers";
 
-    String ADD_MONEY      = "/add/{id}/{amount}";
-    String REMOVE_MONEY   = "/remove/{id}/{amount}";
-    String TRANSFER       = "/transfer/{fromId}/{toId}/{amount}";
+    String ADD_MONEY      = "/add";
+    String REMOVE_MONEY   = "/remove";
+    String TRANSFER       = "/transfer";
     String GLOBAL         = "/globaltransfers";
-    String WALLET         = "/walletltransfers/{id}";
+    String WALLET         = "/wallettransfers/{id}";
 
     /**
      * @Description
-     * @param id: Wallet id.
-     * @param amount: Amount to add to the wallet.
+     * @param idAmount: Wallet id. | Amount to add to the wallet.
      * @return
      *  OK, if money is added.
      *  NOT FOUND, if Wallet id does not exist.
+     *  BAD_REQUEST, if amount was invalid.
      *  INTERNAL_SERVER_ERROR, if server error.
      */
-    @GetMapping(
+    @PostMapping(
             value = ADD_MONEY)
-    ResponseEntity<Void> addMoney (@PathVariable long id, @PathVariable long amount);
+    ResponseEntity<Void> addMoney (@RequestBody AddRemoveForm idAmount);
 
     /**
      * @Description
      * //TODO:
-     * @param id: Wallet id.
-     * @param amount: Amount to remove from the wallet.
+     * @param idAmount: Wallet id | Amount to remove from the wallet.
      * @return
      *  OK, if money is removed.
      *  NOT FOUND, if Wallet id does not exist.
+     *  BAD_REQUEST, if amount was invalid.
      *  INTERNAL_SERVER_ERROR, if server error.
      */
     @PostMapping(
             value = REMOVE_MONEY)
-    ResponseEntity<Void> removeMoney (@PathVariable long id, @PathVariable long amount);
+    ResponseEntity<Void> removeMoney (@RequestBody AddRemoveForm idAmount);
 
     /**
      * @Description
-     * //TODO:
-     * @param fromId: From wallet id.
-     * @param toId: To wallet id.
-     * @param amount: Transfer amount.
+     * //TODO: Tranferencias de A para A são impossiveis. (usar addMoney)
+     * @param transfer: Transference with: fromId, toId and amount.
      * @return
      *  OK, if the transfer is made.
      *  NOT FOUND, if some Wallet id does not exist.
+     *  BAD_REQUEST, if amount was invalid or fromId equals to toId.
      *  INTERNAL_SERVER_ERROR, if server error.
      */
     @PostMapping(
             value = TRANSFER)
-    ResponseEntity<Void> transfer (@PathVariable long fromId, @PathVariable long toId, @PathVariable long amount);
+    ResponseEntity<Void> transfer (@RequestBody Transfer transfer);
 
     /**
      * @Description
@@ -87,7 +86,7 @@ public interface TransfersInter {
     @GetMapping(
             value = WALLET,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Transfer>> LedgerOfWalletTransfers(@PathVariable long id);
+    ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(@PathVariable long id);
 
 
 }
