@@ -5,3 +5,4 @@ target/*
 .setting/*
 .classpath
 .project
+src/main/resources/application.properties
