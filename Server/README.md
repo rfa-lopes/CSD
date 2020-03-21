@@ -1,7 +1,8 @@
 [< Para trás](../README.md)
 # Confiabilidade de Sistemas Distribuidos (Server)
 
-Tecnologias utilizadas: 
+**Tecnologias utilizadas: **
+
 * Spring Boot 2.2.5
 * Maven
 * Java 8
