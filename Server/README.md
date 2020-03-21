@@ -1,4 +1,4 @@
-# Confiabilidade de Sistemas Distribuidos (SERVER)
+# Confiabilidade de Sistemas Distribuidos (Server)
 
 Descrição.
 
