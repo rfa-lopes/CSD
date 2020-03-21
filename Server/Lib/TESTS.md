@@ -7,12 +7,15 @@
 GET /tests/helloworld
 ```
 ### Response
+```
 Hello World! (Get)
-
+```
 ## Teste 2
 ### Request
 ```
 POST/tests/helloworld
 ```
 ### Response
+```
 Hello World! (Post)
+```
