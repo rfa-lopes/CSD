@@ -11,7 +11,7 @@ POST /wallets/create
 **Body**
 ```json
 {
-	"name":"Rodrigo"
+	"name":"Rodrigo Faria Lopes"
 }
 ```
 ### Response
@@ -20,7 +20,7 @@ POST /wallets/create
 
 ---
 
-## Create Wallet
+## Delete Wallet
 ### Request
 **URI**
 ```
@@ -32,10 +32,39 @@ DELETE /wallets/delete/{id}
 
 ---
 
+## Obter quantia atual de uma Wallet
+### Request
+**URI**
+```
+GET /wallets/amout/{id}
+```
+### Response
+- **200 OK**
+```json
+{
+  "amount":9042
+}
+```
+- **404 NOT FOUNDT**  - ID da Wallet não existe.
 
 ---
 
-
+## Obter informação de uma Wallet
+### Request
+**URI**
+```
+GET /wallets/info/{id}
+```
+### Response
+- **200 OK**
+```json
+{
+  "id":1
+  "name":"Rodrigo Faria Lopes"
+  "amount":9042
+}
+```
+- **404 NOT FOUNDT**  - ID da Wallet não existe.
 
 ---
 
