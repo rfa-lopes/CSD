@@ -62,7 +62,6 @@
 /Client/build/
 /Client/.vscode/
 /Client/.mvc/*
-/Client/.mvc
 /Client/spring-shell.log
 target/*
 .idea/*
