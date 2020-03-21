@@ -84,7 +84,7 @@ GET/transfers/globaltransfers
 		"amount": 50,
 		"date": "2020/03/20 22:46:25"
 	}
-}
+]
 ```
 
 
@@ -112,5 +112,5 @@ GET/wallettransfers/{id}
 		"amount": 50,
 		"date": "2020/03/20 22:46:25"
 	}
-}
+]
 ```
