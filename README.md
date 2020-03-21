@@ -32,6 +32,7 @@ git pull origin master
 git add .
 git commit -m "Initial commit"
 git push
+git rm -r --cached Path/to/directories
 ```
 
 ### Autores
