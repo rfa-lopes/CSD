@@ -17,6 +17,40 @@ public interface TransferCommandsInter {
      */
     String transfer(long fromId, long toId, long amount);
 
+    /**
+     * Description
+     * Adds amount of money to wallet with given id
+     * @param id Wallet's id
+     * @param amount Amount of money to be added
+     * @return Status code of operation
+     */
+    String addAmount(long id, long amount);
+
+    /**
+     * Description
+     * Removes amount of money to wallet with given id
+     * @param id Wallet's id
+     * @param amount Amount of money to be removed
+     * @return Status code of operation
+     */
+    String removeAmount(long id, long amount);
+
+
+    /**
+     * Description
+     * Lists all made transfers
+     * @return Status code of operation
+     */
+    String listGlobalTransfers();
+
+    /**
+     * Description
+     * Lists all made transfers regarding the wallet with the given ID
+     * @param id Wallet's id
+     * @return Status code of operation
+     */
+    String listWalletTransfers(long id);
+
 
 
 }

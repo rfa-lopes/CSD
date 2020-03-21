@@ -35,4 +35,10 @@ public class TransferModel1 {
     public void setAmount(long amount) {
         this.amount = amount;
     }
+
+    public String getInfo() {
+        return  String.format("\n",
+                "FromID: %l\n" + "ToID: %s\n" + "Amount: %l\n",
+                fromId, toId, amount );
+    }
 }
