@@ -23,3 +23,17 @@ cat application.properties
 #spring.datasource.username=root  <----------- verificar
 #spring.datasource.password=password   <------ verificar
 ```
+
+### Comandos Git
+```bash
+git clone https://github.com/rfa-lopes/CSD.git
+git pull origin master
+git add .
+git commit -m "Initial commit"
+git push
+```
+## Informação adicional
+### Autores
+* Rodrigo Lopes - rfa.lopes@campus.fct.unl.pt
+* João Santos - jmfd.santos@campus.fct.unl.pt
+* João Ramalho - jl.ramalho@campus.fct.unl.pt
