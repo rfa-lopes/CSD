@@ -60,4 +60,12 @@
 /Client/.nb-gradle/
 /Client/build/
 /Client/.vscode/
+target/*
+.idea/*
+*.iml
+/target/
+/src/main/resources/application.properties
+.setting/*
+.classpath
+.project
 
