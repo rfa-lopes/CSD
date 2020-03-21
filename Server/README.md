@@ -1,3 +1,4 @@
+[< Para trás](../README.md)
 # Confiabilidade de Sistemas Distribuidos (Server)
 
 Descrição.
@@ -43,3 +44,4 @@ git push
 * Rodrigo Lopes - rfa.lopes@campus.fct.unl.pt
 * João Santos - jmfd.santos@campus.fct.unl.pt
 * João Ramalho - jl.ramalho@campus.fct.unl.pt
+[< Para trás](../README.md)
