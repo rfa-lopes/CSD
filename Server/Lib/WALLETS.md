@@ -47,7 +47,7 @@ GET /wallets/amout/{id}
 - **200 OK**
 ```json
 {
-  "amount":9042
+	"amount":9042
 }
 ```
 - **404 NOT FOUNDT**  - ID da Wallet não existe.
@@ -64,9 +64,9 @@ GET /wallets/info/{id}
 - **200 OK**
 ```json
 {
-  "id":1,
-  "name":"Rodrigo Faria Lopes",
-  "amount":9042
+	"id":1,
+	"name":"Rodrigo Faria Lopes",
+	"amount":9042
 }
 ```
 - **404 NOT FOUNDT**  - ID da Wallet não existe.
