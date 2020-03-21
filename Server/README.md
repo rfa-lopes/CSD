@@ -46,9 +46,6 @@ git commit -m "Initial commit"
 git push
 ```
 
----
----
-
 ### Autores
 * Rodrigo Lopes - rfa.lopes@campus.fct.unl.pt
 * João Santos - jmfd.santos@campus.fct.unl.pt
