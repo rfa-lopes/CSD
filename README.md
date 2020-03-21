@@ -1,4 +1,6 @@
 # Confiabilidade de Sistemas Distribuidos 2020
+[Server](Server/README.md)
+[Client](Client/README.md)
 
 ## Setup
 ### Git Clone
