@@ -2,8 +2,6 @@
 
 # Documentação de Transfers
 
----
-
 ## Adicionar dinheiro a uma Wallet
 ### Request
 **URI**
