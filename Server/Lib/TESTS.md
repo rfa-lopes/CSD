@@ -10,6 +10,9 @@ GET /tests/helloworld
 ```
 Hello World! (Get)
 ```
+
+---
+
 ## Teste 2
 ### Request
 ```
@@ -19,4 +22,7 @@ POST/tests/helloworld
 ```
 Hello World! (Post)
 ```
+
+---
+
 [< Para trás](../README.md#Funcionalidades)
