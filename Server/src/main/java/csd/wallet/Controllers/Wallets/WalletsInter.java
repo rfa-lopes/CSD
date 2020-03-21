@@ -19,22 +19,22 @@ public interface WalletsInter {
     /**
      * @Description
      * //TODO:
-     * @param name: Username
+     * @param name -> Username
      * @return
-     *  OK, if wallet was created.
+     *  OK, if wallet was created, and wallet id generated.
      *  INTERNAL_SERVER_ERROR, if server error.
      */
     @PostMapping(
             value = CREATE,
             consumes = APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> createWallet (@RequestBody String name);
+    ResponseEntity<Long> createWallet (@RequestBody String name);
 
     /**
      * @Description
      * //TODO:
-     * @param id: Wallet id.
+     * @param id -> Wallet id.
      * @return
-     *  OK, if wallet was deleted.
+     *  NO_CONTENT, if wallet was deleted.
      *  NOT FOUND, if Wallet id does not exist.
      *  INTERNAL_SERVER_ERROR, if server error.
      */
@@ -45,7 +45,7 @@ public interface WalletsInter {
     /**
      * @Description
      * //TODO:
-     * @param id: Wallet id.
+     * @param id -> Wallet id.
      * @return
      *  OK and wallet current amount.
      *  NOT FOUND, if Wallet id does not exist.
@@ -54,12 +54,12 @@ public interface WalletsInter {
     @GetMapping(
             value = AMOUNT,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<Integer> getCurrentAmount (@PathVariable long id);
+    ResponseEntity<Long> getCurrentAmount (@PathVariable long id);
 
     /**
      * @Description
      * //TODO:
-     * @param id: Wallet id.
+     * @param id -> Wallet id.
      * @return
      *  OK and all wallet information.
      *  NOT FOUND, if Wallet id does not exist.

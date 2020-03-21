@@ -24,6 +24,7 @@ public class Transfer {
         this.date = getActualDate();
     }
 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -36,7 +37,7 @@ public class Transfer {
 
     @NotNull
     long amount;
-
+    
     @NotNull
     String date;
 
