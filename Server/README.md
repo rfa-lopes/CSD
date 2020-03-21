@@ -1,7 +1,13 @@
 [< Para trás](../README.md)
 # Confiabilidade de Sistemas Distribuidos (Server)
 
-Descrição.
+Tecnologias utilizadas: 
+* Spring Boot 2.2.5
+* Maven
+* Java 8
+* Jar packaging
+
+Initializer [aqui](https://start.spring.io/).
 
 ---
 
