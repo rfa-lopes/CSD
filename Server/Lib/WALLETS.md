@@ -59,8 +59,8 @@ GET /wallets/info/{id}
 - **200 OK**
 ```json
 {
-  "id":1
-  "name":"Rodrigo Faria Lopes"
+  "id":1,
+  "name":"Rodrigo Faria Lopes",
   "amount":9042
 }
 ```
