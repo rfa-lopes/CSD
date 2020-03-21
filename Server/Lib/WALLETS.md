@@ -16,6 +16,11 @@ POST /wallets/create
 ```
 ### Response
 - **200 OK** - Wallet criada com sucesso.
+```json
+{
+	"id":1
+}
+```
 - **400 BAD REQUEST**  - Nome para Wallet não aceite.
 
 ---
