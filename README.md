@@ -4,7 +4,6 @@ Descrição.
 
 ## MySQL
 ### Instalação e configuração MySQL.
-Referencia [aqui](https://www.digitalocean.com/community/tutorials/como-instalar-o-mysql-no-ubuntu-18-04-pt).
 ```bash
 $ sudo apt update
 $ sudo apt install mysql-server
