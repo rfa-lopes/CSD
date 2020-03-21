@@ -1,8 +1,8 @@
 # Confiabilidade de Sistemas Distribuidos 2020
 
-Go to: [Server](Server/README.md)
+Go to: [Server](Server)
 
-Go to: [Client](Client/README.md)
+Go to: [Client](Client)
 
 ---
 
