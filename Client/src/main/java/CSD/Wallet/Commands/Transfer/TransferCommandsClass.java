@@ -1,5 +1,6 @@
 package CSD.Wallet.Commands.Transfer;
 
+import CSD.Wallet.Models.ListWrapper;
 import CSD.Wallet.Models.TransferModel1;
 import CSD.Wallet.Services.Transfers.TransferServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import java.lang.reflect.Array;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -103,11 +105,11 @@ public class TransferCommandsClass implements TransferCommandsInter{
 
     @Override
     @ShellMethod("List all made transfers.")
-    public String listGlobalTransfers() {
-        ResponseEntity<List<TransferModel1>> response = service.listGlobalTransfers();
+    public String listGlobalTransfers() throws URISyntaxException {
+        ResponseEntity<ListWrapper> response = service.listGlobalTransfers();
         switch (response.getStatusCode().value()){
             case 200:
-                return stringInfoTransfers(response.getBody());
+                return stringInfoTransfers(response.getBody().getList());
             case 404:
                 return MESSAGE_404;
             case 400:
@@ -120,12 +122,12 @@ public class TransferCommandsClass implements TransferCommandsInter{
     @Override
     @ShellMethod("List all transfers regarding wallet.")
     public String listWalletTransfers(
-            @ShellOption({"-id"}) long id) {
+            @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<List<TransferModel1>> response = service.listWalletTransfers(id);
+        ResponseEntity<ListWrapper> response = service.listWalletTransfers(id);
         switch (response.getStatusCode().value()){
             case 200:
-                return stringInfoTransfers(response.getBody());
+                return stringInfoTransfers(response.getBody().getList());
             case 404:
                 return MESSAGE_404;
             case 400:

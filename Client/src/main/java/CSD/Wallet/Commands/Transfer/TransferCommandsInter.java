@@ -4,6 +4,8 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import java.net.URISyntaxException;
+
 @ShellComponent
 public interface TransferCommandsInter {
 
@@ -41,7 +43,7 @@ public interface TransferCommandsInter {
      * Lists all made transfers
      * @return Status code of operation
      */
-    String listGlobalTransfers();
+    String listGlobalTransfers() throws URISyntaxException;
 
     /**
      * Description
@@ -49,7 +51,7 @@ public interface TransferCommandsInter {
      * @param id Wallet's id
      * @return Status code of operation
      */
-    String listWalletTransfers(long id);
+    String listWalletTransfers(long id) throws URISyntaxException;
 
 
 
