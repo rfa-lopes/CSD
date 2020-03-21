@@ -3,6 +3,8 @@
 
 Descrição.
 
+---
+
 ## Funcionalidades
 ### Tests
 * Documentação [Tests](Lib/TESTS.md).
@@ -10,6 +12,8 @@ Descrição.
 * Documentação [Wallets](Lib/WALLETS.md).
 ### Transfers
 * Documentação [Transfers](Lib/TRANSFERS.md).
+
+---
 
 ## Utils
 ### Comandos MySQL
@@ -29,6 +33,8 @@ sudo systemctl start mysql
 sudo systemctl stop mysql
 ```
 
+---
+
 ## Informação adicional
 
 ### Comandos Git
@@ -39,6 +45,9 @@ git add .
 git commit -m "Initial commit"
 git push
 ```
+
+---
+---
 
 ### Autores
 * Rodrigo Lopes - rfa.lopes@campus.fct.unl.pt
