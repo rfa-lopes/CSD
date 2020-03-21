@@ -8,11 +8,11 @@ public class TestsClass implements TestsInter {
 
     @Override
     public ResponseEntity<String> test1() {
-        return ResponseEntity.ok("Test1");
+        return ResponseEntity.ok("Hello World! (Get)");
     }
 
     @Override
     public ResponseEntity<String> test2() {
-        return ResponseEntity.status(301).body("test2");
+        return ResponseEntity.status(200).body("Hello World! (Post)");
     }
 }
