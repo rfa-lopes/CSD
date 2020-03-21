@@ -22,17 +22,13 @@ mysql> create database wallet;
 ```
 [comment]: <> (........................................................)
 ### Comandos MySQL
-Mostrar bases de dados.
-```bash
-mysql> show databases;
-```
-Usar base de dados 'wallet'.
-```bash
-mysql> use wallet;
-```
-Mostrar tabelas da base de dados escolhida.
-```bash
-mysql> show tables;
+```SQL
+show databases;
+use wallet;
+show tables;
+SELECT * FROM wallet;
+SELECT * FROM transfer;
+INSERT INTO wallet VALUES (0, 'Nome', 9090)
 ```
 Parar base de dados MySQL.
 ```bash
