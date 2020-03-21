@@ -1,4 +1,7 @@
 # Confiabilidade de Sistemas Distribuidos 2020
+Go to: [Server](Server/README.md)
+
+Go to: [Client](Client/README.md)
 
 ## Setup
 ### Git Clone
@@ -32,6 +35,7 @@ git pull origin master
 git add .
 git commit -m "Initial commit"
 git push
+git rm -r --cached Path/to/directories
 ```
 
 ### Autores
