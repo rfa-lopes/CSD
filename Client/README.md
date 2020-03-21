@@ -1,7 +1,14 @@
 [< Para trás](../README.md)
 # Confiabilidade de Sistemas Distribuidos (Client)
 
-Descrição.
+**Tecnologias utilizadas**
+
+* Spring Shell - [referencia](https://projects.spring.io/spring-shell/)
+* Spring Boot 2.2.5
+* Maven
+* Java 8
+
+Initializer [aqui](https://start.spring.io/).
 
 ---
 
