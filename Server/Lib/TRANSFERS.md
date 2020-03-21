@@ -121,4 +121,6 @@ GET/wallettransfers/{id}
 ```
 - **404 NOT FOUND**  - Wallet ID não existe.
 
+---
+
 [< Para trás](../README.md#Funcionalidades)
