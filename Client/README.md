@@ -1,4 +1,4 @@
-# Confiabilidade de Sistemas Distribuidos (Cliente)
+# Confiabilidade de Sistemas Distribuidos (CLIENTE)
 
 Descrição.
 
