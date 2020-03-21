@@ -22,6 +22,7 @@
 /Server/*.iws
 /Server/*.iml
 /Server/*.ipr
+/Server/HELP.md
 /Server/nbproject/private/
 /Server/nbbuild/
 /Server/dist/
@@ -60,6 +61,9 @@
 /Client/.nb-gradle/
 /Client/build/
 /Client/.vscode/
+/Client/.mvc/*
+/Client/.mvc
+/Client/spring-shell.log
 target/*
 .idea/*
 *.iml
@@ -71,4 +75,3 @@ target/*
 /.ideia/*
 .ideia/*
 .ideia
-

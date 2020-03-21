@@ -13,7 +13,7 @@ public class TestsClass implements TestsInter {
 
     @Override
     public ResponseEntity<String> test2() {
-        return ResponseEntity.status(200)
-                .body("Hello World! (Post)");
+        return ResponseEntity.status(200).body("Hello World! (Post)");
     }
+
 }
