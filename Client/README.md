@@ -3,7 +3,7 @@
 
 **Tecnologias utilizadas**
 
-* Spring Shell - [referencia](https://projects.spring.io/spring-shell/)
+* Spring Shell - [Referencia](https://projects.spring.io/spring-shell/)
 * Spring Boot 2.2.5
 * Maven
 * Java 8
