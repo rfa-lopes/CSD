@@ -23,6 +23,7 @@ cat application.properties
 #spring.datasource.username=root  <----------- verificar
 #spring.datasource.password=password   <------ verificar
 ```
+## Informação adicional
 
 ### Comandos Git
 ```bash
@@ -32,7 +33,7 @@ git add .
 git commit -m "Initial commit"
 git push
 ```
-## Informação adicional
+
 ### Autores
 * Rodrigo Lopes - rfa.lopes@campus.fct.unl.pt
 * João Santos - jmfd.santos@campus.fct.unl.pt
