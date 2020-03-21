@@ -1,8 +1,8 @@
-target/*
-.idea/*
-*.iml
-/target/
-/src/main/resources/application.properties
-.setting/*
-.classpath
-.project
+/Server/target/*
+/Server/.idea/*
+/Server/*.iml
+/Server/target/
+/Server/src/main/resources/application.properties
+/Server/.setting/*
+/Server/.classpath
+/Server/.project
