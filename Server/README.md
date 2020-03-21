@@ -1,6 +1,16 @@
+[< Para trás](../README.md)
 # Confiabilidade de Sistemas Distribuidos (Server)
 
-Descrição.
+**Tecnologias utilizadas**
+
+* Spring Boot 2.2.5
+* Maven
+* Java 8
+* MySQL
+
+Initializer [aqui](https://start.spring.io/).
+
+---
 
 ## Funcionalidades
 ### Tests
@@ -9,6 +19,8 @@ Descrição.
 * Documentação [Wallets](Lib/WALLETS.md).
 ### Transfers
 * Documentação [Transfers](Lib/TRANSFERS.md).
+
+---
 
 ## Utils
 ### Comandos MySQL
@@ -28,6 +40,8 @@ sudo systemctl start mysql
 sudo systemctl stop mysql
 ```
 
+---
+
 ## Informação adicional
 
 ### Comandos Git
@@ -43,3 +57,7 @@ git push
 * Rodrigo Lopes - rfa.lopes@campus.fct.unl.pt
 * João Santos - jmfd.santos@campus.fct.unl.pt
 * João Ramalho - jl.ramalho@campus.fct.unl.pt
+
+---
+
+[< Para trás](../README.md)

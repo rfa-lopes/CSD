@@ -20,6 +20,8 @@ POST/transfers/add
 - **404 NOT FOUND**  - Wallet ID não existe.
 - **400 BAD REQUEST**  - Quantia demasiado elevada ou negativa.
 
+---
+
 ## Remover dinheiro de uma Wallet
 ### Request
 ```
@@ -38,6 +40,7 @@ POST/transfers/remove
 - **404 NOT FOUND**  - Wallet ID não existe.
 - **400 BAD REQUEST**  - Quantia demasiado elevada ou negativa.
 
+---
 
 ## Tranferir dinheiro entre Wallets
 ### Request
@@ -59,6 +62,7 @@ POST/transfers/transfer
 - **400 BAD REQUEST**  - Quantia demasiado elevada ou negativa.
 - **400 BAD REQUEST**  - Transferência para a mesma Wallet de origem.
 
+---
 
 ## Obter todas as transferências
 ### Request
@@ -87,6 +91,7 @@ GET/transfers/globaltransfers
 ]
 ```
 
+---
 
 ## Obter todas as transferências enviadas e recebidas de uma Wallet
 ### Request
@@ -114,5 +119,8 @@ GET/wallettransfers/{id}
 	}
 ]
 ```
+- **404 NOT FOUND**  - Wallet ID não existe.
+
+---
 
 [< Para trás](../README.md#Funcionalidades)

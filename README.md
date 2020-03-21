@@ -1,5 +1,11 @@
 # Confiabilidade de Sistemas Distribuidos 2020
 
+Go to: [Server](Server/README.md)
+
+Go to: [Client](Client/README.md)
+
+---
+
 ## Setup
 ### Git Clone
 ```bash
@@ -23,6 +29,9 @@ cat application.properties
 #spring.datasource.username=root  <----------- verificar
 #spring.datasource.password=password   <------ verificar
 ```
+
+---
+
 ## Informação adicional
 
 ### Comandos Git

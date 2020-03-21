@@ -15,6 +15,13 @@ import javax.validation.constraints.NotNull;
 public class Wallet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
+	public Wallet() {}
+	
+	public Wallet(@NotNull String name) {
+		this.name = name;
+		this.amount = 0;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

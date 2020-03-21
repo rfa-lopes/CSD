@@ -1,41 +1,99 @@
 package csd.wallet.Controllers.Wallets;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import csd.wallet.Exceptions.WalletExceptions.EmptyWalletNameException;
+import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Models.Wallet;
-import csd.wallet.Repository.TransferRepository;
 import csd.wallet.Repository.WalletRepository;
-
-import org.springframework.http.ResponseEntity;
+import csd.wallet.Utils.Log;
 
 @RestController
-public class WalletsClass implements WalletsInter{
-	
-	@Autowired
-	private TransferRepository transfers;
+public class WalletsClass implements WalletsInter {
+
 	@Autowired
 	private WalletRepository wallets;
-	
-    @Override
-    public ResponseEntity<Void> createWallet(String name) {
-        return ResponseEntity.noContent().build();
-    }
 
-    @Override
-    public ResponseEntity<Void> deleteWallet(long id) {
-        return ResponseEntity.noContent().build();
-    }
+	private Log log = Log.getInstance(WalletsClass.class);
 
-    @Override
-    public ResponseEntity<Integer> getCurrentAmount(long id) {
-        return ResponseEntity.noContent().build();
-    }
+	@Override
+	public ResponseEntity<Long> createWallet(String name) {
+		try {
+			if (name.isEmpty())
+				throw new EmptyWalletNameException();
 
-    @Override
-    public ResponseEntity<Wallet> getWalletInfo(long id) {
-        return ResponseEntity.noContent().build();
-    }
+			Wallet w = wallets.save(new Wallet(name));
+
+			log.info("Create Wallet for: %s", name);
+
+			return ResponseEntity.ok(w.getId());
+
+		} catch (EmptyWalletNameException e) {
+			return ResponseEntity.badRequest().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@Override
+	public ResponseEntity<Void> deleteWallet(long id) {
+
+		try {
+
+			Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
+
+			wallets.delete(w);
+
+			log.info("Delete Wallet : %d", id);
+
+			return ResponseEntity.noContent().build();
+
+		} catch (WalletNotExistsException e) {
+			return ResponseEntity.notFound().build();
+
+		} catch (Exception e) {
+			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@Override
+	public ResponseEntity<Long> getCurrentAmount(long id) {
+		try {
+			Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
+
+			log.info("Get Wallet Amount for id : %d", id);
+
+			return ResponseEntity.ok(w.getAmount());
+
+		} catch (WalletNotExistsException e) {
+			return ResponseEntity.notFound().build();
+
+		} catch (Exception e) {
+			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+
+		}
+	}
+
+	@Override
+	public ResponseEntity<Wallet> getWalletInfo(long id) {
+		try {
+			Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
+
+			log.info("Get Wallet info for id : %d", id);
+
+			return ResponseEntity.ok(w);
+
+		} catch (WalletNotExistsException e) {
+			return ResponseEntity.notFound().build();
+
+		} catch (Exception e) {
+			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+
+		}
+	}
 }
