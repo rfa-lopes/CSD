@@ -12,10 +12,6 @@ Initializer [aqui](https://start.spring.io/).
 
 ---
 
-## Setup
-
----
-
 ## Funcionalidades
 
 ---
