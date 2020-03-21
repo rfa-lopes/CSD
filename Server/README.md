@@ -54,4 +54,6 @@ git push
 * João Santos - jmfd.santos@campus.fct.unl.pt
 * João Ramalho - jl.ramalho@campus.fct.unl.pt
 
+---
+
 [< Para trás](../README.md)
