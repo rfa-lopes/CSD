@@ -68,5 +68,5 @@ target/*
 .setting/*
 .classpath
 .project
-.ideia
+./.ideia
 
