@@ -2,14 +2,6 @@
 
 Descrição.
 
-## Funcionalidades
-### Tests
-* Documentação [Tests](myLib/README.md).
-### Wallets
-* Documentação [Wallets](myLib/README.md).
-### Transfers
-* Documentação [Transfers](myLib/README.md).
-
 ## Setup
 ### Git Clone
 ```bash
@@ -33,6 +25,14 @@ cat application.properties
 #spring.datasource.username=root  <----------- verificar
 #spring.datasource.password=password   <------ verificar
 ```
+
+## Funcionalidades
+### Tests
+* Documentação [Tests](Lib/TESTS.md).
+### Wallets
+* Documentação [Wallets](Lib/WALLETS.md).
+### Transfers
+* Documentação [Transfers](Lib/TRANSFERS.md).
 
 ## Utils
 ### Comandos MySQL
