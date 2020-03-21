@@ -114,3 +114,5 @@ GET/wallettransfers/{id}
 	}
 ]
 ```
+
+[< Para trás](../README.md#Funcionalidades)
