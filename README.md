@@ -16,7 +16,7 @@ sudo mysql -u root -p
 ```
 ### Configuração Spring
 ```bash
-cd src/main/resources/
+cd Server/src/main/resources/
 cat application.properties
 #spring.jpa.hibernate.ddl-auto=update
 #spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/wallet
