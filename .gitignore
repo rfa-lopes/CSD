@@ -30,6 +30,7 @@
 /Server/.nb-gradle/
 /Serverbuild/
 /Server.vscode/
+
 /Client/target/*
 /Client/.idea/*
 /Client/*.iml
@@ -63,6 +64,7 @@
 /Client/.vscode/
 /Client/.mvc/*
 /Client/spring-shell.log
+
 target/*
 .idea/*
 *.iml
