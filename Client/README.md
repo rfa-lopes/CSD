@@ -4,6 +4,8 @@ Descrição.
 
 ## Setup
 
+## Funcionalidades
+
 ## Informação adicional
 
 ### Comandos Git
