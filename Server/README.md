@@ -5,7 +5,7 @@ Tecnologias utilizadas:
 * Spring Boot 2.2.5
 * Maven
 * Java 8
-* Jar packaging
+* MySQL
 
 Initializer [aqui](https://start.spring.io/).
 
