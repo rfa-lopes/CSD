@@ -1,8 +1,8 @@
 # Confiabilidade de Sistemas Distribuidos 2020
 
-Go to: [Server](Server)
+## Go to: [Server](Server)
 
-Go to: [Client](Client)
+## Go to: [Client](Client)
 
 ---
 
