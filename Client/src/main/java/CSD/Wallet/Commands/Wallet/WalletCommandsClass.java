@@ -1,5 +1,6 @@
 package CSD.Wallet.Commands.Wallet;
 
+import CSD.Wallet.Models.WalletModel1;
 import CSD.Wallet.Services.Transfers.TransferServiceInter;
 import CSD.Wallet.Services.Wallets.WalletServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,11 +87,11 @@ public class WalletCommandsClass implements WalletCommandsInter{
     public String getInfo(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<String> response = service.getInfo(id);
+        ResponseEntity<WalletModel1> response = service.getInfo(id);
 
         switch (response.getStatusCode().value()){
             case 200:
-                return "Your wallet's information:" + response;
+                return "Your wallet's information:" + response.getBody().getInfo();
             case 404:
                 return MESSAGE_404;
             case 400:

@@ -8,11 +8,11 @@ import java.net.URISyntaxException;
 
 public interface WalletServiceInter {
 
-    ResponseEntity<Void> create(String name) throws URISyntaxException;
+    ResponseEntity<Long> create(String name) throws URISyntaxException;
 
     void delete(long id) throws URISyntaxException ;
 
     ResponseEntity<Long> getAmount(long id) throws URISyntaxException;
 
-    ResponseEntity<String> getInfo(long id) throws URISyntaxException;
+    ResponseEntity<WalletModel1> getInfo(long id) throws URISyntaxException;
 }

@@ -65,7 +65,7 @@ public class TransferServiceClass implements TransferServiceInter {
         csd.wallet.Models.AddRemoveForm f = new csd.wallet.Models.AddRemoveForm();
 
         f.setId(id);
-        f.setAmount(-amount);
+        f.setAmount(amount);
 
         ResponseEntity<Void> response  = restTemplate.postForEntity(url,f,Void.class);
         return response;
