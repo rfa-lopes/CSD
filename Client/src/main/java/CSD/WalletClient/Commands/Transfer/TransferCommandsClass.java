@@ -1,8 +1,8 @@
-package CSD.Wallet.Commands.Transfer;
+package CSD.WalletClient.Commands.Transfer;
 
-import CSD.Wallet.Models.ListWrapper;
-import CSD.Wallet.Models.TransferModel1;
-import CSD.Wallet.Services.Transfers.TransferServiceInter;
+import CSD.WalletClient.Models.ListWrapper;
+import CSD.WalletClient.Models.TransferModel1;
+import CSD.WalletClient.Services.Transfers.TransferServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

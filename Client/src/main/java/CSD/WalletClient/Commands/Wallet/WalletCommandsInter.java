@@ -1,4 +1,4 @@
-package CSD.Wallet.Commands.Wallet;
+package CSD.WalletClient.Commands.Wallet;
 
 import org.springframework.http.ResponseEntity;
 

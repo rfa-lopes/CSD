@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>CSD</groupId>
-	<artifactId>Wallet</artifactId>
+	<artifactId>WalletClient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Wallet</name>
-	<description>CSD - Wallet</description>
+	<name>WalletClient</name>
+	<description>CSD - WalletClient</description>
 
 	<properties>
 		<java.version>1.8</java.version>

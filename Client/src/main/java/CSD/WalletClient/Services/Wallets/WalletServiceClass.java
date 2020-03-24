@@ -1,6 +1,6 @@
-package CSD.Wallet.Services.Wallets;
+package CSD.WalletClient.Services.Wallets;
 
-import CSD.Wallet.Models.WalletModel1;
+import CSD.WalletClient.Models.WalletModel1;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +31,9 @@ public class WalletServiceClass implements WalletServiceInter {
 
 
     public WalletServiceClass() {
+    		
+   
+		
         restTemplate = new RestTemplate();
     }
 

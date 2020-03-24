@@ -1,6 +1,6 @@
-package CSD.Wallet.Services.Wallets;
+package CSD.WalletClient.Services.Wallets;
 
-import CSD.Wallet.Models.WalletModel1;
+import CSD.WalletClient.Models.WalletModel1;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;

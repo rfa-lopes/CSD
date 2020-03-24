@@ -1,4 +1,4 @@
-package CSD.Wallet.Models;
+package CSD.WalletClient.Models;
 
 public class WalletModel1 {
 

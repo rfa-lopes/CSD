@@ -1,4 +1,4 @@
-package csd.wallet.Models;
+package CSD.WalletClient.Models;
 
 public class AddRemoveForm {
 
