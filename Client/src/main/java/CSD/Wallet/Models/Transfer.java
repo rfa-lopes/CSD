@@ -15,9 +15,7 @@ public class Transfer {
         this.fromId = fromId;
         this.toId = toId;
         this.amount = amount;
-        this.date = getActualDate();
     }
-
 
     long id;
 
@@ -76,8 +74,6 @@ public class Transfer {
     private String getActualDate() {return new SimpleDateFormat(FORMAT_DATE).format(new Date());}
 
     public String getInfo() {
-        return  String.format("\n"+
-                "FromID: %s\n" + "ToID: %s\n" + "Amount: %s\n" + "Date: %s\n",
-                Long.toString(fromId), Long.toString(toId), Long.toString(amount), getActualDate());
+        return  String.format("\n"+ "FromID: %s\n" + "ToID: %s\n" + "Amount: %s\n" + "Date: %s\n", fromId, toId, amount, date);
     }
 }
