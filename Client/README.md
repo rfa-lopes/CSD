@@ -16,6 +16,19 @@ Initializer [aqui](https://start.spring.io/).
 
 ---
 
+## Configurações TLS
+### Setup
+* Exportar certificado do servidor da sua keystore
+```bash
+keytool -export -alias walletcert -file serverCert.crt -keystore ../Server/TLS/walletCert.jks -storepass wallet
+```
+* Importar certificado do servidor para a truststore
+```bash
+keytool -import -trustcacerts -alias clientcert -file serverCert.crt -keystore client.jks
+```
+
+---
+
 ## Informação adicional
 
 ### Comandos Git
