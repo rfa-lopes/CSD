@@ -22,6 +22,20 @@ Initializer [aqui](https://start.spring.io/).
 
 ---
 
+## Configurações TLS
+### Propriedades
+* Algorithm: RSA
+* init validity: 365 days
+* Key size: 4096
+* Store type: PKCS12
+
+### Nomes e Segredos
+* Alias key: walletCert
+* Key store name: walletCert.jks
+* Store password: wallet
+
+---
+
 ## Utils
 ### Comandos MySQL
 ```SQL
