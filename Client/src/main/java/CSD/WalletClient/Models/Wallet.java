@@ -1,19 +1,28 @@
 package CSD.WalletClient.Models;
 
-public class Wallet{
+import java.io.Serializable;
 
-    private long id;
-    private String name;
-    private long amount;
+import javax.validation.constraints.NotNull;
+
+public class Wallet implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     public Wallet() {
     }
 
-    public Wallet(String name) {
+    public Wallet(@NotNull String name) {
         this.name = name;
         this.amount = 0;
-
     }
+
+    long id;
+
+    @NotNull
+    String name;
+
+    @NotNull
+    long amount;
 
     public long getId() {
         return id;
@@ -39,11 +48,21 @@ public class Wallet{
         this.amount = value;
     }
 
-    public String getInfo() {
-        return String.format("\n",
-                "ID: %l\n" + "Name owner: %s\n" + "Amount: %l\n",
-                id, name, amount);
+    public void addAmount(long value) {
+        this.amount += value;
     }
 
+    public void removeAmount(long value) {
+        this.amount -= value;
+    }
+
+    public String getInfo() {
+       return String.format(
+                "\n"+
+                "ID: %s\n" + "Name owner: %s\n" + "Amount: %s\n",
+                Long.toString(getId()), getName(),  Long.toString(getAmount()));
+    }
 }
+
+
 

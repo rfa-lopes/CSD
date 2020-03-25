@@ -1,6 +1,6 @@
 package CSD.WalletClient.Services.Wallets;
 
-import CSD.WalletClient.Models.WalletModel1;
+import CSD.WalletClient.Models.Wallet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
@@ -31,17 +31,13 @@ public class WalletServiceClass implements WalletServiceInter {
 
 
     public WalletServiceClass() {
-    		
-   
-		
         restTemplate = new RestTemplate();
     }
 
     @Override
     public ResponseEntity<Long> create(String name) {
         String url = createURL(CREATE);
-        WalletModel1 body = new WalletModel1(name);
-        ResponseEntity<Long> response = restTemplate.postForEntity(url, body, Long.class);
+        ResponseEntity<Long> response = restTemplate.postForEntity(url,new Wallet(name), Long.class);
         return response;
     }
 
@@ -61,10 +57,10 @@ public class WalletServiceClass implements WalletServiceInter {
     }
 
     @Override
-    public ResponseEntity<WalletModel1> getInfo(long id) throws URISyntaxException {
+    public ResponseEntity<Wallet> getInfo(long id) throws URISyntaxException {
         String url = createURL(INFO);
         String idToGet = createIdURL(id);
-        ResponseEntity<WalletModel1> response = restTemplate.getForEntity(new URI(url + idToGet), WalletModel1.class);
+        ResponseEntity<Wallet> response = restTemplate.getForEntity(new URI(url + idToGet), Wallet.class);
         return response;
     }
 

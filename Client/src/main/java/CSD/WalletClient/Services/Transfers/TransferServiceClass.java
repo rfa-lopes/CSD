@@ -2,7 +2,7 @@ package CSD.WalletClient.Services.Transfers;
 
 import CSD.WalletClient.Models.AddRemoveForm;
 import CSD.WalletClient.Models.ListWrapper;
-import CSD.WalletClient.Models.TransferModel1;
+import CSD.WalletClient.Models.Transfer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +30,8 @@ public class TransferServiceClass implements TransferServiceInter {
 	private static String ADD = "/add";
 	private static String REMOVE = "/remove";
 	private static String TRANSFER = "/transfer";
-	private static String GLOBAL = "globaltransfers";
-	private static String WALLET = "wallettransfers";
+	private static String GLOBAL = "/globaltransfers";
+	private static String WALLET = "/wallettransfers";
 
 	public TransferServiceClass() {
 		restTemplate = new RestTemplate();
@@ -41,7 +41,7 @@ public class TransferServiceClass implements TransferServiceInter {
 	public ResponseEntity<Void> transfer(long fromId, long toId, long amount) {
 
 		String url = createURL(TRANSFER);
-		TransferModel1 body = new TransferModel1(fromId, toId, amount);
+		Transfer body = new Transfer(fromId, toId, amount);
 		ResponseEntity<Void> response = restTemplate.postForEntity(url, body, Void.class);
 		return response;
 	}

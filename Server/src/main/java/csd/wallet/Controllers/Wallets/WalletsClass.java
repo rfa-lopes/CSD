@@ -22,14 +22,14 @@ public class WalletsClass implements WalletsInter {
 	private Log log = Log.getInstance(WalletsClass.class);
 
 	@Override
-	public ResponseEntity<Long> createWallet(String name) {
+	public ResponseEntity<Long> createWallet(Wallet wallet) {
 		try {
-			if (name.isEmpty())
+			if (wallet.getName().equals(null))
 				throw new EmptyWalletNameException();
 
-			Wallet w = wallets.save(new Wallet(name));
+			Wallet w = wallets.save(new Wallet(wallet.getName()));
 
-			log.info("Create Wallet for: %s", name);
+			log.info("Create Wallet for: %s", wallet.getName());
 
 			return ResponseEntity.ok(w.getId());
 

@@ -1,7 +1,7 @@
 package CSD.WalletClient.Commands.Transfer;
 
 import CSD.WalletClient.Models.ListWrapper;
-import CSD.WalletClient.Models.TransferModel1;
+import CSD.WalletClient.Models.Transfer;
 import CSD.WalletClient.Services.Transfers.TransferServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,11 +10,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
-import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @ShellComponent
@@ -24,6 +22,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
     private static final String MESSAGE_400 = "Bad request, try again.";
     private static final String MESSAGE_ERROR = "Something went wrong.";
 
+    private static final String DELIMITER = "----------------------------";
     private final TransferServiceInter service;
 
     @Autowired
@@ -89,7 +88,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
         if(amount < 0 || amount > 999999999)
             return "Incorrect amount.";
 
-        HttpStatus status = service.addAmount(id,amount).getStatusCode();
+        HttpStatus status = service.removeAmount(id,amount).getStatusCode();
 
         switch (status.value()){
             case 200:
@@ -137,10 +136,10 @@ public class TransferCommandsClass implements TransferCommandsInter{
         }
     }
 
-    private String stringInfoTransfers(List<TransferModel1> list){
+    private String stringInfoTransfers(List<Transfer> list){
         List<String> toPrint = new ArrayList<>();
-        list.forEach(transfer->toPrint.add(transfer.toString()));
-        return String.join(",",toPrint);
+        list.forEach(transfer->toPrint.add(transfer.getInfo()));
+        return String.join(DELIMITER,toPrint);
     }
 
 

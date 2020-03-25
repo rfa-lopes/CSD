@@ -4,6 +4,7 @@ import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
 import csd.wallet.Models.AddRemoveForm;
+import csd.wallet.Models.ListWrapper;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Repository.WalletRepository;
@@ -130,25 +131,26 @@ public class TransfersClass implements TransfersInter {
     }
 
     @Override
-    public ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers() {
+    public ResponseEntity<ListWrapper> ledgerOfGlobalTransfers() {
         try{
             List<Transfer> globalTransfers = new ArrayList();
             transfers.findAll().forEach(globalTransfers::add);
             log.info("LedgerOfGlobalTransfers");
-            return ResponseEntity.ok(globalTransfers);
+            return ResponseEntity.ok(new ListWrapper(globalTransfers));
         }catch (Exception e){
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @Override
-    public ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(long id) {
+    public ResponseEntity<ListWrapper> ledgerOfWalletTransfers(long id) {
         try{
+            System.out.println(Long.toString(id));
             List<Transfer> walletTransfers = transfers.findAllByFromId(id);
             List<Transfer> toT = transfers.findAllByToId(id);
             walletTransfers.addAll(toT);
             log.info("LedgerOfWalletTransfers: %d", id);
-            return ResponseEntity.ok(walletTransfers);
+            return ResponseEntity.ok(new ListWrapper(walletTransfers));
         }catch (Exception e){
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }

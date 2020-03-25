@@ -3,13 +3,17 @@ package CSD.WalletClient.Models;
 import java.util.List;
 
 public class ListWrapper {
-    private List<TransferModel1> list;
+    List<Transfer> list;
 
-    public ListWrapper(List<TransferModel1> list){
+    public ListWrapper(){}
+
+    public ListWrapper(List<Transfer> list){
         this.list = list;
     }
 
-    public List<TransferModel1> getList(){
+    public void setList(List<Transfer> list) {this.list = list; }
+
+    public List<Transfer> getList(){
         return list;
     }
 }

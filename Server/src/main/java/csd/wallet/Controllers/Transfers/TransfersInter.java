@@ -1,6 +1,7 @@
 package csd.wallet.Controllers.Transfers;
 
 import csd.wallet.Models.AddRemoveForm;
+import csd.wallet.Models.ListWrapper;
 import csd.wallet.Models.Transfer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +73,7 @@ public interface TransfersInter {
     @GetMapping(
             value = GLOBAL,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers();
+    ResponseEntity<ListWrapper> ledgerOfGlobalTransfers();
 
     /**
      * @Description
@@ -86,7 +87,7 @@ public interface TransfersInter {
     @GetMapping(
             value = WALLET,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(@PathVariable long id);
+    ResponseEntity<ListWrapper> ledgerOfWalletTransfers(@PathVariable long id);
 
 
 }

@@ -19,7 +19,7 @@ public interface WalletsInter {
     /**
      * @Description
      * //TODO:
-     * @param name -> Username
+     * @param wallet -> Wallet
      * @return
      *  OK, if wallet was created, and wallet id generated.
      *  INTERNAL_SERVER_ERROR, if server error.
@@ -27,7 +27,7 @@ public interface WalletsInter {
     @PostMapping(
             value = CREATE,
             consumes = APPLICATION_JSON_VALUE)
-    ResponseEntity<Long> createWallet (@RequestBody String name);
+    ResponseEntity<Long> createWallet (@RequestBody Wallet wallet);
 
     /**
      * @Description

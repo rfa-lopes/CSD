@@ -1,6 +1,6 @@
 package CSD.WalletClient.Services.Wallets;
 
-import CSD.WalletClient.Models.WalletModel1;
+import CSD.WalletClient.Models.Wallet;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
@@ -14,5 +14,5 @@ public interface WalletServiceInter {
 
     ResponseEntity<Long> getAmount(long id) throws URISyntaxException;
 
-    ResponseEntity<WalletModel1> getInfo(long id) throws URISyntaxException;
+    ResponseEntity<Wallet> getInfo(long id) throws URISyntaxException;
 }
