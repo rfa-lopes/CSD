@@ -1,4 +1,4 @@
-package CSD.WalletClient.Models;
+package CSD.Wallet.Models;
 
 import java.io.Serializable;
 

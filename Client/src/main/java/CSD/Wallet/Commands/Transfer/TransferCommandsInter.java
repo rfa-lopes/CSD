@@ -1,8 +1,6 @@
-package CSD.WalletClient.Commands.Transfer;
+package CSD.Wallet.Commands.Transfer;
 
 import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 
 import java.net.URISyntaxException;
 

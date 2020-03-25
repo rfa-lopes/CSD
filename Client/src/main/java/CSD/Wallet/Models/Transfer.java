@@ -1,4 +1,4 @@
-package CSD.WalletClient.Models;
+package CSD.Wallet.Models;
 
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
@@ -17,7 +17,6 @@ public class Transfer {
         this.amount = amount;
         this.date = getActualDate();
     }
-
 
 
     long id;

@@ -1,6 +1,6 @@
-package CSD.WalletClient.Services.Wallets;
+package CSD.Wallet.Services.Wallets;
 
-import CSD.WalletClient.Models.Wallet;
+import CSD.Wallet.Models.Wallet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;

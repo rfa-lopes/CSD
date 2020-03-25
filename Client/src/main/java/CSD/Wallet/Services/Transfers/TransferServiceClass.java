@@ -1,8 +1,8 @@
-package CSD.WalletClient.Services.Transfers;
+package CSD.Wallet.Services.Transfers;
 
-import CSD.WalletClient.Models.AddRemoveForm;
-import CSD.WalletClient.Models.ListWrapper;
-import CSD.WalletClient.Models.Transfer;
+import CSD.Wallet.Models.AddRemoveForm;
+import CSD.Wallet.Models.ListWrapper;
+import CSD.Wallet.Models.Transfer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 @Service
 @PropertySource("classpath:application.properties")

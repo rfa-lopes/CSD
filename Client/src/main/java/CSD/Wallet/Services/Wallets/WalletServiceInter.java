@@ -1,9 +1,8 @@
-package CSD.WalletClient.Services.Wallets;
+package CSD.Wallet.Services.Wallets;
 
-import CSD.WalletClient.Models.Wallet;
+import CSD.Wallet.Models.Wallet;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 public interface WalletServiceInter {

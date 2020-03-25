@@ -1,6 +1,4 @@
-package CSD.WalletClient.Commands.Wallet;
-
-import org.springframework.http.ResponseEntity;
+package CSD.Wallet.Commands.Wallet;
 
 import java.net.URISyntaxException;
 

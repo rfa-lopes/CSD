@@ -1,6 +1,6 @@
-package CSD.WalletClient.Services.Transfers;
+package CSD.Wallet.Services.Transfers;
 
-import CSD.WalletClient.Models.ListWrapper;
+import CSD.Wallet.Models.ListWrapper;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URISyntaxException;

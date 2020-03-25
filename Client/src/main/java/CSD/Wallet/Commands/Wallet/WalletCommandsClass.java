@@ -1,10 +1,9 @@
-package CSD.WalletClient.Commands.Wallet;
+package CSD.Wallet.Commands.Wallet;
 
-import CSD.WalletClient.Models.Wallet;
-import CSD.WalletClient.Services.Transfers.TransferServiceInter;
-import CSD.WalletClient.Services.Wallets.WalletServiceInter;
+import CSD.Wallet.Models.Wallet;
+import CSD.Wallet.Services.Wallets.WalletServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -22,7 +21,9 @@ public class WalletCommandsClass implements WalletCommandsInter{
     private final WalletServiceInter service;
 
     @Autowired
-    public WalletCommandsClass(WalletServiceInter service) {
+    public WalletCommandsClass(WalletServiceInter service, Environment env) {
+        System.setProperty("javax.net.ssl.trustStore",  env.getProperty("client.ssl.trust-store"));
+        System.setProperty("javax.net.ssl.trustStorePassword", env.getProperty("client.ssl.trust-store-password"));
         this.service = service;
     }
 
