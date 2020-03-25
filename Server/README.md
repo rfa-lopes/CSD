@@ -23,6 +23,12 @@ Initializer [aqui](https://start.spring.io/).
 ---
 
 ## Configurações TLS
+### Setup
+* Criar par de chaves e metê-las na keystore
+```bash
+keytool -genkey -keyalg RSA -alias walletCert -keystore walletCert.jks -storepass wallet -validity 365 -keysize 4096 -storetype pkcs12
+```
+
 ### Propriedades
 * Algorithm: RSA
 * init validity: 365 days
