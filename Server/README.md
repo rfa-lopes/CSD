@@ -9,6 +9,10 @@
 * MySQL
 
 Initializer [aqui](https://start.spring.io/).
+---
+
+## BFTSmart
+Guia [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
 
 ---
 
@@ -28,9 +32,6 @@ Initializer [aqui](https://start.spring.io/).
 ```bash
 keytool -genkey -keyalg RSA -alias walletCert -keystore walletCert.jks -storepass wallet -validity 365 -keysize 4096 -storetype pkcs12
 ```
-
-### Instalar BFTSmart
-Guia [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
 
 ### Propriedades
 * Algorithm: RSA
