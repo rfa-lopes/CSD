@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.MediaType.*;
 
 @RestController
-@RequestMapping(value = WalletsInter.BASE_URL)
-public interface WalletsInter {
+@RequestMapping(value = ControllerWalletsInterface.BASE_URL)
+public interface ControllerWalletsInterface {
 
     String BASE_URL = "/wallets";
 

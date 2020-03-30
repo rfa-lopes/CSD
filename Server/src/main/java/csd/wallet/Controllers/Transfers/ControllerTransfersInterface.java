@@ -6,13 +6,11 @@ import csd.wallet.Models.Transfer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static org.springframework.http.MediaType.*;
 
 @RestController
-@RequestMapping(value = TransfersInter.BASE_URL)
-public interface TransfersInter {
+@RequestMapping(value = ControllerTransfersInterface.BASE_URL)
+public interface ControllerTransfersInterface {
 
     String BASE_URL       = "/transfers";
 
