@@ -30,7 +30,8 @@ public class ControllerTestsClass implements ControllerTestsInterface {
 
 			objOut.flush();
 			byteOut.flush();
-			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+			System.out.println(serviceProxy);
+			byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
 			if (reply.length == 0)
 				return null;
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
