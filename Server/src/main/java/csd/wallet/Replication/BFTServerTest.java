@@ -43,6 +43,7 @@ public class BFTServerTest extends DefaultSingleRecoverable {
 			RequestType reqType = (RequestType) objIn.readObject();
 			switch (reqType) {
 			case TEST_1:
+				System.out.println("REPLICAAAAATEEEEE OVER 9000");
 				String test = tests.test1();
 				if (test != null) {
 					objOut.writeObject(test);
