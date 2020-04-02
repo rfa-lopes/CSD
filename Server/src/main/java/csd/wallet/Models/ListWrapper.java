@@ -1,8 +1,9 @@
 package csd.wallet.Models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ListWrapper {
+public class ListWrapper implements Serializable {
     List<Transfer> list;
 
     public ListWrapper(){}

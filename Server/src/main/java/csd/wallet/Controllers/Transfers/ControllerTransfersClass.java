@@ -1,16 +1,12 @@
 package csd.wallet.Controllers.Transfers;
 
-import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
-
-import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
-import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Services.Transfers.ServiceTransfersClass;
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.ListWrapper;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Utils.RequestType;
+import csd.wallet.Utils.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +30,7 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
-			objOut.writeObject(RequestType.TRANSFERS_TRANSFER);
+			objOut.writeObject(RequestType.TRANSFERS_ADD);
 			objOut.writeObject(idAmount);
 
 			objOut.flush();
@@ -45,7 +41,7 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 				return null;
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-				return (ResponseEntity) objIn.readObject();
+				return response((ResponseType) objIn.readObject());
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
@@ -57,7 +53,7 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
-			objOut.writeObject(RequestType.TRANSFERS_TRANSFER);
+			objOut.writeObject(RequestType.TRANSFERS_REMOVE);
 			objOut.writeObject(idAmount);
 
 			objOut.flush();
@@ -68,7 +64,7 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 				return null;
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-				return (ResponseEntity) objIn.readObject();
+				return response((ResponseType) objIn.readObject());
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
@@ -91,7 +87,7 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 				return null;
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-				return (ResponseEntity) objIn.readObject();
+				return response((ResponseType) objIn.readObject());
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
@@ -113,10 +109,11 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 				return null;
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-				return (ResponseEntity) objIn.readObject();
+				return ResponseEntity.ok((ListWrapper) objIn.readObject());
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 
@@ -138,12 +135,24 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 				return null;
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-				return (ResponseEntity) objIn.readObject();
+				return ResponseEntity.ok((ListWrapper) objIn.readObject());
 			}
 		 } catch (Exception e) {
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 
+	}
+
+	private ResponseEntity<Void> response(ResponseType responseType) {
+		switch (responseType){
+			case OK:
+				return ResponseEntity.ok().build();
+			case NOT_FOUND:
+				return ResponseEntity.notFound().build();
+			case BAD_REQUEST:
+				return ResponseEntity.badRequest().build();
+			default: return null; //?
+		}
 	}
 
 }

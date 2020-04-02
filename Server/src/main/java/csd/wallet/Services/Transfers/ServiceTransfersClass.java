@@ -9,6 +9,7 @@ import csd.wallet.Models.Transfer;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Repository.WalletRepository;
 import csd.wallet.Utils.Log;
+import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import csd.wallet.Repository.TransferRepository;
@@ -41,6 +42,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         w.addAmount(amount);
         wallets.save(w);
         log.info("AddMoney: %d -> %d", amount, id);
+        Logger.info("Replicate is working!");
     }
 
     @Override
@@ -57,6 +59,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         w.removeAmount(amount);
         wallets.save(w);
         log.info("RemoveMoney: %d -> %d", amount, id);
+        Logger.info("Replicate is working!");
     }
 
     @Override
@@ -81,6 +84,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         wallets.save(fromW);
         wallets.save(toW);
         log.info("Transfer: %d -> %d (%d)", fromId, toId, amount);
+        Logger.info("Replicate is working!");
     }
 
     @Override
@@ -88,6 +92,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         List<Transfer> globalTransfers = new ArrayList();
         transfers.findAll().forEach(globalTransfers::add);
         log.info("LedgerOfGlobalTransfers");
+        Logger.info("Replicate is working!");
         return new ListWrapper(globalTransfers);
     }
 
@@ -98,6 +103,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         List<Transfer> toT = transfers.findAllByToId(id);
         walletTransfers.addAll(toT);
         log.info("LedgerOfWalletTransfers: %d", id);
+        Logger.info("Replicate is working!");
         return new ListWrapper(walletTransfers);
     }
 

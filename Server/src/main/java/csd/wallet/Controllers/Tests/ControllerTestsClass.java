@@ -24,7 +24,7 @@ public class ControllerTestsClass implements ControllerTestsInterface {
 	@Override
 	public ResponseEntity<String> test1() {
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-				ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+				ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
 			objOut.writeObject(RequestType.TEST_1);
 
@@ -47,8 +47,25 @@ public class ControllerTestsClass implements ControllerTestsInterface {
 
 	@Override
 	public ResponseEntity<String> test2() {
-		String serviceResponse = tests.test2();
-		// TODO: Replicate
-		return ResponseEntity.ok(serviceResponse);
+		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
+
+			objOut.writeObject(RequestType.TEST_2);
+
+			objOut.flush();
+			byteOut.flush();
+
+			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+			if (reply.length == 0)
+				return null;
+			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
+				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
+				return ResponseEntity.ok((String) objIn.readObject());
+			}
+
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Exception putting value into map: " + e.getMessage());
+		}
+		return null;
 	}
 }
