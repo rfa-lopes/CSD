@@ -92,7 +92,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     @Override
-    public ListWrapper ledgerOfWalletTransfers(long id) {
+    public ListWrapper ledgerOfWalletTransfers(long id)  {
         System.out.println(Long.toString(id));
         List<Transfer> walletTransfers = transfers.findAllByFromId(id);
         List<Transfer> toT = transfers.findAllByToId(id);
