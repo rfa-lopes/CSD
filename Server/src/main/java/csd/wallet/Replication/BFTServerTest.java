@@ -1,6 +1,7 @@
 package csd.wallet.Replication;
 
 import bftsmart.tom.MessageContext;
+
 import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
 import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
@@ -23,10 +24,13 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 
 @Component
-public class BFTServerTest extends DefaultSingleRecoverable  implements Serializable {
+public class BFTServerTest extends DefaultSingleRecoverable implements Serializable {
 
 	@Autowired
 	ServiceTransfersClass transfers;
+
+	@Autowired
+	ServiceTestsClass tests;
 
 	@Autowired
 	ServiceWalletsClass wallets;
@@ -53,66 +57,72 @@ public class BFTServerTest extends DefaultSingleRecoverable  implements Serializ
 		long id;
 		AddRemoveForm form;
 		try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
-			 ObjectInput objIn = new ObjectInputStream(byteIn);
-			 ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+				ObjectInput objIn = new ObjectInputStream(byteIn);
+				ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+				ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 			RequestType reqType = (RequestType) objIn.readObject();
 			switch (reqType) {
-				case TRANSFERS_TRANSFER:
-					try {
-						Transfer transfer = (Transfer) objIn.readObject();
-						transfers.transfer(transfer);
-					} catch (WalletNotExistsException e) {
-						objOut.writeObject(ResponseEntity.notFound().build());
-					} catch (InvalidAmountException | TransferToSameWalletException e) {
-						objOut.writeObject(ResponseEntity.badRequest().build());
-					}
+			case TRANSFERS_TRANSFER:
+				try {
+					Transfer transfer = (Transfer) objIn.readObject();
+					transfers.transfer(transfer);
+				} catch (WalletNotExistsException e) {
+					objOut.writeObject(ResponseEntity.notFound().build());
+				} catch (InvalidAmountException | TransferToSameWalletException e) {
+					objOut.writeObject(ResponseEntity.badRequest().build());
+				}
+				hasReply = true;
+				break;
+			case TEST_1:
+				String test = tests.test1();
+				if (test != null) {
+					objOut.writeObject(test);
 					hasReply = true;
-					break;
+				}
+				break;
+			case TRANSFERS_ADD:
+				try {
+					form = (AddRemoveForm) objIn.readObject();
+					transfers.addMoney(form);
+				} catch (WalletNotExistsException e) {
+					objOut.writeObject(ResponseEntity.notFound().build());
+				} catch (InvalidAmountException e) {
+					objOut.writeObject(ResponseEntity.badRequest().build());
+				}
+				hasReply = true;
+				break;
 
-				case TRANSFERS_ADD:
-					try {
-						form = (AddRemoveForm) objIn.readObject();
-						transfers.addMoney(form);
-					} catch (WalletNotExistsException e) {
-						objOut.writeObject(ResponseEntity.notFound().build());
-					} catch (InvalidAmountException e) {
-						objOut.writeObject(ResponseEntity.badRequest().build());
-					}
-					hasReply = true;
-					break;
+			case TRANSFERS_REMOVE:
+				try {
+					form = (AddRemoveForm) objIn.readObject();
+					transfers.removeMoney(form);
+				} catch (WalletNotExistsException e) {
+					objOut.writeObject(ResponseEntity.notFound().build());
+				} catch (InvalidAmountException e) {
+					objOut.writeObject(ResponseEntity.badRequest().build());
+				}
+				break;
 
-				case TRANSFERS_REMOVE:
-					try {
-						form = (AddRemoveForm) objIn.readObject();
-						transfers.removeMoney(form);
-					} catch (WalletNotExistsException e) {
-						objOut.writeObject(ResponseEntity.notFound().build());
-					} catch (InvalidAmountException e) {
-						objOut.writeObject(ResponseEntity.badRequest().build());
-					}
-					break;
+			case WALLET_CREATE:
+				try {
+					Wallet wallet = (Wallet) objIn.readObject();
+					id = wallets.createWallet(wallet);
+					objOut.writeObject(id);
+				} catch (EmptyWalletNameException e) {
+					objOut.writeObject(ResponseEntity.badRequest().build());
+				}
+				hasReply = true;
+				break;
 
-				case WALLET_CREATE:
-					try {
-						Wallet wallet = (Wallet) objIn.readObject();
-						id = wallets.createWallet(wallet);
-						objOut.writeObject(id);
-					} catch (EmptyWalletNameException e) {
-						objOut.writeObject(ResponseEntity.badRequest().build());
-					}
-					hasReply = true;
-					break;
-
-				case WALLET_DELETE:
-					try {
-						id = (long) objIn.readObject();
-						wallets.deleteWallet(id);
-					} catch (WalletNotExistsException e) {
-						objOut.writeObject(ResponseEntity.notFound().build());
-					}
-					hasReply = true;
-					break;
+			case WALLET_DELETE:
+				try {
+					id = (long) objIn.readObject();
+					wallets.deleteWallet(id);
+				} catch (WalletNotExistsException e) {
+					objOut.writeObject(ResponseEntity.notFound().build());
+				}
+				hasReply = true;
+				break;
 			}
 			if (hasReply) {
 				objOut.flush();
@@ -124,9 +134,9 @@ public class BFTServerTest extends DefaultSingleRecoverable  implements Serializ
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 			// logger.log(Level.SEVERE, "Ocurred during map operation execution", e);
-			return reply;
+
 		}
-		return null;
+		return reply;
 	}
 
 	@Override
@@ -136,44 +146,44 @@ public class BFTServerTest extends DefaultSingleRecoverable  implements Serializ
 		ListWrapper list = null;
 		long id;
 		try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
-			 ObjectInput objIn = new ObjectInputStream(byteIn);
-			 ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+				ObjectInput objIn = new ObjectInputStream(byteIn);
+				ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+				ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 			RequestType reqType = (RequestType) objIn.readObject();
 			switch (reqType) {
-				case TRANSFERS_GLOBALTRANSFERS:
-					list = transfers.ledgerOfGlobalTransfers();
-					objOut.writeObject(list);
-					hasReply = true;
-					break;
+			case TRANSFERS_GLOBALTRANSFERS:
+				list = transfers.ledgerOfGlobalTransfers();
+				objOut.writeObject(list);
+				hasReply = true;
+				break;
 
-				case TRANSFERS_WALLETTRANSFERS:
+			case TRANSFERS_WALLETTRANSFERS:
+				id = (long) objIn.readObject();
+				list = transfers.ledgerOfWalletTransfers(id);
+				objOut.writeObject(list);
+				hasReply = true;
+				break;
+
+			case WALLET_INFO:
+				try {
 					id = (long) objIn.readObject();
-					list = transfers.ledgerOfWalletTransfers(id);
-					objOut.writeObject(list);
-					hasReply = true;
-					break;
-
-				case WALLET_INFO:
-					try {
-						id = (long) objIn.readObject();
-						Wallet wallet = wallets.getWalletInfo(id);
-						objOut.writeObject(wallet);
-					} catch (WalletNotExistsException e) {
-						objOut.writeObject(ResponseEntity.notFound().build());
-					}
-					hasReply = true;
-					break;
-				case WALLET_AMOUNT:
-					try {
-						id = (long) objIn.readObject();
-						long amount = wallets.getCurrentAmount(id);
-						objOut.writeObject(amount);
-					} catch (WalletNotExistsException e) {
-						objOut.writeObject(ResponseEntity.notFound().build());
-					}
-					hasReply = true;
-					break;
+					Wallet wallet = wallets.getWalletInfo(id);
+					objOut.writeObject(wallet);
+				} catch (WalletNotExistsException e) {
+					objOut.writeObject(ResponseEntity.notFound().build());
+				}
+				hasReply = true;
+				break;
+			case WALLET_AMOUNT:
+				try {
+					id = (long) objIn.readObject();
+					long amount = wallets.getCurrentAmount(id);
+					objOut.writeObject(amount);
+				} catch (WalletNotExistsException e) {
+					objOut.writeObject(ResponseEntity.notFound().build());
+				}
+				hasReply = true;
+				break;
 			}
 			if (hasReply) {
 				objOut.flush();
