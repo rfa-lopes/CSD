@@ -1,6 +1,8 @@
 package csd.wallet.Models;
 
-public class AddRemoveForm {
+import java.io.Serializable;
+
+public class AddRemoveForm implements Serializable {
 
     public AddRemoveForm(){}
 

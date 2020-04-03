@@ -6,12 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @Data
-public class Transfer {
+public class Transfer implements Serializable {
 
     public static final String FORMAT_DATE = "yyyy/MM/dd HH:mm:ss";
 

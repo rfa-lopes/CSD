@@ -19,11 +19,11 @@ Guia [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-S
 
 ## Funcionalidades
 ### Tests
-* Documentação [Tests](Lib/TESTS.md).
+* Documentação [Tests](Documentation/TESTS.md).
 ### Wallets
-* Documentação [Wallets](Lib/WALLETS.md).
+* Documentação [Wallets](Documentation/WALLETS.md).
 ### Transfers
-* Documentação [Transfers](Lib/TRANSFERS.md).
+* Documentação [Transfers](Documentation/TRANSFERS.md).
 
 ---
 
