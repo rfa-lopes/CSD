@@ -114,24 +114,51 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
                     hasReply = true;
                     break;
                 case WALLET_CREATE:
-                    try {
-                        Wallet wallet = (Wallet) objIn.readObject();
-                        id = wallets.createWallet(wallet);
-                        objOut.writeObject(id);
-                        hasReply = true;
-                    } catch (EmptyWalletNameException e) {
-                        hasReply = false;
-                    }
-                    break;
-
+					try {
+						Wallet wallet = (Wallet) objIn.readObject();
+						id = wallets.createWallet(wallet);
+						objOut.writeObject(id);
+					} catch (EmptyWalletNameException e) {
+						long response = -1L;
+						objOut.writeObject(response);
+					}
+					hasReply = true;
+					break;
                 case WALLET_DELETE:
                     try {
                         id = (long) objIn.readObject();
                         wallets.deleteWallet(id);
                     } catch (WalletNotExistsException e) {
-                        objOut.writeObject(ResponseType.NOT_FOUND);
+						long response = -1L;
+						objOut.writeObject(response);
                     }
+                    hasReply = true;
                     break;
+
+				case WALLET_INFO:
+					Object obj [] = new Object[2];
+					try {
+						id = (long) objIn.readObject();
+						Wallet wallet = wallets.getWalletInfo(id);
+						obj[0] = wallet;
+						objOut.writeObject(obj);
+					} catch (WalletNotExistsException e) {
+						obj[1] = 0;
+						objOut.writeObject(obj);
+					}
+					hasReply = true;
+					break;
+				case WALLET_AMOUNT:
+					try {
+						id = (long) objIn.readObject();
+						long amount = wallets.getCurrentAmount(id);
+						objOut.writeObject(amount);
+					} catch (WalletNotExistsException e) {
+						long response = -1L;
+						objOut.writeObject(response);
+					}
+					hasReply = true;
+					break;
             }
             if (hasReply) {
                 objOut.flush();
@@ -172,26 +199,30 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
                     hasReply = true;
                     break;
 
-                case WALLET_INFO:
-                    try {
-                        id = (long) objIn.readObject();
-                        Wallet wallet = wallets.getWalletInfo(id);
-                        objOut.writeObject(wallet);
-                    } catch (WalletNotExistsException e) {
-                        objOut.writeObject(ResponseEntity.notFound().build());
-                    }
-                    hasReply = true;
-                    break;
-                case WALLET_AMOUNT:
-                    try {
-                        id = (long) objIn.readObject();
-                        long amount = wallets.getCurrentAmount(id);
-                        objOut.writeObject(amount);
-                    } catch (WalletNotExistsException e) {
-                        objOut.writeObject(ResponseEntity.notFound().build());
-                    }
-                    hasReply = true;
-                    break;
+				case WALLET_INFO:
+					Object obj [] = new Object[2];
+					try {
+						id = (long) objIn.readObject();
+						Wallet wallet = wallets.getWalletInfo(id);
+						obj[0] = wallet;
+						objOut.writeObject(obj);
+					} catch (WalletNotExistsException e) {
+						obj[1] = 0;
+						objOut.writeObject(obj);
+					}
+					hasReply = true;
+					break;
+				case WALLET_AMOUNT:
+					try {
+						id = (long) objIn.readObject();
+						long amount = wallets.getCurrentAmount(id);
+						objOut.writeObject(amount);
+					} catch (WalletNotExistsException e) {
+						long response = -1L;
+						objOut.writeObject(response);
+					}
+					hasReply = true;
+					break;
             }
             if (hasReply) {
                 objOut.flush();
