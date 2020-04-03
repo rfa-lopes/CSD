@@ -8,6 +8,7 @@ import csd.wallet.Services.Wallets.ServiceWalletsClass;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Utils.Log;
 import csd.wallet.Utils.RequestType;
+import csd.wallet.Utils.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +41,17 @@ public class ControllerWalletsClass implements ControllerWalletsInterface,Serial
             byteOut.flush();
 
             byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+
             if (reply.length == 0)
                 return null;
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                ResponseEntity response = (ResponseEntity) objIn.readObject();
-                return (ResponseEntity) objIn.readObject();
+                long id = (long) objIn.readObject();
+
+                return ResponseEntity.ok(new Long (id));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -91,9 +95,13 @@ public class ControllerWalletsClass implements ControllerWalletsInterface,Serial
                 return null;
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (ResponseEntity) objIn.readObject();
+                long response = (long) objIn.readObject();
+                if(response == -1)
+                    return ResponseEntity.notFound().build();
+                return ResponseEntity.ok(response);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -114,10 +122,13 @@ public class ControllerWalletsClass implements ControllerWalletsInterface,Serial
                 return null;
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                ResponseEntity response = (ResponseEntity) objIn.readObject();
-                return (ResponseEntity) objIn.readObject();
+                Object[] response = (Object[]) objIn.readObject();
+                if(response[0] != null)
+                    return ResponseEntity.ok((Wallet)response[0]);
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
