@@ -11,6 +11,17 @@
 Initializer [aqui](https://start.spring.io/).
 
 ---
+
+## Funcionalidades
+### Tests
+* Documentação [Tests](Documentation/TESTS.md).
+### Wallets
+* Documentação [Wallets](Documentation/WALLETS.md).
+### Transfers
+* Documentação [Transfers](Documentation/TRANSFERS.md).
+
+---
+
 ## Arquitecturas
 
 ### WA1 - Servidor não replicado
@@ -21,16 +32,6 @@ Initializer [aqui](https://start.spring.io/).
 BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
 
 ![Replicação com BFT-SMaRt](Documentation/Images/WA2.png)
-
----
-
-## Funcionalidades
-### Tests
-* Documentação [Tests](Documentation/TESTS.md).
-### Wallets
-* Documentação [Wallets](Documentation/WALLETS.md).
-### Transfers
-* Documentação [Transfers](Documentation/TRANSFERS.md).
 
 ---
 
