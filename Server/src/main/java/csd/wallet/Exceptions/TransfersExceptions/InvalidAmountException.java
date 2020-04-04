@@ -15,7 +15,7 @@ public class InvalidAmountException extends Exception{
 
     public InvalidAmountException(long amount) {
         super();
-        Logger.warn(MESSAGE2, amount+"");
+        Logger.warn(MESSAGE2, amount);
     }
 
 }

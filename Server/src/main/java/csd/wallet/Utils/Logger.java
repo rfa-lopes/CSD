@@ -21,15 +21,15 @@ public class Logger {
     private static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     private static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    public static void info(String msg, String ... args){
+    public static void info(String msg, Object ... args){
         System.out.println(ANSI_GREEN + "[INFO] " + ANSI_RESET + " " + String.format(msg, args));
     }
 
-    public static void warn(String msg, String ... args){
+    public static void warn(String msg, Object ... args){
         System.out.println(ANSI_YELLOW + "[WARN] " + ANSI_RESET + " " + String.format(msg, args));
     }
 
-    public static void error(String msg, String ... args){
+    public static void error(String msg, Object ... args){
         System.out.println(ANSI_RED + "[ERRO] " + ANSI_RESET + " " + String.format(msg, args));
     }
 

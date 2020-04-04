@@ -8,7 +8,7 @@ public class TransferToSameWalletException extends Exception{
 
     public TransferToSameWalletException(long id) {
         super();
-        Logger.warn(MESSAGE, id+"");
+        Logger.warn(MESSAGE, id);
     }
 
 }
