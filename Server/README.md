@@ -15,12 +15,14 @@ Initializer [aqui](https://start.spring.io/).
 
 ### WA1 - Servidor não replicado
 Arquitectura WA1.
+
 ![Servidor não replicado](Documentation/Images/WA1.png)
 
 ### WA2 - Replicação
 BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
 
 Arquitectura WA2.
+
 ![Replicação com BFT-SMaRt](Documentation/Images/WA2.png)
 
 ---
