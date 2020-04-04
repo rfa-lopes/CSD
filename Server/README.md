@@ -23,10 +23,10 @@ Initializer [aqui](https://start.spring.io/).
 **OU** em terminais diferentes
 
 ```bash
-./Scripts/runOneReplicas.sh 0
-./Scripts/runOneReplicas.sh 1
-./Scripts/runOneReplicas.sh 2
-./Scripts/runOneReplicas.sh 3
+./Scripts/runOneReplica.sh 0
+./Scripts/runOneReplica.sh 1
+./Scripts/runOneReplica.sh 2
+./Scripts/runOneReplica.sh 3
 ```
 ### 2 - Correr os testes automáticos (arg = número de requests por cada funcionalidade)
 
