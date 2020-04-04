@@ -38,7 +38,8 @@ BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-
 ![Replicação com BFT-SMaRt](Documentation/Images/WA2.png)
 
 **NOTA IMPORTANTE:**
- Nos nossos testes ao sistema utilizamos uma base de dados comum a todas as replicas e verificaram-se várias escritas na base de dados, o que demonstra que o sistema funciona.
+ Nos nossos testes ao sistema utilizamos uma base de dados comum a todas as replicas e verificaram-se várias escritas na base de dados na operação de criar uma nova wallet, o que demonstra que o sistema funciona.
+ Porém em termos funcionamento, as operações create wallet e delete wallet não se encontram a funcionar corretamente enquanto não for implementada uma solução (Docker) onde cada replica tem a sua base de dados.
 
 ---
 
