@@ -79,6 +79,9 @@ INSERT INTO wallet VALUES (0, 'John', 9041)
 sudo systemctl start mysql
 sudo systemctl stop mysql
 ```
+---
+## Testes
+![Teste com replicação - Adicionar dinheiro a uma wallet](Documentation/Images/WA2_Working.png)
 
 ---
 
