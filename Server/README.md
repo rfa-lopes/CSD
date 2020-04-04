@@ -3,17 +3,16 @@
 
 **Tecnologias utilizadas**
 
-* Spring Boot 2.2.5
-* Maven
-* Java 8
-* MySQL
+* **Spring Boot 2.2.5** (WA1 e WA2)
+* **Maven** (WA1 e WA2)
+* **Java 8** (WA1 e WA2)
+* **MySQL** (WA1 e WA2)
+* **BFT-SMaRt** (WA2)
 
 Initializer [aqui](https://start.spring.io/).
 
 ---
-
-## BFTSmart
-Guia [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
+## Quick start
 
 ---
 
@@ -27,7 +26,27 @@ Guia [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-S
 
 ---
 
+## Arquitecturas
+
+### WA1 - Servidor não replicado
+
+![Servidor não replicado](Documentation/Images/WA1.png)
+
+### WA2 - Replicação
+BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
+
+![Replicação com BFT-SMaRt](Documentation/Images/WA2.png)
+
+**NOTA IMPORTANTE:**
+ Nos nossos testes ao sistema utilizamos uma base de dados comum a todas as replicas e verificaram-se várias escritas na base de dados, o que demonstra que o sistema funciona.
+
+---
+
 ## Configurações TLS
+
+### BFT-SMaRt
+//TODO WA3
+
 ### Setup
 * Criar par de chaves e metê-las na keystore
 ```bash
@@ -64,6 +83,9 @@ INSERT INTO wallet VALUES (0, 'John', 9041)
 sudo systemctl start mysql
 sudo systemctl stop mysql
 ```
+---
+## Testes
+![Teste com replicação - Adicionar dinheiro a uma wallet](Documentation/Images/WA2_Working.png)
 
 ---
 
