@@ -36,6 +36,10 @@ BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-
 ---
 
 ## Configurações TLS
+
+### BFT-SMaRt
+//TODO WA3
+
 ### Setup
 * Criar par de chaves e metê-las na keystore
 ```bash
