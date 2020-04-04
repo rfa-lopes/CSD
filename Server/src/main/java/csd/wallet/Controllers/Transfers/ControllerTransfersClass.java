@@ -4,6 +4,7 @@ import csd.wallet.Services.Transfers.ServiceTransfersClass;
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.ListWrapper;
 import csd.wallet.Models.Transfer;
+import csd.wallet.Utils.Logger;
 import csd.wallet.Utils.RequestType;
 import csd.wallet.Utils.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,15 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 
 	@Autowired
 	ServiceTransfersClass transfers;
+
 	@Autowired
 	ServiceProxy serviceProxy;
 
-
 	@Override
 	public ResponseEntity<Void> addMoney(AddRemoveForm idAmount) {
+		Logger.info("Request: ADDMONEY");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
 			objOut.writeObject(RequestType.TRANSFERS_ADD);
 			objOut.writeObject(idAmount);
@@ -37,21 +39,22 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 			byteOut.flush();
 
 			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return response((ResponseType) objIn.readObject());
 			}
 		} catch (Exception e) {
+			Logger.error("Controller: ADDMONEY");
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public ResponseEntity<Void> removeMoney(AddRemoveForm idAmount) {
+		Logger.info("Request: REMOVEMONEY");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
 			objOut.writeObject(RequestType.TRANSFERS_REMOVE);
 			objOut.writeObject(idAmount);
@@ -60,21 +63,22 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 			byteOut.flush();
 
 			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return response((ResponseType) objIn.readObject());
 			}
 		} catch (Exception e) {
+			Logger.error("Controller: REMOVEMONEY");
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public ResponseEntity<Void> transfer(Transfer transfer) {
+		Logger.info("Request: TRANSFER");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
 			objOut.writeObject(RequestType.TRANSFERS_TRANSFER);
 			objOut.writeObject(transfer);
@@ -83,21 +87,22 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 			byteOut.flush();
 
 			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return response((ResponseType) objIn.readObject());
 			}
 		} catch (Exception e) {
+			Logger.error("Controller: TRANSFER");
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public ResponseEntity<ListWrapper> ledgerOfGlobalTransfers() {
+		Logger.info("Request: LEDGEROFGLOBALTRANSFERS");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
 			objOut.writeObject(RequestType.TRANSFERS_GLOBALTRANSFERS);
 
@@ -105,15 +110,13 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 			byteOut.flush();
 
 			byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return ResponseEntity.ok((ListWrapper) objIn.readObject());
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Controller: LEDGEROFGLOBALTRANSFERS");
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 
@@ -121,8 +124,9 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 
 	@Override
 	public ResponseEntity<ListWrapper> ledgerOfWalletTransfers(long id) {
+		Logger.info("Request: LEDGEROFWALLETTRANSFERS");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			 ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
 			objOut.writeObject(RequestType.TRANSFERS_WALLETTRANSFERS);
 			objOut.writeObject(id);
@@ -131,13 +135,13 @@ public class ControllerTransfersClass implements ControllerTransfersInterface,Se
 			byteOut.flush();
 
 			byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return ResponseEntity.ok((ListWrapper) objIn.readObject());
 			}
 		} catch (Exception e) {
+			Logger.error("Controller: LEDGEROFWALLETTRANSFERS");
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
 

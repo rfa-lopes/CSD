@@ -1,16 +1,15 @@
 package csd.wallet.Controllers.Tests;
 
 import bftsmart.tom.ServiceProxy;
-
 import csd.wallet.Services.Tests.ServiceTestsClass;
-
+import csd.wallet.Utils.Logger;
 import csd.wallet.Utils.RequestType;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.*;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestController
 public class ControllerTestsClass implements ControllerTestsInterface {
@@ -23,6 +22,7 @@ public class ControllerTestsClass implements ControllerTestsInterface {
 
 	@Override
 	public ResponseEntity<String> test1() {
+		Logger.info("Request: TEST1");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 				ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
@@ -32,21 +32,21 @@ public class ControllerTestsClass implements ControllerTestsInterface {
 			byteOut.flush();
 		
 			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 					ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return ResponseEntity.ok((String) objIn.readObject());
 			}
 
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Exception putting value into map: " + e.getMessage());
+			Logger.error("Controller: TEST1");
+			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
-		return null;
 	}
 
 	@Override
 	public ResponseEntity<String> test2() {
+		Logger.info("Request: TEST2");
 		try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 			 ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
 
@@ -55,17 +55,16 @@ public class ControllerTestsClass implements ControllerTestsInterface {
 			objOut.flush();
 			byteOut.flush();
 
-			byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-			if (reply.length == 0)
-				return null;
+			byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
+
 			try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
 				 ObjectInput objIn = new ObjectInputStream(byteIn)) {
 				return ResponseEntity.ok((String) objIn.readObject());
 			}
 
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Exception putting value into map: " + e.getMessage());
+			Logger.error("Controller: TEST2");
+			return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
 		}
-		return null;
 	}
 }

@@ -15,17 +15,17 @@ import csd.wallet.Models.Wallet;
 import csd.wallet.Services.Tests.ServiceTestsClass;
 import csd.wallet.Services.Transfers.ServiceTransfersClass;
 import csd.wallet.Services.Wallets.ServiceWalletsClass;
+import csd.wallet.Utils.Logger;
 import csd.wallet.Utils.RequestType;
 import csd.wallet.Utils.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 
 @Component
-public class BFTServerTest extends DefaultSingleRecoverable implements Serializable {
+public class BFTServer extends DefaultSingleRecoverable implements Serializable {
 
     @Autowired
     ServiceTransfersClass transfers;
@@ -36,46 +36,40 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
     @Autowired
     ServiceWalletsClass wallets;
 
-    public BFTServerTest(@Value("${server.port}") int serverport) {
-
+    public BFTServer(@Value("${server.port}") int serverport) {
+        //TODO:
         new ServiceReplica(serverport % 4, this, this);
     }
 
     @Override
     public void installSnapshot(byte[] bytes) {
-
+        //TODO:
     }
 
     @Override
     public byte[] getSnapshot() {
+        //TODO:
         return new byte[0];
     }
 
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext messageContext) {
         byte[] reply = null;
-        boolean hasReply = false;
         long id;
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
              ObjectInput objIn = new ObjectInputStream(byteIn);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
             RequestType reqType = (RequestType) objIn.readObject();
+
+            Logger.info("Replication - " + reqType);
+
             switch (reqType) {
                 case TEST_1:
                     String test1 = tests.test1();
-                    if (test1 != null) {
-                        objOut.writeObject(test1);
-                        hasReply = true;
-                    }
+                    objOut.writeObject(test1);
                     break;
-                case TEST_2:
-                    String test2 = tests.test2();
-                    if (test2 != null) {
-                        objOut.writeObject(test2);
-                        hasReply = true;
-                    }
-                    break;
+
                 case TRANSFERS_ADD:
                     try {
                         AddRemoveForm form = (AddRemoveForm) objIn.readObject();
@@ -86,7 +80,6 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
                     } catch (InvalidAmountException e) {
                         objOut.writeObject(ResponseType.BAD_REQUEST);
                     }
-                    hasReply = true;
                     break;
 
                 case TRANSFERS_REMOVE:
@@ -99,8 +92,8 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
                     } catch (InvalidAmountException e) {
                         objOut.writeObject(ResponseType.BAD_REQUEST);
                     }
-                    hasReply = true;
                     break;
+
                 case TRANSFERS_TRANSFER:
                     try {
                         Transfer transfer = (Transfer) objIn.readObject();
@@ -111,66 +104,57 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
                     } catch (InvalidAmountException | TransferToSameWalletException e) {
                         objOut.writeObject(ResponseType.BAD_REQUEST);
                     }
-                    hasReply = true;
                     break;
+
                 case WALLET_CREATE:
-					try {
-						Wallet wallet = (Wallet) objIn.readObject();
-						id = wallets.createWallet(wallet);
-						objOut.writeObject(id);
-					} catch (EmptyWalletNameException e) {
-						long response = -1L;
-						objOut.writeObject(response);
-					}
-					hasReply = true;
-					break;
+                    try {
+                        Wallet wallet = (Wallet) objIn.readObject();
+                        id = wallets.createWallet(wallet);
+                        objOut.writeObject(id);
+                    } catch (EmptyWalletNameException e) {
+                        long response = -1L;
+                        objOut.writeObject(response);
+                    }
+                    break;
+
                 case WALLET_DELETE:
                     try {
                         id = (long) objIn.readObject();
                         wallets.deleteWallet(id);
                     } catch (WalletNotExistsException e) {
-						long response = -1L;
-						objOut.writeObject(response);
+                        long response = -1L;
+                        objOut.writeObject(response);
                     }
-                    hasReply = true;
                     break;
 
-				case WALLET_INFO:
-					Object obj [] = new Object[2];
-					try {
-						id = (long) objIn.readObject();
-						Wallet wallet = wallets.getWalletInfo(id);
-						obj[0] = wallet;
-						objOut.writeObject(obj);
-					} catch (WalletNotExistsException e) {
-						obj[1] = 0;
-						objOut.writeObject(obj);
-					}
-					hasReply = true;
-					break;
-				case WALLET_AMOUNT:
-					try {
-						id = (long) objIn.readObject();
-						long amount = wallets.getCurrentAmount(id);
-						objOut.writeObject(amount);
-					} catch (WalletNotExistsException e) {
-						long response = -1L;
-						objOut.writeObject(response);
-					}
-					hasReply = true;
-					break;
-            }
-            if (hasReply) {
-                objOut.flush();
-                byteOut.flush();
-                reply = byteOut.toByteArray();
-            } else {
-                reply = new byte[0];
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            // logger.log(Level.SEVERE, "Ocurred during map operation execution", e);
+                case WALLET_INFO:
+                    Object obj[] = new Object[2];
+                    try {
+                        id = (long) objIn.readObject();
+                        Wallet wallet = wallets.getWalletInfo(id);
+                        obj[0] = wallet;
+                        objOut.writeObject(obj);
+                    } catch (WalletNotExistsException e) {
+                        obj[1] = 0;
+                        objOut.writeObject(obj);
+                    }
+                    break;
 
+                case WALLET_AMOUNT:
+                    try {
+                        id = (long) objIn.readObject();
+                        long amount = wallets.getCurrentAmount(id);
+                        objOut.writeObject(amount);
+                    } catch (WalletNotExistsException e) {
+                        long response = -1L;
+                        objOut.writeObject(response);
+                    }
+            }
+            objOut.flush();
+            byteOut.flush();
+            reply = byteOut.toByteArray();
+        } catch (IOException | ClassNotFoundException e) {
+            Logger.error("BFT Server error.");
         }
         return reply;
     }
@@ -178,64 +162,61 @@ public class BFTServerTest extends DefaultSingleRecoverable implements Serializa
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext messageContext) {
         byte[] reply = null;
-        boolean hasReply = false;
         long id;
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
              ObjectInput objIn = new ObjectInputStream(byteIn);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
             RequestType reqType = (RequestType) objIn.readObject();
+
+            Logger.info("Replication - " + reqType);
+
             switch (reqType) {
+                case TEST_2:
+                    String test2 = tests.test2();
+                    objOut.writeObject(test2);
+                    break;
+
                 case TRANSFERS_GLOBALTRANSFERS:
                     ListWrapper list1 = transfers.ledgerOfGlobalTransfers();
                     objOut.writeObject(list1);
-                    hasReply = true;
                     break;
 
                 case TRANSFERS_WALLETTRANSFERS:
                     id = (long) objIn.readObject();
                     ListWrapper list2 = transfers.ledgerOfWalletTransfers(id);
                     objOut.writeObject(list2);
-                    hasReply = true;
                     break;
 
-				case WALLET_INFO:
-					Object obj [] = new Object[2];
-					try {
-						id = (long) objIn.readObject();
-						Wallet wallet = wallets.getWalletInfo(id);
-						obj[0] = wallet;
-						objOut.writeObject(obj);
-					} catch (WalletNotExistsException e) {
-						obj[1] = 0;
-						objOut.writeObject(obj);
-					}
-					hasReply = true;
-					break;
-				case WALLET_AMOUNT:
-					try {
-						id = (long) objIn.readObject();
-						long amount = wallets.getCurrentAmount(id);
-						objOut.writeObject(amount);
-					} catch (WalletNotExistsException e) {
-						long response = -1L;
-						objOut.writeObject(response);
-					}
-					hasReply = true;
-					break;
+                case WALLET_INFO:
+                    Object obj[] = new Object[2];
+                    try {
+                        id = (long) objIn.readObject();
+                        Wallet wallet = wallets.getWalletInfo(id);
+                        obj[0] = wallet;
+                        objOut.writeObject(obj);
+                    } catch (WalletNotExistsException e) {
+                        obj[1] = 0;
+                        objOut.writeObject(obj);
+                    }
+                    break;
+
+                case WALLET_AMOUNT:
+                    try {
+                        id = (long) objIn.readObject();
+                        long amount = wallets.getCurrentAmount(id);
+                        objOut.writeObject(amount);
+                    } catch (WalletNotExistsException e) {
+                        long response = -1L;
+                        objOut.writeObject(response);
+                    }
             }
-            if (hasReply) {
-                objOut.flush();
-                byteOut.flush();
-                reply = byteOut.toByteArray();
-            } else {
-                reply = new byte[0];
-            }
+            objOut.flush();
+            byteOut.flush();
+            reply = byteOut.toByteArray();
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            // logger.log(Level.SEVERE, "Ocurred during map operation execution", e);
-            return reply;
+            Logger.error("BFT Server error.");
         }
         return reply;
     }
