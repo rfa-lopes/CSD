@@ -3,11 +3,11 @@
 
 **Tecnologias utilizadas**
 
-* Spring Boot 2.2.5 (WA1 e WA2)
-* Maven (WA1 e WA2)
-* Java 8 (WA1 e WA2)
-* MySQL (WA1 e WA2)
-* BFT-SMaRt (WA2)
+* **Spring Boot 2.2.5** (WA1 e WA2)
+* **Maven** (WA1 e WA2)
+* **Java 8** (WA1 e WA2)
+* **MySQL** (WA1 e WA2)
+* **BFT-SMaRt** (WA2)
 
 Initializer [aqui](https://start.spring.io/).
 
