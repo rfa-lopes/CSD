@@ -12,16 +12,17 @@
 Initializer [aqui](https://start.spring.io/).
 
 ---
+
 ## Quick test
 ### 1 - Correr os servidores (pode demorar cerca de 30 segundos a arrancar)
 
-´´´´bash
+´´´bash
 ./Scripts/runFourReplicas.sh
 ´´´
 
 ou em terminais diferentes
 
-´´´´bash
+´´´bash
 ./Scripts/runOneReplicas.sh 0
 ./Scripts/runOneReplicas.sh 1
 ./Scripts/runOneReplicas.sh 2
