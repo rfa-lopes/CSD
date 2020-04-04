@@ -1,9 +1,5 @@
 package csd.wallet.Utils;
 
-import org.springframework.beans.factory.annotation.Value;
-
-import java.net.InetAddress;
-
 public class Logger {
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -26,7 +22,7 @@ public class Logger {
     private static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public static void info(String msg, Object ... args){
-        System.out.println("" + ANSI_GREEN + "[INFO] " + ANSI_RESET + " " + String.format(msg, args));
+        System.out.println(ANSI_GREEN + "[INFO] " + ANSI_RESET + " " + String.format(msg, args));
     }
 
     public static void warn(String msg, Object ... args){
