@@ -33,8 +33,8 @@ BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-
 
 ![Replicação com BFT-SMaRt](Documentation/Images/WA2.png)
 
-**NOTA IMPORTANTE: **
-Nos nossos testes ao sistema utilizamos uma base de dados comum a todas as replicas e verificaram-se várias escritas na base de dados, o que demonstra que o sistema funciona.
+**NOTA IMPORTANTE:**
+ Nos nossos testes ao sistema utilizamos uma base de dados comum a todas as replicas e verificaram-se várias escritas na base de dados, o que demonstra que o sistema funciona.
 
 ---
 
