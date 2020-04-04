@@ -6,7 +6,7 @@
 * Spring Boot 2.2.5
 * Maven
 * Java 8
-* MySQL
+* MySQL (WA1 e WA2)
 
 Initializer [aqui](https://start.spring.io/).
 
