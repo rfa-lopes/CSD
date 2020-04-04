@@ -20,7 +20,7 @@ Initializer [aqui](https://start.spring.io/).
 ./Scripts/runFourReplicas.sh
 ```
 
-ou em terminais diferentes
+**OU** em terminais diferentes
 
 ```bash
 ./Scripts/runOneReplicas.sh 0
