@@ -6,6 +6,12 @@
 
 ---
 
+## Go to: [WA1](Server#wa1---servidor-não-replicado)
+## Go to: [WA2](Server#wa2---replicação)
+## Go to: [WA3 - TODO]()
+
+---
+
 ## Setup
 ### Git Clone
 ```bash
