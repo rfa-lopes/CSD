@@ -1,26 +1,26 @@
 [< Para trás](../README.md#Funcionalidades)
 # Documentação de Testes
 
-## Teste 1
+## Teste 1 (BFTSmart - ORDERED)
 ### Request
 ```
-GET /tests/helloworld
+GET /tests/test1
 ```
 ### Response
 ```
-Hello World! (Get)
+Hello World! (2)
 ```
 
 ---
 
-## Teste 2
+## Teste 2 (BFTSmart - UNORDERED)
 ### Request
 ```
-POST/tests/helloworld
+GET /tests/test2
 ```
 ### Response
 ```
-Hello World! (Post)
+Hello World! (2)
 ```
 
 ---
