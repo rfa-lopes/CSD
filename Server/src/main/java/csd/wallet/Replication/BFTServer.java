@@ -154,7 +154,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             byteOut.flush();
             reply = byteOut.toByteArray();
         } catch (IOException | ClassNotFoundException e) {
-            Logger.error("BFT Server error.");
+            Logger.error("<<<BFT Server error>>>");
         }
         return reply;
     }
@@ -216,7 +216,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             reply = byteOut.toByteArray();
 
         } catch (IOException | ClassNotFoundException e) {
-            Logger.error("BFT Server error.");
+            Logger.error("<<<BFT Server error>>>");
         }
         return reply;
     }
