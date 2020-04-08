@@ -106,7 +106,12 @@ sudo systemctl stop mysql
 ```
 ---
 ## Testes
+
+### Manuais com Postman
 ![Teste com replicação - Adicionar dinheiro a uma wallet](Documentation/Images/WA2_Working.png)
+
+### Automáticos
+![Testes Automáticos com replicação](Documentation/Images/WA2_AutomaticTests.png)
 
 ---
 
