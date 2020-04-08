@@ -7,12 +7,12 @@ public class ServiceTestsClass implements ServiceTestsInterface {
 
     @Override
     public String test1() {
-        return "Hello World! (Get)";
+        return "Hello World! (1)";
     }
 
     @Override
     public String test2() {
-        return "Hello World! (Post)";
+        return "Hello World! (2)";
     }
 
 }

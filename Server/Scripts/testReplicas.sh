@@ -5,17 +5,25 @@ fi
 
 tests=$1
 
-echo -e "\e[91mTesting:\e[39m TESTS"
+echo -e "\e[91mTesting:\e[39m TESTS1 - ORDERED"
 for ((i = 1 ; i <= tests ; i++ ));
 do 
-	curl --insecure -X GET 'https://localhost:11000/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X GET 'https://localhost:11001/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X GET 'https://localhost:11002/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X GET 'https://localhost:11003/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X POST 'https://localhost:11000/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X POST 'https://localhost:11001/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X POST 'https://localhost:11002/tests/helloworld' > /dev/null 2>&1;
-	curl --insecure -X POST 'https://localhost:11003/tests/helloworld' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11000/tests/test1' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11001/tests/test1' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11002/tests/test1' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11003/tests/test1' > /dev/null 2>&1;
+	echo -ne "[$i]: \e[92mOK\e[39m"\\r;
+done
+
+echo;echo;
+
+echo -e "\e[91mTesting:\e[39m TESTS2 - UNORDERED"
+for ((i = 1 ; i <= tests ; i++ ));
+do 
+	curl --insecure -X GET 'https://localhost:11000/tests/test2' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11001/tests/test2' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11002/tests/test2' > /dev/null 2>&1;
+	curl --insecure -X GET 'https://localhost:11003/tests/test2' > /dev/null 2>&1;
 	echo -ne "[$i]: \e[92mOK\e[39m"\\r;
 done
 
