@@ -3,6 +3,8 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
+start=`date +%s`
+
 tests=$1
 
 function avarage {
@@ -38,12 +40,16 @@ delete='/wallets/delete/100'
 amount='/wallets/amount/1'
 info='/wallets/info/1'
 
+#======================================================================================================================
+
 echo -e "\e[91mTesting:\e[39m TESTS1 - ORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$test1;
 	time='';
-	times=()	
+	times=();	
 	for ((i = 1 ; i <= tests ; i++ ));
 	do 	
 			time=$( { time curl --silent --output /dev/null --insecure -X GET $var; } 2>&1 )
@@ -51,13 +57,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
+
+#======================================================================================================================
 
 echo -e "\e[91mTesting:\e[39m TESTS2 - UNORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$test2;
@@ -68,13 +81,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m ADD MONEY"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m ADD MONEY - ORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$add;
@@ -85,14 +105,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
+echo;echo;
 
-echo;
+#======================================================================================================================
 
-echo -e "\e[91mTesting:\e[39m REMOVE MONEY"
+echo -e "\e[91mTesting:\e[39m REMOVE MONEY - ORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$remove;
@@ -103,13 +129,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m TRANSFERS MONEY"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m TRANSFERS MONEY - ORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$transf;
@@ -120,13 +153,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m GLOBAL TRANSFERS"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m GLOBAL TRANSFERS - UNORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$global;
@@ -137,13 +177,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m WALLET TRANSFERS"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m WALLET TRANSFERS - UNORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$wallet;
@@ -154,13 +201,20 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m CREATE WALLET"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m CREATE WALLET - ORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$create;
@@ -172,13 +226,20 @@ do
 			echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
 	done
 	#time=$(avarage "${times[@]}")
-	#echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	#replicasAVG+=($time);
+	#echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m DELETE WALLET"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m DELETE WALLET - ORDERED"
+replicasAVG=();
+avg='';
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$delete;
@@ -190,13 +251,18 @@ do
 			echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
 	done
 	#time=$(avarage "${times[@]}")
-	#echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	#replicasAVG+=($time);
+	#echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m WALLET AMOUNT"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m WALLET AMOUNT - UNORDERED"
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$amount;
@@ -207,13 +273,18 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
+echo;echo;
 
-echo -e "\e[91mTesting:\e[39m WALLET INFORMATION"
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m WALLET INFORMATION - UNORDERED"
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$info;
@@ -224,16 +295,23 @@ do
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
 	time=$(avarage "${times[@]}")
-	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time"\\r;
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 
-echo;
-
-echo -e "\e[92mTESTS COMPLETED SUCCESSFULLY \e[39m";
-echo;
+echo;echo;
 
 #======================================================================================================================
+
+end=`date +%s`
+
+runtime=$((end-start))
+
+echo -e "\e[92mTESTS COMPLETED SUCCESSFULLY IN: $runtime s\e[39m";
+echo;
 
 
 
