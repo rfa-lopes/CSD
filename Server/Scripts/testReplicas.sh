@@ -41,7 +41,7 @@ global='/transfers/globaltransfers'
 wallet='/transfers/wallettransfers/1'
 
 create='/wallets/create'
-delete='/wallets/delete/100'
+delete='/wallets/delete/'
 amount='/wallets/amount/1'
 info='/wallets/info/1'
 
@@ -84,6 +84,56 @@ do
 			time=$( { time curl --silent --output /dev/null --insecure -X GET $var; } 2>&1 )
 			times+=($time);
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
+	done
+	time=$(avarage "${times[@]}")
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
+	echo;
+done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
+
+echo;echo;
+
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m CREATE WALLET - ORDERED"
+replicasAVG=();
+avg='';
+for ((j = 0 ; j < replicas ; j++ ));
+do
+	var=$server$j$create;
+	for ((i = 1 ; i <= tests ; i++ ));
+	do 
+			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"name":"TEST_USER_'$i'"}'; } 2>&1 )
+			times+=($time);	
+			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
+			#echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
+	done
+	time=$(avarage "${times[@]}")
+	replicasAVG+=($time);
+	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
+	echo;
+done
+avg=$(avarage "${replicasAVG[@]}")
+echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
+
+echo;echo;
+
+#======================================================================================================================
+
+echo -e "\e[91mTesting:\e[39m DELETE WALLET - ORDERED"
+replicasAVG=();
+avg='';
+for ((j = 0 ; j < replicas ; j++ ));
+do
+	var=$server$j$delete;
+	for ((i = 1 ; i <= tests ; i++ ));
+	do 
+			time=$( { time curl --silent --output /dev/null --insecure -X DELETE $var$i; } 2>&1 )
+			times+=($time);	
+			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
+			#echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
 	done
 	time=$(avarage "${times[@]}")
 	replicasAVG+=($time);
@@ -208,56 +258,6 @@ do
 	time=$(avarage "${times[@]}")
 	replicasAVG+=($time);
 	echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
-	echo;
-done
-avg=$(avarage "${replicasAVG[@]}")
-echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
-
-echo;echo;
-
-#======================================================================================================================
-
-echo -e "\e[91mTesting:\e[39m CREATE WALLET - ORDERED"
-replicasAVG=();
-avg='';
-for ((j = 0 ; j < replicas ; j++ ));
-do
-	var=$server$j$create;
-	for ((i = 1 ; i <= tests ; i++ ));
-	do 
-			#time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"name":"TEST_USER_'$i'"}'; } 2>&1 )
-			#times+=($time);	
-			#echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
-			echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
-	done
-	#time=$(avarage "${times[@]}")
-	#replicasAVG+=($time);
-	#echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
-	echo;
-done
-avg=$(avarage "${replicasAVG[@]}")
-echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
-
-echo;echo;
-
-#======================================================================================================================
-
-echo -e "\e[91mTesting:\e[39m DELETE WALLET - ORDERED"
-replicasAVG=();
-avg='';
-for ((j = 0 ; j < replicas ; j++ ));
-do
-	var=$server$j$delete;
-	for ((i = 1 ; i <= tests ; i++ ));
-	do 
-			#time=$( { time curl --silent --output /dev/null --insecure -X DELETE $var; } 2>&1 )
-			#times+=($time);	
-			#echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
-			echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
-	done
-	#time=$(avarage "${times[@]}")
-	#replicasAVG+=($time);
-	#echo -ne "[$tests]: \e[92mOK: \e[39m $var :: Avarage time=$time s"\\r;
 	echo;
 done
 avg=$(avarage "${replicasAVG[@]}")
