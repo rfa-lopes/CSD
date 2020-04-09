@@ -2,6 +2,7 @@
 /Server/.idea/*
 /Server/*.iml
 /Server/target/
+/Server/src/main/resources/application.properties
 /Server/.setting/*
 /Server/.classpath
 /Server/.project
@@ -36,6 +37,7 @@ Server/.mvn/*
 /Client/.idea/*
 /Client/*.iml
 /Client/target/
+/Client/src/main/resources/application.properties
 /Client/.setting/*
 /Client/.classpath
 /Client/.project
@@ -72,6 +74,7 @@ target/*
 .idea/*
 *.iml
 /target/
+/src/main/resources/application.properties
 .setting/*
 .classpath
 .project
