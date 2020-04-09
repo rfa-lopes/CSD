@@ -70,6 +70,8 @@ Client/.mvc/*
 Client/.mvn/*
 Client/.mvn
 
+Server/src/main/resources/application.properties
+
 target/*
 .idea/*
 *.iml
