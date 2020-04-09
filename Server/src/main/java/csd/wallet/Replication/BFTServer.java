@@ -8,10 +8,7 @@ import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
 import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
 import csd.wallet.Exceptions.WalletExceptions.EmptyWalletNameException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
-import csd.wallet.Models.AddRemoveForm;
-import csd.wallet.Models.ListWrapper;
-import csd.wallet.Models.Transfer;
-import csd.wallet.Models.Wallet;
+import csd.wallet.Models.*;
 import csd.wallet.Services.Tests.ServiceTestsClass;
 import csd.wallet.Services.Transfers.ServiceTransfersClass;
 import csd.wallet.Services.Wallets.ServiceWalletsClass;
@@ -107,48 +104,49 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     break;
 
                 case WALLET_CREATE:
+                    ResponseWrapper responseWrapper;
                     try {
                         Wallet wallet = (Wallet) objIn.readObject();
                         id = wallets.createWallet(wallet);
-                        objOut.writeObject(id);
+                        responseWrapper = new ResponseWrapper(id, null);
                     } catch (EmptyWalletNameException e) {
-                        long response = -1L;
-                        objOut.writeObject(response);
+                        responseWrapper = new ResponseWrapper(null,e);
                     }
+                    objOut.writeObject(responseWrapper);
                     break;
 
                 case WALLET_DELETE:
                     try {
                         id = (long) objIn.readObject();
                         wallets.deleteWallet(id);
+                        responseWrapper = new ResponseWrapper(null, null);
                     } catch (WalletNotExistsException e) {
-                        long response = -1L;
-                        objOut.writeObject(response);
+                        responseWrapper = new ResponseWrapper(null,e);
                     }
+                    objOut.writeObject(responseWrapper);
                     break;
 
                 case WALLET_INFO:
-                    Object obj[] = new Object[2];
                     try {
                         id = (long) objIn.readObject();
                         Wallet wallet = wallets.getWalletInfo(id);
-                        obj[0] = wallet;
-                        objOut.writeObject(obj);
+                        responseWrapper = new ResponseWrapper(wallet, null);
                     } catch (WalletNotExistsException e) {
-                        obj[1] = 0;
-                        objOut.writeObject(obj);
+                        responseWrapper = new ResponseWrapper(null, e);
                     }
+                    objOut.writeObject(responseWrapper);
                     break;
 
                 case WALLET_AMOUNT:
                     try {
                         id = (long) objIn.readObject();
                         long amount = wallets.getCurrentAmount(id);
-                        objOut.writeObject(amount);
+                        responseWrapper = new ResponseWrapper(amount, null);
                     } catch (WalletNotExistsException e) {
-                        long response = -1L;
-                        objOut.writeObject(response);
+                        responseWrapper = new ResponseWrapper(null, e);
                     }
+                    objOut.writeObject(responseWrapper);
+                    break;
             }
             objOut.flush();
             byteOut.flush();
@@ -189,27 +187,27 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     break;
 
                 case WALLET_INFO:
-                    Object obj[] = new Object[2];
+                    ResponseWrapper responseWrapper;
                     try {
                         id = (long) objIn.readObject();
                         Wallet wallet = wallets.getWalletInfo(id);
-                        obj[0] = wallet;
-                        objOut.writeObject(obj);
+                        responseWrapper = new ResponseWrapper(wallet, null);
                     } catch (WalletNotExistsException e) {
-                        obj[1] = 0;
-                        objOut.writeObject(obj);
+                        responseWrapper = new ResponseWrapper(null, e);
                     }
+                    objOut.writeObject(responseWrapper);
                     break;
 
                 case WALLET_AMOUNT:
                     try {
                         id = (long) objIn.readObject();
                         long amount = wallets.getCurrentAmount(id);
-                        objOut.writeObject(amount);
+                        responseWrapper = new ResponseWrapper(amount, null);
                     } catch (WalletNotExistsException e) {
-                        long response = -1L;
-                        objOut.writeObject(response);
+                        responseWrapper = new ResponseWrapper(null, e);
                     }
+                    objOut.writeObject(responseWrapper);
+                    break;
             }
             objOut.flush();
             byteOut.flush();
