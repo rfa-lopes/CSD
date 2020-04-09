@@ -14,7 +14,12 @@ Initializer [aqui](https://start.spring.io/).
 ---
 
 ## Quick test
-### 1 - Correr os servidores (pode demorar cerca de 30 segundos a arrancar)
+### 0 - Dar DROP às bases de dados (caso existem) e criar novas.
+```bash
+./Scripts/create4databases.sh
+```
+
+### 1 - Correr os servidores (pode demorar cerca de 60 segundos a arrancar)
 
 ```bash
 ./Scripts/runFourReplicas.sh
