@@ -1,11 +1,27 @@
 if [[ $# -eq 0 ]] ; then
-    echo "./testReplicas.sh <nr tests>"
+    echo "./testReplicas.sh <nr tests> <stop? y/n>"
     exit 1
 fi
 
-start=`date +%s`
+#======================================================================================================================
 
-tests=$1
+if [ $# -eq 1 ]
+then
+	stop="n"
+else
+	stop=$2
+fi
+
+#======================================================================================================================
+
+if [ "$stop" = "n" ]
+then
+	echo "Starting non stop test."
+else
+	echo "Starting stop test."
+fi
+
+#======================================================================================================================
 
 function avarage {
 	local array=("$@")
@@ -25,10 +41,12 @@ function avarage {
 	fi
 }
 
+#======================================================================================================================
+
+tests=$1
+start=`date +%s`
 TIMEFORMAT=%R
-
 replicas=4
-
 server='https://localhost:1100'
 
 test1='/tests/test1'
@@ -96,6 +114,30 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Press any key to continue tests.' -n1 key
+	echo;
+fi
+
+echo -e "\e[100m[INIT]\e[49m CREATING USER ROOT1"
+curl --silent --output /dev/null --insecure -X POST ${server}0${create} --header 'Content-Type: application/json' --data-raw '{"name":"ROOT1"}';
+
+echo -e "\e[100m[INIT]\e[49m CREATING USER ROOT2"
+curl --silent --output /dev/null --insecure -X POST ${server}0${create} --header 'Content-Type: application/json' --data-raw '{"name":"ROOT2"}';
+
+echo -e "\e[100m[INIT]\e[49m ADD MONEY TO ROOT1"
+curl --silent --output /dev/null --insecure -X POST ${server}0${add}  --header 'Content-Type: application/json' --data-raw '{"id":1,"amount":900000}';
+
+echo -e "\e[100m[INIT]\e[49m ADD MONEY TO ROOT2"
+curl --silent --output /dev/null --insecure -X POST ${server}0${add}  --header 'Content-Type: application/json' --data-raw '{"id":2,"amount":900000}';
+
+echo;echo;
+
+#======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m CREATE WALLET - ORDERED"
 replicasAVG=();
@@ -105,7 +147,7 @@ do
 	var=$server$j$create;
 	for ((i = 1 ; i <= tests ; i++ ));
 	do 
-			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"name":"TEST_USER_'$i'"}'; } 2>&1 )
+			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"name":"TEST_USER_'$j$i'"}'; } 2>&1 )
 			times+=($time);	
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 			#echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
@@ -121,18 +163,24 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m DELETE WALLET - ORDERED"
 replicasAVG=();
 avg='';
+id=3
 for ((j = 0 ; j < replicas ; j++ ));
 do
 	var=$server$j$delete;
 	for ((i = 1 ; i <= tests ; i++ ));
 	do 
-			time=$( { time curl --silent --output /dev/null --insecure -X DELETE $var$i; } 2>&1 )
+			time=$( { time curl --silent --output /dev/null --insecure -X DELETE $var$id; } 2>&1 )
 			times+=($time);	
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
+			id=$((id+1))
 			#echo -ne "[$i]: \e[34mWAITING TO TEST IN DOCKER\e[39m"\\r;
 	done
 	time=$(avarage "${times[@]}")
@@ -146,6 +194,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m ADD MONEY - ORDERED"
 replicasAVG=();
@@ -155,7 +207,7 @@ do
 	var=$server$j$add;
 	for ((i = 1 ; i <= tests ; i++ ));
 	do 
-			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"id":1,"amount":5}'; } 2>&1 )
+			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"id":1,"amount":1}'; } 2>&1 )
 			times+=($time);			
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
@@ -170,6 +222,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m REMOVE MONEY - ORDERED"
 replicasAVG=();
@@ -179,7 +235,7 @@ do
 	var=$server$j$remove;
 	for ((i = 1 ; i <= tests ; i++ ));
 	do 
-			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"id":1,"amount":5}'; } 2>&1 )
+			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"id":2,"amount":1}'; } 2>&1 )
 			times+=($time);	
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
@@ -194,6 +250,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m TRANSFERS MONEY - ORDERED"
 replicasAVG=();
@@ -203,7 +263,7 @@ do
 	var=$server$j$transf;
 	for ((i = 1 ; i <= tests ; i++ ));
 	do 
-			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"fromId":1,"toId":2,"amount":10}'; } 2>&1 )
+			time=$( { time curl --silent --output /dev/null --insecure -X POST $var --header 'Content-Type: application/json' --data-raw '{"fromId":1,"toId":2,"amount":1}'; } 2>&1 )
 			times+=($time);	
 			echo -ne "[$i]: \e[92mOK: \e[39m $var"\\r;
 	done
@@ -218,6 +278,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m GLOBAL TRANSFERS - UNORDERED"
 replicasAVG=();
@@ -242,6 +306,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m WALLET TRANSFERS - UNORDERED"
 replicasAVG=();
@@ -266,6 +334,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m WALLET AMOUNT - UNORDERED"
 for ((j = 0 ; j < replicas ; j++ ));
@@ -288,6 +360,10 @@ echo -ne "\e[93m[Replicas AVG]: \e[39m $avg s"\\r;
 echo;echo;
 
 #======================================================================================================================
+if [ "$stop" = "y" ]; then
+	read -rsp $'Check database... after press any key to continue' -n1 key
+	echo;
+fi
 
 echo -e "\e[91mTesting:\e[39m WALLET INFORMATION - UNORDERED"
 for ((j = 0 ; j < replicas ; j++ ));

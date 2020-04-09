@@ -35,10 +35,13 @@ public class ControllerWalletsClass implements ControllerWalletsInterface,Serial
     public ResponseEntity<Void> deleteWallet(long id) {
         Logger.info("Request: DELETEWALLET");
         try {
-            return response(bftClient.getInvoke(RequestType.WALLET_DELETE, InvokesTypes.ORDERED, id));
+            ResponseWrapper response = bftClient.getInvoke(RequestType.WALLET_DELETE, InvokesTypes.ORDERED, id);
+            if(response.getException() == null)
+                return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             Logger.error("DELETEWALLET");
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
     @Override
