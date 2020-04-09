@@ -62,7 +62,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
             RequestType reqType = (RequestType) objIn.readObject();
 
-            Logger.info("Replication - " + reqType);
+            Logger.replication("Replication - " + reqType);
 
             switch (reqType) {
                 case TEST_1:
@@ -169,7 +169,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
             RequestType reqType = (RequestType) objIn.readObject();
 
-            Logger.info("Replication - " + reqType);
+            Logger.replication("Replication - " + reqType);
 
             switch (reqType) {
                 case TEST_2:

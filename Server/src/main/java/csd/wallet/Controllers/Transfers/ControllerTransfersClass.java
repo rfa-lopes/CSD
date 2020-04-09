@@ -76,7 +76,7 @@ public class ControllerTransfersClass implements ControllerTransfersInterface, S
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             Logger.error("LEDGEROFWALLETTRANSFERS");
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
 

@@ -16,8 +16,13 @@ function avarage {
 		sum=$(echo "$sum + $i" | bc)
 		((total++))
 	done
-	avg=`echo "$sum / $total" | bc -l`
-	printf '%0.5f' "$avg"
+	if [ "$total" -eq "0" ]
+	then
+		printf "0";
+	else
+		avg=`echo "$sum / $total" | bc -l`
+		printf '%0.5f' "$avg"
+	fi
 }
 
 TIMEFORMAT=%R

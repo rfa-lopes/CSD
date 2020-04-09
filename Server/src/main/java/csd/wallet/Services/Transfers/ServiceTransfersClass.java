@@ -14,6 +14,7 @@ import csd.wallet.Repository.TransferRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -73,16 +74,16 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
     @Override
     public ListWrapper ledgerOfGlobalTransfers() {
-        List<Transfer> globalTransfers = new ArrayList();
+        List<Transfer> globalTransfers = new LinkedList<>();
         transfers.findAll().forEach(globalTransfers::add);
         return new ListWrapper(globalTransfers);
     }
 
     @Override
     public ListWrapper ledgerOfWalletTransfers(long id)  {
-        List<Transfer> walletTransfers = transfers.findAllByFromId(id);
-        List<Transfer> toT = transfers.findAllByToId(id);
-        walletTransfers.addAll(toT);
+        List<Transfer> walletTransfers = new LinkedList<>();
+        walletTransfers.addAll(transfers.findAllByFromId(id));
+        walletTransfers.addAll(transfers.findAllByToId(id));
         return new ListWrapper(walletTransfers);
     }
 

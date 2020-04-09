@@ -33,4 +33,8 @@ public class Logger {
         System.out.println(ANSI_RED + "[ERRO] " + ANSI_RESET + " " + String.format(msg, args));
     }
 
+    public static void replication(String msg, Object ... args){
+        System.out.println(ANSI_GREEN + "[REPL] " + ANSI_RESET + " " + ANSI_BLACK + String.format(msg, args) + ANSI_RESET );
+    }
+
 }
