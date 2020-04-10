@@ -3,6 +3,7 @@
 # WA3 - Auditoria ao sistema.
 "This challenge is an auditing of the system about the security guarantees enabled/supported after the WA#2 Implementation"
 
+---
 ## Configurações TLS entre Cliente e Servidor
 //TODO: Acho que já fizemos isso mas metemos aqui à mesma
 
