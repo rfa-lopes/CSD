@@ -1,7 +1,7 @@
 # Confiabilidade de Sistemas Distribuidos 2020
 
-### Arquitectura: [WA1](Server#wa1---servidor-não-replicado)
-### Arquitectura: [WA2](Server#wa2---replicação)
+### Arquitectura: [WA1](Server#servidor-não-replicado-wa1)
+### Arquitectura: [WA2](Server#replicação-wa2)
 ### Auditoria: [WA3](Server/Documentation/Auditory/README.md)
 
 ---
