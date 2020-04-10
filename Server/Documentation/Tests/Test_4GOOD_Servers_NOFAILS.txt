@@ -1,83 +1,86 @@
-osboxes@osboxes:~/Desktop/CSD/Server/Scripts$ ./testReplicas.sh 50
+osboxes@osboxes:~/Desktop/CSD/Server/Scripts$ ./testReplicas.sh 3
+Starting non stop test.
 Testing: TESTS1 - ORDERED
-[50]: OK:  https://localhost:11000/tests/test1 :: Avarage time=0.20902 s
-[50]: OK:  https://localhost:11001/tests/test1 :: Avarage time=0.20470 s
-[50]: OK:  https://localhost:11002/tests/test1 :: Avarage time=0.22022 s
-[50]: OK:  https://localhost:11003/tests/test1 :: Avarage time=0.22090 s
-[Replicas AVG]:  0.21371 s
+[3]: OK:  https://localhost:11000/tests/test1 :: Avarage time=0.55167 s
+[3]: OK:  https://localhost:11001/tests/test1 :: Avarage time=0.73567 s
+[3]: OK:  https://localhost:11002/tests/test1 :: Avarage time=1.08200 s
+[3]: OK:  https://localhost:11003/tests/test1 :: Avarage time=0.34933 s
+[Replicas AVG]:  0.67967 s
 
 Testing: TESTS2 - UNORDERED
-[50]: OK:  https://localhost:11000/tests/test2 :: Avarage time=0.20963 s
-[50]: OK:  https://localhost:11001/tests/test2 :: Avarage time=0.20387 s
-[50]: OK:  https://localhost:11002/tests/test2 :: Avarage time=0.20116 s
-[50]: OK:  https://localhost:11003/tests/test2 :: Avarage time=0.19937 s
-[Replicas AVG]:  0.20351 s
+[3]: OK:  https://localhost:11000/tests/test2 :: Avarage time=0.31550 s
+[3]: OK:  https://localhost:11001/tests/test2 :: Avarage time=0.28222 s
+[3]: OK:  https://localhost:11002/tests/test2 :: Avarage time=0.26117 s
+[3]: OK:  https://localhost:11003/tests/test2 :: Avarage time=0.24813 s
+[Replicas AVG]:  0.27676 s
 
-Testing: ADD MONEY - ORDERED
-[50]: OK:  https://localhost:11000/transfers/add :: Avarage time=0.20238 s
-[50]: OK:  https://localhost:11001/transfers/add :: Avarage time=0.20371 s
-[50]: OK:  https://localhost:11002/transfers/add :: Avarage time=0.20564 s
-[50]: OK:  https://localhost:11003/transfers/add :: Avarage time=0.20657 s
-[Replicas AVG]:  0.20457 s
+[INIT] CREATING USER ROOT1
+[INIT] CREATING USER ROOT2
+[INIT] ADD MONEY TO ROOT1
+[INIT] ADD MONEY TO ROOT2
 
-Testing: REMOVE MONEY - ORDERED
-[50]: OK:  https://localhost:11000/transfers/remove :: Avarage time=0.20801 s
-[50]: OK:  https://localhost:11001/transfers/remove :: Avarage time=0.20875 s
-[50]: OK:  https://localhost:11002/transfers/remove :: Avarage time=0.20947 s
-[50]: OK:  https://localhost:11003/transfers/remove :: Avarage time=0.21015 s
-[Replicas AVG]:  0.20910 s
-
-Testing: TRANSFERS MONEY - ORDERED
-[50]: OK:  https://localhost:11000/transfers/transfer :: Avarage time=0.21390 s
-[50]: OK:  https://localhost:11001/transfers/transfer :: Avarage time=0.21687 s
-[50]: OK:  https://localhost:11002/transfers/transfer :: Avarage time=0.21981 s
-[50]: OK:  https://localhost:11003/transfers/transfer :: Avarage time=0.22194 s
-[Replicas AVG]:  0.21813 s
-
-Testing: GLOBAL TRANSFERS - UNORDERED
-[50]: OK:  https://localhost:11000/transfers/globaltransfers :: Avarage time=0.23471 s
-[50]: OK:  https://localhost:11001/transfers/globaltransfers :: Avarage time=0.24538 s
-[50]: OK:  https://localhost:11002/transfers/globaltransfers :: Avarage time=0.25523 s
-[50]: OK:  https://localhost:11003/transfers/globaltransfers :: Avarage time=0.26393 s
-[Replicas AVG]:  0.24981 s
-
-Testing: WALLET TRANSFERS - UNORDERED
-[50]: OK:  https://localhost:11000/transfers/wallettransfers/1 :: Avarage time=0.27271 s
-[50]: OK:  https://localhost:11001/transfers/wallettransfers/1 :: Avarage time=0.28085 s
-[50]: OK:  https://localhost:11002/transfers/wallettransfers/1 :: Avarage time=0.28907 s
-[50]: OK:  https://localhost:11003/transfers/wallettransfers/1 :: Avarage time=0.29620 s
-[Replicas AVG]:  0.28471 s
 
 Testing: CREATE WALLET - ORDERED
-[50]: WAITING TO TEST IN DOCKER
-[50]: WAITING TO TEST IN DOCKER
-[50]: WAITING TO TEST IN DOCKER
-[50]: WAITING TO TEST IN DOCKER
-Runtime error (func=(main), adr=3): Divide by zero
-[Replicas AVG]:  0.00000 s
+[3]: OK:  https://localhost:11000/wallets/create :: Avarage time=0.25267 s
+[3]: OK:  https://localhost:11001/wallets/create :: Avarage time=0.25638 s
+[3]: OK:  https://localhost:11002/wallets/create :: Avarage time=0.25979 s
+[3]: OK:  https://localhost:11003/wallets/create :: Avarage time=0.26196 s
+[Replicas AVG]:  0.25770 s
 
 Testing: DELETE WALLET - ORDERED
-[50]: WAITING TO TEST IN DOCKER
-[50]: WAITING TO TEST IN DOCKER
-[50]: WAITING TO TEST IN DOCKER
-[50]: WAITING TO TEST IN DOCKER
-Runtime error (func=(main), adr=3): Divide by zero
-[Replicas AVG]:  0.00000 s
+[3]: OK:  https://localhost:11000/wallets/delete/ :: Avarage time=0.25993 s
+[3]: OK:  https://localhost:11001/wallets/delete/ :: Avarage time=0.26633 s
+[3]: OK:  https://localhost:11002/wallets/delete/ :: Avarage time=0.26456 s
+[3]: OK:  https://localhost:11003/wallets/delete/ :: Avarage time=0.26233 s
+[Replicas AVG]:  0.26329 s
+
+Testing: ADD MONEY - ORDERED
+[3]: OK:  https://localhost:11000/transfers/add :: Avarage time=0.26300 s
+[3]: OK:  https://localhost:11001/transfers/add :: Avarage time=0.26293 s
+[3]: OK:  https://localhost:11002/transfers/add :: Avarage time=0.26433 s
+[3]: OK:  https://localhost:11003/transfers/add :: Avarage time=0.26549 s
+[Replicas AVG]:  0.26394 s
+
+Testing: REMOVE MONEY - ORDERED
+[3]: OK:  https://localhost:11000/transfers/remove :: Avarage time=0.26624 s
+[3]: OK:  https://localhost:11001/transfers/remove :: Avarage time=0.26761 s
+[3]: OK:  https://localhost:11002/transfers/remove :: Avarage time=0.26802 s
+[3]: OK:  https://localhost:11003/transfers/remove :: Avarage time=0.26889 s
+[Replicas AVG]:  0.26769 s
+
+Testing: TRANSFERS MONEY - ORDERED
+[3]: OK:  https://localhost:11000/transfers/transfer :: Avarage time=0.27517 s
+[3]: OK:  https://localhost:11001/transfers/transfer :: Avarage time=0.28245 s
+[3]: OK:  https://localhost:11002/transfers/transfer :: Avarage time=0.28604 s
+[3]: OK:  https://localhost:11003/transfers/transfer :: Avarage time=0.28919 s
+[Replicas AVG]:  0.28321 s
+
+Testing: GLOBAL TRANSFERS - UNORDERED
+[3]: OK:  https://localhost:11000/transfers/globaltransfers :: Avarage time=0.28914 s
+[3]: OK:  https://localhost:11001/transfers/globaltransfers :: Avarage time=0.28909 s
+[3]: OK:  https://localhost:11002/transfers/globaltransfers :: Avarage time=0.28712 s
+[3]: OK:  https://localhost:11003/transfers/globaltransfers :: Avarage time=0.28520 s
+[Replicas AVG]:  0.28764 s
+
+Testing: WALLET TRANSFERS - UNORDERED
+[3]: OK:  https://localhost:11000/transfers/wallettransfers/1 :: Avarage time=0.28571 s
+[3]: OK:  https://localhost:11001/transfers/wallettransfers/1 :: Avarage time=0.28503 s
+[3]: OK:  https://localhost:11002/transfers/wallettransfers/1 :: Avarage time=0.28614 s
+[3]: OK:  https://localhost:11003/transfers/wallettransfers/1 :: Avarage time=0.28634 s
+[Replicas AVG]:  0.28580 s
 
 Testing: WALLET AMOUNT - UNORDERED
-[50]: OK:  https://localhost:11000/wallets/amount/1 :: Avarage time=0.29293 s
-[50]: OK:  https://localhost:11001/wallets/amount/1 :: Avarage time=0.29040 s
-[50]: OK:  https://localhost:11002/wallets/amount/1 :: Avarage time=0.28784 s
-[50]: OK:  https://localhost:11003/wallets/amount/1 :: Avarage time=0.28489 s
-[Replicas AVG]:  0.28902 s
+[3]: OK:  https://localhost:11000/wallets/amount/1 :: Avarage time=0.28619 s
+[3]: OK:  https://localhost:11001/wallets/amount/1 :: Avarage time=0.28582 s
+[3]: OK:  https://localhost:11002/wallets/amount/1 :: Avarage time=0.28466 s
+[3]: OK:  https://localhost:11003/wallets/amount/1 :: Avarage time=0.28484 s
+[Replicas AVG]:  0.28559 s
 
 Testing: WALLET INFORMATION - UNORDERED
-[50]: OK:  https://localhost:11000/wallets/info/1 :: Avarage time=0.28212 s
-[50]: OK:  https://localhost:11001/wallets/info/1 :: Avarage time=0.27977 s
-[50]: OK:  https://localhost:11002/wallets/info/1 :: Avarage time=0.27816 s
-[50]: OK:  https://localhost:11003/wallets/info/1 :: Avarage time=0.27920 s
-[Replicas AVG]:  0.28441 s
+[3]: OK:  https://localhost:11000/wallets/info/1 :: Avarage time=0.28391 s
+[3]: OK:  https://localhost:11001/wallets/info/1 :: Avarage time=0.28248 s
+[3]: OK:  https://localhost:11002/wallets/info/1 :: Avarage time=0.28256 s
+[3]: OK:  https://localhost:11003/wallets/info/1 :: Avarage time=0.28215 s
+[Replicas AVG]:  0.28465 s
 
-TESTS COMPLETED SUCCESSFULLY IN: 611 s
-
-
+TESTS COMPLETED SUCCESSFULLY IN: 61 s
