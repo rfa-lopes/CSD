@@ -8,7 +8,7 @@
 
 ### Arquitectura: [WA1](Server#wa1---servidor-não-replicado)
 ### Arquitectura: [WA2](Server#wa2---replicação)
-### Testes: [WA3 - TODO](Server)
+### Testes: [WA3 - TODO](Server/Documentation/Auditory/README.md)
 
 ---
 
