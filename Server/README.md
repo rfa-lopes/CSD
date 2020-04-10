@@ -113,7 +113,7 @@ sudo systemctl stop mysql
 ![Teste com replicação - Adicionar dinheiro a uma wallet](Documentation/Images/WA2_Working.png)
 
 ### Automáticos
-![Testes Automáticos com replicação](Documentation/Images/WA2_AutomaticTests.png)
+![Testes Automáticos com replicação](Documentation/Images/WA3_AutomaticTests.png)
 
 **NOTAS:** Mais testes feitos [aqui](Documentation/Images/).
 
