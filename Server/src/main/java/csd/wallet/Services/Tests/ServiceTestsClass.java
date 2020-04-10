@@ -11,8 +11,7 @@ public class ServiceTestsClass implements ServiceTestsInterface {
     }
 
     @Override
-    public String test2() {
+    public String  test2() {
         return "Hello World! (2)";
     }
-
 }

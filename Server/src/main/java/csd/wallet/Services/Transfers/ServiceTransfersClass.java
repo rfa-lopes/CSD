@@ -4,7 +4,6 @@ import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
 import csd.wallet.Models.AddRemoveForm;
-import csd.wallet.Models.ListWrapper;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Repository.WalletRepository;
@@ -73,18 +72,19 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     @Override
-    public ListWrapper ledgerOfGlobalTransfers() {
-        List<Transfer> globalTransfers = new LinkedList<>();
+    public List<Transfer> ledgerOfGlobalTransfers() {
+        List<Transfer> globalTransfers = new ArrayList<>();
         transfers.findAll().forEach(globalTransfers::add);
-        return new ListWrapper(globalTransfers);
+        return globalTransfers;
     }
 
     @Override
-    public ListWrapper ledgerOfWalletTransfers(long id)  {
+    public List<Transfer> ledgerOfWalletTransfers(long id) throws WalletNotExistsException {
+        wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
         List<Transfer> walletTransfers = new LinkedList<>();
         walletTransfers.addAll(transfers.findAllByFromId(id));
         walletTransfers.addAll(transfers.findAllByToId(id));
-        return new ListWrapper(walletTransfers);
+        return walletTransfers;
     }
 
     private void AmountRestrictions(long amount) throws InvalidAmountException {
