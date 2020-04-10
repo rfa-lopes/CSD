@@ -61,6 +61,10 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     result = tests.test1();
                     break;
 
+                case TEST_2:
+                    result = tests.test2();
+                    break;
+
                 case TRANSFERS_ADD:
                     result = transfers.addMoney((AddRemoveForm) objIn.readObject());
                     break;
@@ -79,6 +83,22 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
                 case WALLET_DELETE:
                     result = wallets.deleteWallet((long) objIn.readObject());
+                    break;
+
+                case TRANSFERS_GLOBALTRANSFERS:
+                    result = transfers.ledgerOfGlobalTransfers();
+                    break;
+
+                case TRANSFERS_WALLETTRANSFERS:
+                    result = transfers.ledgerOfWalletTransfers((long) objIn.readObject());
+                    break;
+
+                case WALLET_INFO:
+                    result = wallets.getWalletInfo((long) objIn.readObject());
+                    break;
+
+                case WALLET_AMOUNT:
+                    result = wallets.getCurrentAmount((long) objIn.readObject());
                     break;
             }
             objOut.writeObject(result);
