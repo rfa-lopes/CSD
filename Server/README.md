@@ -17,6 +17,8 @@ Initializer [aqui](https://start.spring.io/).
 ### 0 - Dar DROP às bases de dados (caso existem) e criar novas. (WA2)
 ```bash
 ./Scripts/create4databases.sh
+$ usage: ./create4databases.sh <mysql_username> <mysql_password>
+./Scripts/create4databases.sh root password
 ```
 
 ### 1 - Correr os servidores (pode demorar cerca de 60 segundos a arrancar) (WA2)
