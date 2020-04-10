@@ -18,6 +18,8 @@
 ## Tempos de resposta do servidor ao cliente
 //TODO: Ficheiro de tests automáticos (gráfico?)
 
+**NOTA:** Ficheiro do output [aqui](Test_4GOOD_Servers_NOFAILS.txt)
+
 ---
 ## Conclusões
 //TODO
