@@ -3,23 +3,23 @@
 
 **Tecnologias utilizadas**
 
-* **Spring Boot 2.2.5** (WA1 e WA2)
-* **Maven** (WA1 e WA2)
-* **Java 8** (WA1 e WA2)
-* **MySQL** (WA1 e WA2)
-* **BFT-SMaRt** (WA2)
+* **Spring Boot 2.2.5** (WA1, WA2 e WA3)
+* **Maven** (WA1, WA2 e WA3)
+* **Java 8** (WA1, WA2 e WA3)
+* **MySQL** (WA1, WA2 e WA3)
+* **BFT-SMaRt** (WA2 e WA3)
 
 Initializer [aqui](https://start.spring.io/).
 
 ---
 
 ## Quick test
-### 0 - Dar DROP às bases de dados (caso existem) e criar novas.
+### 0 - Dar DROP às bases de dados (caso existem) e criar novas. (WA2)
 ```bash
 ./Scripts/create4databases.sh
 ```
 
-### 1 - Correr os servidores (pode demorar cerca de 60 segundos a arrancar)
+### 1 - Correr os servidores (pode demorar cerca de 60 segundos a arrancar) (WA2)
 
 ```bash
 ./Scripts/runFourReplicas.sh
@@ -33,7 +33,7 @@ Initializer [aqui](https://start.spring.io/).
 ./Scripts/runOneReplica.sh 2
 ./Scripts/runOneReplica.sh 3
 ```
-### 2 - Correr os testes automáticos (arg = número de requests por cada funcionalidade)
+### 2 - Correr os testes automáticos (arg = número de requests por cada funcionalidade) (WA3)
 
 ```bash
 ./Scripts/testReplicas.sh 3
@@ -41,7 +41,7 @@ Initializer [aqui](https://start.spring.io/).
 
 ---
 
-## Funcionalidades
+## Funcionalidades (WA1)
 ### Tests
 * Documentação [Tests](Documentation/TESTS.md).
 ### Wallets
@@ -53,11 +53,11 @@ Initializer [aqui](https://start.spring.io/).
 
 ## Arquitecturas
 
-### WA1 - Servidor não replicado
+### Servidor não replicado (WA1)
 
 ![Servidor não replicado](Documentation/Images/WA1.png)
 
-### WA2 - Replicação
+### Replicação (WA2)
 BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-BFT-SMaRt).
 
 ![Replicação com BFT-SMaRt](Documentation/Images/WA2.png)
@@ -68,7 +68,7 @@ BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-
 
 ---
 
-## Configurações TLS
+## Configurações TLS (WA1)
 
 ### Setup
 * Criar par de chaves e metê-las na keystore
@@ -89,7 +89,7 @@ keytool -genkey -keyalg RSA -alias walletCert -keystore walletCert.jks -storepas
 
 ---
 
-## Utils
+## Utils (WA1, WA2 e WA3)
 ### Comandos MySQL
 ```SQL
 create database wallet;
@@ -107,13 +107,15 @@ sudo systemctl start mysql
 sudo systemctl stop mysql
 ```
 ---
-## Testes
+## Testes (WA1, WA2 e WA3)
 
 ### Manuais com Postman
 ![Teste com replicação - Adicionar dinheiro a uma wallet](Documentation/Images/WA2_Working.png)
 
 ### Automáticos
 ![Testes Automáticos com replicação](Documentation/Images/WA2_AutomaticTests.png)
+
+**NOTAS:** Mais testes feitos [aqui](Documentation/Images/).
 
 ---
 
