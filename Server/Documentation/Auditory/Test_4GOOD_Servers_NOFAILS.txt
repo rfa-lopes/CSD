@@ -1,18 +1,18 @@
-osboxes@osboxes:~/Desktop/CSD/Server/Scripts$ ./testReplicas.sh 3
+osboxes@osboxes:~/Desktop/CSD/Server/Scripts$ ./testReplicas.sh 100
 Starting non stop test.
 Testing: TESTS1 - ORDERED
-[3]: OK:  https://localhost:11000/tests/test1 :: Avarage time=0.55167 s
-[3]: OK:  https://localhost:11001/tests/test1 :: Avarage time=0.73567 s
-[3]: OK:  https://localhost:11002/tests/test1 :: Avarage time=1.08200 s
-[3]: OK:  https://localhost:11003/tests/test1 :: Avarage time=0.34933 s
-[Replicas AVG]:  0.67967 s
+[100]: OK:  https://localhost:11000/tests/test1 :: Avarage time=0.21104 s
+[100]: OK:  https://localhost:11001/tests/test1 :: Avarage time=0.21018 s
+[100]: OK:  https://localhost:11002/tests/test1 :: Avarage time=0.20954 s
+[100]: OK:  https://localhost:11003/tests/test1 :: Avarage time=0.20990 s
+[Replicas AVG]:  0.21017 s
 
 Testing: TESTS2 - UNORDERED
-[3]: OK:  https://localhost:11000/tests/test2 :: Avarage time=0.31550 s
-[3]: OK:  https://localhost:11001/tests/test2 :: Avarage time=0.28222 s
-[3]: OK:  https://localhost:11002/tests/test2 :: Avarage time=0.26117 s
-[3]: OK:  https://localhost:11003/tests/test2 :: Avarage time=0.24813 s
-[Replicas AVG]:  0.27676 s
+[100]: OK:  https://localhost:11000/tests/test2 :: Avarage time=0.20458 s
+[100]: OK:  https://localhost:11001/tests/test2 :: Avarage time=0.20366 s
+[100]: OK:  https://localhost:11002/tests/test2 :: Avarage time=0.20601 s
+[100]: OK:  https://localhost:11003/tests/test2 :: Avarage time=0.20495 s
+[Replicas AVG]:  0.20480 s
 
 [INIT] CREATING USER ROOT1
 [INIT] CREATING USER ROOT2
@@ -21,66 +21,66 @@ Testing: TESTS2 - UNORDERED
 
 
 Testing: CREATE WALLET - ORDERED
-[3]: OK:  https://localhost:11000/wallets/create :: Avarage time=0.25267 s
-[3]: OK:  https://localhost:11001/wallets/create :: Avarage time=0.25638 s
-[3]: OK:  https://localhost:11002/wallets/create :: Avarage time=0.25979 s
-[3]: OK:  https://localhost:11003/wallets/create :: Avarage time=0.26196 s
-[Replicas AVG]:  0.25770 s
+[100]: OK:  https://localhost:11000/wallets/create :: Avarage time=0.21237 s
+[100]: OK:  https://localhost:11001/wallets/create :: Avarage time=0.21712 s
+[100]: OK:  https://localhost:11002/wallets/create :: Avarage time=0.22120 s
+[100]: OK:  https://localhost:11003/wallets/create :: Avarage time=0.22395 s
+[Replicas AVG]:  0.21866 s
 
 Testing: DELETE WALLET - ORDERED
-[3]: OK:  https://localhost:11000/wallets/delete/ :: Avarage time=0.25993 s
-[3]: OK:  https://localhost:11001/wallets/delete/ :: Avarage time=0.26633 s
-[3]: OK:  https://localhost:11002/wallets/delete/ :: Avarage time=0.26456 s
-[3]: OK:  https://localhost:11003/wallets/delete/ :: Avarage time=0.26233 s
-[Replicas AVG]:  0.26329 s
+[100]: OK:  https://localhost:11000/wallets/delete/ :: Avarage time=0.22692 s
+[100]: OK:  https://localhost:11001/wallets/delete/ :: Avarage time=0.22691 s
+[100]: OK:  https://localhost:11002/wallets/delete/ :: Avarage time=0.22857 s
+[100]: OK:  https://localhost:11003/wallets/delete/ :: Avarage time=0.22989 s
+[Replicas AVG]:  0.22807 s
 
 Testing: ADD MONEY - ORDERED
-[3]: OK:  https://localhost:11000/transfers/add :: Avarage time=0.26300 s
-[3]: OK:  https://localhost:11001/transfers/add :: Avarage time=0.26293 s
-[3]: OK:  https://localhost:11002/transfers/add :: Avarage time=0.26433 s
-[3]: OK:  https://localhost:11003/transfers/add :: Avarage time=0.26549 s
-[Replicas AVG]:  0.26394 s
+[100]: OK:  https://localhost:11000/transfers/add :: Avarage time=0.23135 s
+[100]: OK:  https://localhost:11001/transfers/add :: Avarage time=0.23224 s
+[100]: OK:  https://localhost:11002/transfers/add :: Avarage time=0.23313 s
+[100]: OK:  https://localhost:11003/transfers/add :: Avarage time=0.23372 s
+[Replicas AVG]:  0.23261 s
 
 Testing: REMOVE MONEY - ORDERED
-[3]: OK:  https://localhost:11000/transfers/remove :: Avarage time=0.26624 s
-[3]: OK:  https://localhost:11001/transfers/remove :: Avarage time=0.26761 s
-[3]: OK:  https://localhost:11002/transfers/remove :: Avarage time=0.26802 s
-[3]: OK:  https://localhost:11003/transfers/remove :: Avarage time=0.26889 s
-[Replicas AVG]:  0.26769 s
+[100]: OK:  https://localhost:11000/transfers/remove :: Avarage time=0.23425 s
+[100]: OK:  https://localhost:11001/transfers/remove :: Avarage time=0.23479 s
+[100]: OK:  https://localhost:11002/transfers/remove :: Avarage time=0.23661 s
+[100]: OK:  https://localhost:11003/transfers/remove :: Avarage time=0.23512 s
+[Replicas AVG]:  0.23519 s
 
 Testing: TRANSFERS MONEY - ORDERED
-[3]: OK:  https://localhost:11000/transfers/transfer :: Avarage time=0.27517 s
-[3]: OK:  https://localhost:11001/transfers/transfer :: Avarage time=0.28245 s
-[3]: OK:  https://localhost:11002/transfers/transfer :: Avarage time=0.28604 s
-[3]: OK:  https://localhost:11003/transfers/transfer :: Avarage time=0.28919 s
-[Replicas AVG]:  0.28321 s
+[100]: OK:  https://localhost:11000/transfers/transfer :: Avarage time=0.23612 s
+[100]: OK:  https://localhost:11001/transfers/transfer :: Avarage time=0.23792 s
+[100]: OK:  https://localhost:11002/transfers/transfer :: Avarage time=0.24074 s
+[100]: OK:  https://localhost:11003/transfers/transfer :: Avarage time=0.24308 s
+[Replicas AVG]:  0.23947 s
 
 Testing: GLOBAL TRANSFERS - UNORDERED
-[3]: OK:  https://localhost:11000/transfers/globaltransfers :: Avarage time=0.28914 s
-[3]: OK:  https://localhost:11001/transfers/globaltransfers :: Avarage time=0.28909 s
-[3]: OK:  https://localhost:11002/transfers/globaltransfers :: Avarage time=0.28712 s
-[3]: OK:  https://localhost:11003/transfers/globaltransfers :: Avarage time=0.28520 s
-[Replicas AVG]:  0.28764 s
+[100]: OK:  https://localhost:11000/transfers/globaltransfers :: Avarage time=0.24659 s
+[100]: OK:  https://localhost:11001/transfers/globaltransfers :: Avarage time=0.24985 s
+[100]: OK:  https://localhost:11002/transfers/globaltransfers :: Avarage time=0.25260 s
+[100]: OK:  https://localhost:11003/transfers/globaltransfers :: Avarage time=0.25500 s
+[Replicas AVG]:  0.25101 s
 
 Testing: WALLET TRANSFERS - UNORDERED
-[3]: OK:  https://localhost:11000/transfers/wallettransfers/1 :: Avarage time=0.28571 s
-[3]: OK:  https://localhost:11001/transfers/wallettransfers/1 :: Avarage time=0.28503 s
-[3]: OK:  https://localhost:11002/transfers/wallettransfers/1 :: Avarage time=0.28614 s
-[3]: OK:  https://localhost:11003/transfers/wallettransfers/1 :: Avarage time=0.28634 s
-[Replicas AVG]:  0.28580 s
+[100]: OK:  https://localhost:11000/transfers/wallettransfers/1 :: Avarage time=0.25849 s
+[100]: OK:  https://localhost:11001/transfers/wallettransfers/1 :: Avarage time=0.26158 s
+[100]: OK:  https://localhost:11002/transfers/wallettransfers/1 :: Avarage time=0.26622 s
+[100]: OK:  https://localhost:11003/transfers/wallettransfers/1 :: Avarage time=0.27175 s
+[Replicas AVG]:  0.26451 s
 
 Testing: WALLET AMOUNT - UNORDERED
-[3]: OK:  https://localhost:11000/wallets/amount/1 :: Avarage time=0.28619 s
-[3]: OK:  https://localhost:11001/wallets/amount/1 :: Avarage time=0.28582 s
-[3]: OK:  https://localhost:11002/wallets/amount/1 :: Avarage time=0.28466 s
-[3]: OK:  https://localhost:11003/wallets/amount/1 :: Avarage time=0.28484 s
-[Replicas AVG]:  0.28559 s
+[100]: OK:  https://localhost:11000/wallets/amount/1 :: Avarage time=0.26981 s
+[100]: OK:  https://localhost:11001/wallets/amount/1 :: Avarage time=0.26802 s
+[100]: OK:  https://localhost:11002/wallets/amount/1 :: Avarage time=0.26631 s
+[100]: OK:  https://localhost:11003/wallets/amount/1 :: Avarage time=0.26480 s
+[Replicas AVG]:  0.26587 s
 
 Testing: WALLET INFORMATION - UNORDERED
-[3]: OK:  https://localhost:11000/wallets/info/1 :: Avarage time=0.28391 s
-[3]: OK:  https://localhost:11001/wallets/info/1 :: Avarage time=0.28248 s
-[3]: OK:  https://localhost:11002/wallets/info/1 :: Avarage time=0.28256 s
-[3]: OK:  https://localhost:11003/wallets/info/1 :: Avarage time=0.28215 s
-[Replicas AVG]:  0.28465 s
+[100]: OK:  https://localhost:11000/wallets/info/1 :: Avarage time=0.26339 s
+[100]: OK:  https://localhost:11001/wallets/info/1 :: Avarage time=0.26191 s
+[100]: OK:  https://localhost:11002/wallets/info/1 :: Avarage time=0.26062 s
+[100]: OK:  https://localhost:11003/wallets/info/1 :: Avarage time=0.25926 s
+[Replicas AVG]:  0.26435 s
 
-TESTS COMPLETED SUCCESSFULLY IN: 61 s
+TESTS COMPLETED SUCCESSFULLY IN: 1584 s
