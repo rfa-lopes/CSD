@@ -38,7 +38,7 @@ Após a auditoria (com o script testssl.sh) ao servidor foram encontradas alguma
 A primeira poderá ser mitigada se restringirmos as Cipher Suites aceites pelo servidor a apenas aquelas que nos dão um elevado nivel de segurança. Pois assim, mesmo que o cliente peça uma Cipher Suite fraca, o servidor ou não aceita, ou sendo esta uma das aceites pelo servidor, temos a garantia que é segura, e assim ter ou não server cipher order ou não será irrelevante.
 
 Para mitigar a vulnerabilidade LOGJAM poderiamos apenas utilizar Cipher Suites com curvas elipticas DH (ECDHE) de forma a tornar o ataque mais dificil.
-Não aprofundamos mais este assunto, mas temos alguns apontadores futuros [aqui](https://security.stackexchange.com/questions/89689/what-is-logjam-and-how-do-i-prevent-it).
+Não aprofundamos mais este assunto, mas temos alguns apontadores futuros [aqui](https://weakdh.org/imperfect-forward-secrecy.pdf).
 
 Outras possiveis vulnerabilidades foram encontradas por causa do tamanho das chaves DH que por terem apenas 1024 bits podes ser consideradas frageis. Mais uma vez, esta fraqueza poderia ser reforçada se houvess uma maior restrição das Cipher Suites no lado do servidor. 
 
