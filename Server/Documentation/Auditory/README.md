@@ -20,6 +20,10 @@ Atendendo às pre-sets utilizadas nas configurações referentes ao suporte de S
 
 ![Grafico da média de tempos por operação](../Images/WA3_GraficoTempos.png)
 
+🔶 
+🔷
+
+
 **NOTA:** Ficheiro do output dos testes automáticos [aqui](Test_4GOOD_Servers_NOFAILS.txt).
 
 ---
