@@ -5,7 +5,7 @@
 
 ---
 ## Configurações TLS entre Cliente e Servidor
-Atualmente a conexão entre o Cliente da aplicação e o Servidor está suportada sob TLS na vertente Server-Side Authentication, com a autenticação do servidor a ser conseguida através de um certificado self-signed. A comunicação está, para já, securitizada sem o uso de restrições quanto aos algoritmos criptográficos utilizados. Estas configurações podem ser vistas [aqui](../../src/main/resources/application.properties).
+Atualmente a conexão entre o Cliente da aplicação e o Servidor está suportada sob TLS na vertente Server-Side Authentication, com a autenticação do servidor a ser conseguida através de um certificado self-signed. A comunicação está apenas a aceitar TLSv1.2 e TLSv1.3. Estas configurações podem ser vistas [aqui](../../src/main/resources/application.properties).
 
 ---
 ## Configurações TLS do BFT-SMaRt
