@@ -42,7 +42,7 @@ Não aprofundamos mais este assunto, mas temos alguns apontadores futuros [aqui]
 
 Outras possiveis vulnerabilidades foram encontradas por causa do tamanho das chaves DH que por terem apenas 1024 bits podes ser consideradas frageis. Mais uma vez, esta fraqueza poderia ser reforçada se houvess uma maior restrição das Cipher Suites no lado do servidor. 
 
-O output do script de auditoria ao TLS do servidor pode ser visto [aqui](testsssl.txt).
+**NOTA:** output do script de auditoria ao TLS do servidor pode ser visto [aqui](testsssl.txt).
 
 
 ---
