@@ -32,7 +32,7 @@ Atendendo às pre-sets utilizadas nas configurações referentes ao suporte de S
 
 Após a auditoria (com o script testssl.sh) ao servidor foram encontradas algumas vulnerabilidades, como:
 
-* Has server cipher order?    ```diff - no (NOT ok) ```
+* Has server cipher order?   ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `no (NOT ok)`
 * LOGJAM (CVE-2015-4000), experimental VULNERABLE (NOT ok): common prime: RFC2409/Oakley Group 2 (1024 bits),but no DH EXPORT ciphers
 
 O output do script de auditoria ao TLS do servidor pode ser visto [aqui](testsssl.txt).
