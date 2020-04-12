@@ -13,7 +13,7 @@ else
 fi
 
 nrdb=$1
-dropall=$((nrdb + 10))
+dropall=$((nrdb + 20))
 
 for ((i = 0 ; i < dropall ; i++ ));
 do 	

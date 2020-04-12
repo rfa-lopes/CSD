@@ -1,5 +1,5 @@
 if [ $# -eq 0 ] || [ $# -eq 2 ]; then
-    echo "./testReplicas.sh <nr tests> <stop?y/[n]> <all?[all]/1/2/3/.../11>"
+    echo "./testReplicas.sh <nr tests> <stop?y/[n]> <all?[all]/1/2/3/.../11> <nr replicas[4]>"
     echo "[1] :  TESTS1"
     echo "[2] :  TESTS2"
     echo "[3] :  CREATE WALLET"
@@ -15,14 +15,17 @@ if [ $# -eq 0 ] || [ $# -eq 2 ]; then
 fi
 
 #======================================================================================================================
+tests=$1
 
 if [ $# -eq 1 ]
 then
 	stop="n"
 	all="all"
+	replicas=4
 else
 	stop=$2
 	all=$3
+	replicas=$4
 fi
 
 #======================================================================================================================
@@ -55,11 +58,8 @@ function avarage {
 }
 
 #======================================================================================================================
-
-tests=$1
 start=`date +%s`
 TIMEFORMAT=%R
-replicas=4
 server='https://localhost:1100'
 
 test1='/tests/test1'
