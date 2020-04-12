@@ -28,8 +28,4 @@ Atendendo às pre-sets utilizadas nas configurações referentes ao suporte de S
 **NOTA:** Ficheiro do output dos testes automáticos [aqui](Test_4GOOD_Servers_NOFAILS.txt).
 
 ---
-## Conclusões
-//TODO
-
----
 [< Para trás](../../../README.md)
