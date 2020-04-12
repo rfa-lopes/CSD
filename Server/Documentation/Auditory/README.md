@@ -28,4 +28,8 @@ Atendendo às pre-sets utilizadas nas configurações referentes ao suporte de S
 **NOTA:** Ficheiro do output dos testes automáticos [aqui](Test_4GOOD_Servers_NOFAILS.txt).
 
 ---
+## Tests SSL
+O output do script de auditoria ao TLS do servidor pode ser visto [aqui](testsssl.txt).
+
+---
 [< Para trás](../../../README.md)
