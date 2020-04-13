@@ -28,7 +28,7 @@ Atendendo às pre-sets utilizadas nas configurações referentes ao suporte de S
 **NOTA:** Ficheiro do output dos testes automáticos [aqui](Test_4GOOD_Servers_NOFAILS.txt).
 
 ---
-## Tests SSL
+## Tests SSL - (Referência)[https://testssl.sh/]
 
 Após a auditoria (com o script testssl.sh) ao servidor foram encontradas algumas vulnerabilidades, como:
 
