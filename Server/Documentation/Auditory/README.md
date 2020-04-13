@@ -25,7 +25,7 @@ Atendendo às pre-sets utilizadas nas configurações referentes ao suporte de S
 🔷 Ordered operation
 
 
-**NOTA:** Ficheiro do output dos testes automáticos [aqui](Test_4GOOD_Servers_NOFAILS.txt).
+**NOTA:** Ficheiro output dos testes automáticos [aqui](Test_4GOOD_Servers_NOFAILS.txt).
 
 ---
 ## Tests SSL - [Referência](https://testssl.sh/)
@@ -42,7 +42,7 @@ Não aprofundámos mais este assunto, mas temos alguns apontadores futuros [aqui
 
 Outras possiveis vulnerabilidades foram encontradas por causa do tamanho das chaves DH que por terem apenas 1024 bits foram consideradas frageis pelo testssl. Mais uma vez, esta fraqueza poderia ser reforçada se houvesse uma maior restrição das Cipher Suites no lado do servidor. 
 
-**NOTA:** output do script de auditoria ao TLS do servidor pode ser visto [aqui](testsssl.txt).
+**NOTA:** Ficheiro output do testssl.sh [aqui](testsssl.txt).
 
 ---
 [< Para trás](../../../README.md)
