@@ -42,6 +42,21 @@ $ usage: ./create4databases.sh <mysql_username> <mysql_password>
 ```
 
 ---
+### Docker
+
+Para correr as 4 réplicas alterar ficheiro host.config:
+```
+0 myapp1  11020 11021
+1 myapp2  11022 11023
+2 myapp3  11024 11025
+3 myapp4  11026 11027
+```
+
+E correr script runDockerBuild.sh:
+
+```bash
+./Scripts/runDockerBuild.sh
+```
 
 ## Funcionalidades (WA1)
 ### Tests
