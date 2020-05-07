@@ -22,4 +22,15 @@ public class ResultTestsClass implements ResultTestsInterface{
     public Result<String> test2() {
         return ok(tests.test2());
     }
+
+    @Override
+    public Result<String> test3() {
+        return ok(tests.test3());
+    }
+
+    @Override
+    public Result<Void> test4() {
+        tests.test4();
+        return ok();
+    }
 }

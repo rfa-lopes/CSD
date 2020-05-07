@@ -21,4 +21,16 @@ public interface ControllerTestsInterface {
     @GetMapping(value = "/test2")
     ResponseEntity<String> test2();
 
+    /**
+     * @return TEST3
+     */
+    @GetMapping(value = "/test3")
+    ResponseEntity<String> test3();
+
+    /**
+     * @return TEST4
+     */
+    @GetMapping(value = "/test4")
+    ResponseEntity<Void> test4();
+
 }

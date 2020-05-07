@@ -1,9 +1,11 @@
-package csd.wallet.Utils;
+package csd.wallet.Enums;
 
 public enum RequestType {
 
     TEST_1,
     TEST_2,
+    TEST_3,
+    TEST_4,
 
     WALLET_CREATE,
     WALLET_DELETE,

@@ -1,4 +1,4 @@
-package csd.wallet.Replication;
+package csd.wallet.Enums;
 
 public enum InvokesTypes {
     ORDERED,

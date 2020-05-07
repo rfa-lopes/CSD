@@ -10,4 +10,7 @@ public interface ResultTestsInterface {
 
     Result<String> test2();
 
+    Result<String> test3();
+
+    Result<Void> test4();
 }

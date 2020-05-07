@@ -1,7 +1,6 @@
 package CSD.Wallet.Services.Transfers;
 
 import CSD.Wallet.Models.AddRemoveForm;
-import CSD.Wallet.Models.ListWrapper;
 import CSD.Wallet.Models.Transfer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -11,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -71,17 +72,17 @@ public class TransferServiceClass implements TransferServiceInter {
 	}
 
 	@Override
-	public ResponseEntity<ListWrapper> listGlobalTransfers() throws URISyntaxException {
+	public ResponseEntity<List<Transfer>> listGlobalTransfers() throws URISyntaxException {
 		String url = createURL(GLOBAL);
-		ResponseEntity<ListWrapper> response = restTemplate.getForEntity(new URI(url), ListWrapper.class);
+		ResponseEntity<List<Transfer>> response = restTemplate.getForEntity(new URI(url), (Class<List<Transfer>>)(Object)List.class);
 		return response;
 	}
 
 	@Override
-	public ResponseEntity<ListWrapper> listWalletTransfers(long id) throws URISyntaxException {
+	public ResponseEntity<List<Transfer>> listWalletTransfers(long id) throws URISyntaxException {
 		String url = createURL(WALLET);
-		String idToGet = url + BACKSLASH + Long.toString(id);
-		ResponseEntity<ListWrapper> response = restTemplate.getForEntity(new URI(idToGet), ListWrapper.class);
+		String idToGet = url + BACKSLASH + id;
+		ResponseEntity<List<Transfer>> response = restTemplate.getForEntity(new URI(idToGet), (Class<List<Transfer>>)(Object)List.class);
 		return response;
 	}
 

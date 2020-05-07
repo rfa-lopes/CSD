@@ -2,10 +2,10 @@ package csd.wallet.Controllers.Wallets;
 
 import csd.wallet.Models.Wallet;
 import csd.wallet.Replication.BFTClient;
-import csd.wallet.Replication.InvokesTypes;
+import csd.wallet.Enums.InvokesTypes;
 import csd.wallet.Controllers.RestResource;
 import csd.wallet.Utils.Logger;
-import csd.wallet.Utils.RequestType;
+import csd.wallet.Enums.RequestType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

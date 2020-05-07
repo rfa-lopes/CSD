@@ -9,4 +9,7 @@ public interface ServiceTestsInterface {
 
     String test2();
 
+    String test3();
+
+    void test4();
 }

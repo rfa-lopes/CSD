@@ -1,9 +1,11 @@
 package CSD.Wallet.Services.Transfers;
 
-import CSD.Wallet.Models.ListWrapper;
+import CSD.Wallet.Models.Transfer;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface TransferServiceInter {
 
@@ -13,8 +15,8 @@ public interface TransferServiceInter {
 
     ResponseEntity<Void> removeAmount (long id, long amount);
 
-    ResponseEntity<ListWrapper> listGlobalTransfers () throws URISyntaxException;
+    ResponseEntity<List<Transfer>> listGlobalTransfers () throws URISyntaxException;
 
-    ResponseEntity<ListWrapper> listWalletTransfers (long id) throws URISyntaxException;
+    ResponseEntity<List<Transfer>> listWalletTransfers (long id) throws URISyntaxException;
 
 }
