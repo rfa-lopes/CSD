@@ -6,9 +6,9 @@ docker network create appnet
 docker container prune -f
 
 #Para testar (depois de ja ter feito o download da imagem) comentar a seguinte linha
-#docker image rm -f appimage
+docker image rm -f appimage
 #Para testar (depois de ja ter feito o download da imagem) comentar a seguinte linha
-#docker build ../. -t=appimage
+docker build ../. -t=appimage
 
 docker-compose up -d
 sleep 60
