@@ -3,13 +3,15 @@
 
 **Tecnologias utilizadas**
 
-* **Spring Boot 2.2.5** (WA1, WA2 e WA3)
-* **Maven** (WA1, WA2 e WA3)
-* **Java 8** (WA1, WA2 e WA3)
-* **MySQL** (WA1, WA2 e WA3)
-* **BFT-SMaRt** (WA2 e WA3)
+* **Spring Boot 2.2.5** (WA1, WA2, WA3 e WA4)
+* **Maven** (WA1, WA2, WA3 e WA4)
+* **Java 8** (WA1, WA2, WA3 e WA4)
+* **MySQL** (WA1, WA2, WA3 e WA4)
+* **BFT-SMaRt** (WA2, WA3 e WA4)
+* **Docker** (WA3 e WA4)
+* **Docker Compose** (WA3 e WA4)
 
-Initializer [aqui](https://start.spring.io/).
+Spring initializer [aqui](https://start.spring.io/).
 
 ---
 
