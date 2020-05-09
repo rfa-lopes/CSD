@@ -1,14 +1,13 @@
 package csd.wallet.Replication;
 
-import bftsmart.reconfiguration.ServerViewController;
 import bftsmart.tom.MessageContext;
 
 import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
-import bftsmart.tom.util.TOMUtil;
 import csd.wallet.Enums.RequestType;
 import csd.wallet.Models.*;
+import csd.wallet.Replication.SmartContracts.ResultSmartContractClass;
 import csd.wallet.Replication.Tests.ResultTestsClass;
 import csd.wallet.Replication.Transfers.ResultTransfersClass;
 import csd.wallet.Replication.Wallets.ResultWalletsClass;
@@ -30,6 +29,9 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
     @Autowired
     ResultWalletsClass wallets;
+
+    @Autowired
+    ResultSmartContractClass smartcontract;
 
     public BFTServer(@Value("${bftsmart.id}") int id) {
         new ServiceReplica(id, this, this);
@@ -111,6 +113,10 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
                 case WALLET_AMOUNT:
                     result = wallets.getCurrentAmount((long) objIn.readObject());
+                    break;
+
+                case SMART_CONTRACT_EXECUTE:
+                    result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
             }
 
