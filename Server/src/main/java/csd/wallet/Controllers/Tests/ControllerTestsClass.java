@@ -1,7 +1,7 @@
 package csd.wallet.Controllers.Tests;
 
+import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Replication.BFTClient;
-import csd.wallet.Enums.InvokesTypes;
 import csd.wallet.Controllers.RestResource;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
@@ -18,25 +18,26 @@ public class ControllerTestsClass extends RestResource implements ControllerTest
     @Override
     public ResponseEntity<String> test1() {
         Logger.info("Request: TEST1");
-        return super.getResponse(bftClient.getInvoke(RequestType.TEST_1, InvokesTypes.ORDERED));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_1, TOMMessageType.ORDERED_REQUEST));
     }
 
     @Override
     public ResponseEntity<String> test2() {
         Logger.info("Request: TEST2");
-        return super.getResponse(bftClient.getInvoke(RequestType.TEST_2, InvokesTypes.UNORDERED));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_2, TOMMessageType.UNORDERED_REQUEST));
     }
 
     @Override
     public ResponseEntity<String> test3() {
         Logger.info("Request: TEST3");
-        return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, InvokesTypes.ORDERED));
-        //return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, InvokesTypes.UNORDERED_HASHED));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, TOMMessageType.UNORDERED_REQUEST));
+        //return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, TOMMessageType.UNORDERED_HASHED_REQUEST));
     }
 
     @Override
     public ResponseEntity<Void> test4() {
         Logger.info("Request: TEST4");
-        return super.getResponse(bftClient.getInvoke(true, RequestType.TEST_4, InvokesTypes.ORDERED));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_4, TOMMessageType.ORDERED_REQUEST));
+        //return super.getResponse(bftClient.getInvoke(true, RequestType.TEST_4, TOMMessageType.ORDERED_REQUEST));
     }
 }
