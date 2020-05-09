@@ -1,9 +1,12 @@
 package csd.wallet.Replication;
 
+import bftsmart.reconfiguration.ServerViewController;
 import bftsmart.tom.MessageContext;
 
 import bftsmart.tom.ServiceReplica;
+import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
+import bftsmart.tom.util.TOMUtil;
 import csd.wallet.Enums.RequestType;
 import csd.wallet.Models.*;
 import csd.wallet.Replication.Tests.ResultTestsClass;
@@ -28,9 +31,8 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
     @Autowired
     ResultWalletsClass wallets;
 
-    public BFTServer(@Value("${server.port}") int serverport) {
-        //TODO:
-        new ServiceReplica(serverport % 4, this, this);
+    public BFTServer(@Value("${bftsmart.id}") int id) {
+        new ServiceReplica(id, this, this);
     }
 
     @Override
@@ -48,6 +50,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
     public byte[] appExecuteOrdered(byte[] command, MessageContext messageContext) {
         byte[] reply = null;
         Result result = null;
+
         try {
             ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
             ObjectInput objIn = new ObjectInputStream(byteIn);
@@ -59,6 +62,10 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             switch (reqType) {
                 case TEST_1:
                     result = tests.test1();
+                    break;
+
+                case TEST_2:
+                    result = tests.test2();
                     break;
 
                 case TEST_3: //"Otherwise, an ordered request is issued internally using the invokeOrdered method."
@@ -88,11 +95,33 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                 case WALLET_DELETE:
                     result = wallets.deleteWallet((long) objIn.readObject());
                     break;
+
+                case TRANSFERS_GLOBALTRANSFERS:
+                    result = transfers.ledgerOfGlobalTransfers();
+                    Logger.error(result.toString());
+                    break;
+
+                case TRANSFERS_WALLETTRANSFERS:
+                    result = transfers.ledgerOfWalletTransfers((long) objIn.readObject());
+                    break;
+
+                case WALLET_INFO:
+                    result = wallets.getWalletInfo((long) objIn.readObject());
+                    break;
+
+                case WALLET_AMOUNT:
+                    result = wallets.getCurrentAmount((long) objIn.readObject());
+                    break;
             }
+
             objOut.writeObject(result);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
+
+            TOMMessage tomMessage = messageContext.recreateTOMMessage(reply);
+            tomMessage.serializedMessageSignature = null;
+
             Logger.replication("Replication - " + reqType);
         } catch (IOException | ClassNotFoundException e) {
             Logger.error("<<<BFT Server error>>>");

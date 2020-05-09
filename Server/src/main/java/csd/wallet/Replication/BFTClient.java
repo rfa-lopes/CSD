@@ -1,13 +1,13 @@
 package csd.wallet.Replication;
 
-import bftsmart.tom.AsynchServiceProxy;
 import bftsmart.tom.ServiceProxy;
 
 import static csd.wallet.Replication.Result.*;
 import static csd.wallet.Replication.Result.ErrorCode.INTERNAL_ERROR;
 
-import csd.wallet.Enums.InvokesTypes;
+import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Enums.RequestType;
+import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,7 @@ public class BFTClient {
     @Autowired
     ServiceProxy serviceProxy;
 
-    @Autowired
-    AsynchServiceProxy asynchServiceProxy;
-
-    public <T> Result getInvoke(RequestType req, InvokesTypes type, T... inputs) {
-        return this.getInvoke(false, req, type, inputs);
-    }
-
-    public <T> Result getInvoke(boolean isAsync, RequestType req, InvokesTypes type, T... inputs) {
+    public <T> Result getInvoke(RequestType req, TOMMessageType type, T... inputs) {
         try {
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutput objOut = new ObjectOutputStream(byteOut);
@@ -39,17 +32,17 @@ public class BFTClient {
             objOut.flush();
             byteOut.flush();
 
-            byte[] reply = null;
+            byte[] reply;
 
             switch (type) {
-                case ORDERED:
-                    reply = (isAsync ? asynchServiceProxy : serviceProxy ).invokeOrdered(byteOut.toByteArray());
+                case ORDERED_REQUEST:
+                    reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
                     break;
-                case UNORDERED:
-                    reply = (isAsync ? asynchServiceProxy : serviceProxy ).invokeUnordered(byteOut.toByteArray());
+                case UNORDERED_REQUEST:
+                    reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
                     break;
-                case UNORDERED_HASHED:
-                    reply = (isAsync ? asynchServiceProxy : serviceProxy ).invokeUnorderedHashed(byteOut.toByteArray());
+                case UNORDERED_HASHED_REQUEST:
+                    reply = serviceProxy.invokeUnorderedHashed(byteOut.toByteArray());
                     break;
                 default:
                     return error(INTERNAL_ERROR);

@@ -1,9 +1,9 @@
 package csd.wallet.Controllers.Transfers;
 
+import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Replication.BFTClient;
-import csd.wallet.Enums.InvokesTypes;
 import csd.wallet.Controllers.RestResource;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
@@ -23,31 +23,31 @@ public class ControllerTransfersClass extends RestResource implements Controller
     @Override
     public ResponseEntity<Void> addMoney(AddRemoveForm idAmount) {
         Logger.info("Request: ADDMONEY");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_ADD, InvokesTypes.ORDERED, idAmount));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_ADD, TOMMessageType.ORDERED_REQUEST, idAmount));
     }
 
     @Override
     public ResponseEntity<Void> removeMoney(AddRemoveForm idAmount) {
         Logger.info("Request: REMOVEMONEY");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_REMOVE, InvokesTypes.ORDERED, idAmount));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_REMOVE, TOMMessageType.ORDERED_REQUEST, idAmount));
     }
 
     @Override
     public ResponseEntity<Void> transfer(Transfer transfer) {
         Logger.info("Request: TRANSFER");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_TRANSFER, InvokesTypes.ORDERED, transfer));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_TRANSFER, TOMMessageType.ORDERED_REQUEST, transfer));
     }
 
     @Override
     public ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers() {
         Logger.info("Request: LEDGEROFGLOBALTRANSFERS");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_GLOBALTRANSFERS, InvokesTypes.UNORDERED));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_GLOBALTRANSFERS, TOMMessageType.UNORDERED_REQUEST));
     }
 
     @Override
     public ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(long id) {
         Logger.info("Request: LEDGEROFWALLETTRANSFERS");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, InvokesTypes.UNORDERED, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, TOMMessageType.UNORDERED_REQUEST, id));
     }
 
 }

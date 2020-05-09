@@ -1,8 +1,8 @@
 package csd.wallet.Controllers.Wallets;
 
+import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Replication.BFTClient;
-import csd.wallet.Enums.InvokesTypes;
 import csd.wallet.Controllers.RestResource;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
@@ -21,24 +21,24 @@ public class ControllerWalletsClass extends RestResource implements ControllerWa
     @Override
     public ResponseEntity<Long> createWallet(Wallet wallet) {
         Logger.info("Request: CREATEWALLET");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, InvokesTypes.ORDERED, wallet));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, TOMMessageType.ORDERED_REQUEST, wallet));
     }
 
     @Override
     public ResponseEntity<Void> deleteWallet(long id) {
         Logger.info("Request: DELETEWALLET");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, InvokesTypes.ORDERED, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, TOMMessageType.ORDERED_REQUEST, id));
     }
 
     @Override
     public ResponseEntity<Long> getCurrentAmount(long id) {
         Logger.info("Request: GETCURRENTAMOUNT");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, InvokesTypes.UNORDERED, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, TOMMessageType.UNORDERED_REQUEST, id));
     }
 
     @Override
     public ResponseEntity<Wallet> getWalletInfo(long id) {
         Logger.info("Request: GETWALLETINFO");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, InvokesTypes.UNORDERED, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, TOMMessageType.UNORDERED_REQUEST, id));
     }
 }
