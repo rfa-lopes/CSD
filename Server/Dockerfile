@@ -2,18 +2,18 @@ FROM mysql/mysql-server
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY pom.xml /usr/src/app
-COPY bin /usr/src/app/bin
-COPY src /usr/src/app/src
-COPY .idea /usr/src/app/.idea
-COPY config /usr/src/app/config
-COPY lib /usr/src/app/lib
-COPY Scripts /usr/src/app/Scripts
-COPY TLS /usr/src/app/TLS
-COPY initApp1.sh /usr/src/app
-COPY initApp2.sh /usr/src/app
-COPY initApp3.sh /usr/src/app
-COPY initApp4.sh /usr/src/app
+#COPY pom.xml /usr/src/app
+#COPY bin /usr/src/app/bin
+#COPY src /usr/src/app/src
+#COPY .idea /usr/src/app/.idea
+#COPY config /usr/src/app/config
+#COPY lib /usr/src/app/lib
+#COPY Scripts /usr/src/app/Scripts
+#COPY TLS /usr/src/app/TLS
+#COPY initApp1.sh /usr/src/app
+#COPY initApp2.sh /usr/src/app
+#COPY initApp3.sh /usr/src/app
+#COPY initApp4.sh /usr/src/app
 
 WORKDIR /
 
