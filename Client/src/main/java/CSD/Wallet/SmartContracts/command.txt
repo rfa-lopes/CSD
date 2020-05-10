@@ -1,1 +1,0 @@
-execute 1 /home/osboxes/Desktop/CSD/Client/src/main/java/CSD/Wallet/SmartContracts/SmartContractClient.java
