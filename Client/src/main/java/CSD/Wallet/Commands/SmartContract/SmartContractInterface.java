@@ -2,8 +2,6 @@ package CSD.Wallet.Commands.SmartContract;
 
 import org.springframework.shell.standard.ShellComponent;
 
-import java.io.IOException;
-
 @ShellComponent
 public interface SmartContractInterface {
 
@@ -13,6 +11,6 @@ public interface SmartContractInterface {
      * @param pathToSmartContractJavaFile
      * @return OK
      */
-    String execute(long ownerId, String pathToSmartContractJavaFile) throws IOException;
+    String execute(long ownerId, String pathToSmartContractJavaFile);
 
 }

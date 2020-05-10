@@ -1,12 +1,10 @@
-package CSD.Wallet.SmartContracts;
+package csd.wallet.SmartContracts;
 
 import java.io.Serializable;
 
 public class SmartContractClient implements SmartContractInterfaceClient, Serializable {
 
     @Override
-    public void execute() {
-        System.out.println("OLA FUI EXECUTADO");
-    }
+    public void execute() { }
 
 }

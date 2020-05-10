@@ -1,1 +1,0 @@
-docker exec -it myapp"$1" bash -c "./initApp"$1".sh"

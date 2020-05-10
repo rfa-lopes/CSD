@@ -30,11 +30,12 @@ public class SmartContractClass implements SmartContractInterface {
     @ShellMethod("Execute Smart Contract.")
     public String execute(
             @ShellOption({"-id", "-ownerid"}) long ownerId,
-            @ShellOption({"-f", "-file"})String pathToSmartContractJavaFile) throws IOException {
+            @ShellOption({"-f", "-file"})String pathToSmartContractJavaFile) {
         try {
             ResponseEntity<Void> resp = service.execute(ownerId, pathToSmartContractJavaFile);
             return "EXECUTED.";
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return "File does not exist.";
         }
     }

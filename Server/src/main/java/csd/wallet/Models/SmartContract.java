@@ -1,24 +1,16 @@
 package csd.wallet.Models;
 
-import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.Serializable;
+public class SmartContract {
 
-public class SmartContract implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    @NotNull
     long ownerId;
-
-    @NotNull
     String code;
 
-    public SmartContract(@NotNull long ownerId, @NotNull String code) {
+    public SmartContract() { }
+
+    public SmartContract( long ownerId, String code) {
         this.ownerId = ownerId;
         this.code = code;
     }
-
-    public SmartContract() { }
 
     public long getOwnerId() {
         return ownerId;
