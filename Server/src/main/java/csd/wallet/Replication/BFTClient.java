@@ -7,7 +7,6 @@ import static csd.wallet.Replication.Result.ErrorCode.INTERNAL_ERROR;
 
 import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Enums.RequestType;
-import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

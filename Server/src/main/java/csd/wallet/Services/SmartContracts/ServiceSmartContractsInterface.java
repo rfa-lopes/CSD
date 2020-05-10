@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ServiceSmartContractsInterface {
 
-    void executeSmartContract(SmartContract smartContract);
+    void executeSmartContract(SmartContract smartContract) throws Exception;
 
 }

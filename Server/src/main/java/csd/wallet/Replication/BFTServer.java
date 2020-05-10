@@ -130,6 +130,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
             Logger.replication("Replication - " + reqType);
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
@@ -170,6 +171,10 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
                 case WALLET_AMOUNT:
                     result = wallets.getCurrentAmount((long) objIn.readObject());
+                    break;
+
+                case SMART_CONTRACT_EXECUTE:
+                    result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
             }
             objOut.writeObject(result);

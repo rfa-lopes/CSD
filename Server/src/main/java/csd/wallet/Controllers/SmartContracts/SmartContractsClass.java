@@ -1,7 +1,9 @@
 package csd.wallet.Controllers.SmartContracts;
 
+import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Controllers.RestResource;
 
+import csd.wallet.Enums.RequestType;
 import csd.wallet.Models.SmartContract;
 import csd.wallet.Replication.BFTClient;
 
@@ -34,31 +36,6 @@ public class SmartContractsClass extends RestResource implements SmartContractsI
 	@Override
 	public ResponseEntity<Void> executeSmartContract(SmartContract smartContract) {
 		Logger.info("Request: SMART CONTRACT EXECUTE");
-
-		byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
-		String sourceCode = new String(sourceCodeByte);
-
-		try {
-			String tmpProperty = System.getProperty("java.io.tmpdir");
-			Path sourcePath = Paths.get(tmpProperty, "SmartContractClient.java");
-			Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
-
-			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-
-			compiler.run(null, null, null, sourcePath.toFile().getAbsolutePath());
-
-			Path compiled = sourcePath.getParent().resolve("SmartContractClient.class");
-
-			URL classUrl = compiled.getParent().toFile().toURI().toURL();
-			URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { classUrl });
-			Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
-
-			clazz.newInstance();
-
-		} catch (Exception e) {
-
-		}
-		return super.getResponse(ok());
-
+		return super.getResponse(bftClient.getInvoke(RequestType.SMART_CONTRACT_EXECUTE, TOMMessageType.UNORDERED_REQUEST));
 	}
 }

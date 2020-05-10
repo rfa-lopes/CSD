@@ -6,6 +6,8 @@ import csd.wallet.Services.SmartContracts.ServiceSmartContractsClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static csd.wallet.Replication.Result.ErrorCode.BAD_REQUEST;
+import static csd.wallet.Replication.Result.error;
 import static csd.wallet.Replication.Result.ok;
 
 @Service
@@ -16,7 +18,11 @@ public class ResultSmartContractClass implements ResultSmartContractInterface{
 
     @Override
     public Result<Void> executeSmartContract(SmartContract smartContract) {
-        smartconstracts.executeSmartContract(smartContract);
-        return ok();
+        try {
+            smartconstracts.executeSmartContract(smartContract);
+            return ok();
+        } catch (Exception e) {
+            return error(BAD_REQUEST);
+        }
     }
 }

@@ -23,7 +23,6 @@ public class ResultTransfersClass implements ResultTransfersInterface{
     @Autowired
     ServiceTransfersClass transfers;
 
-
     @Override
     public Result<Void> addMoney(AddRemoveForm idAmount) {
         try {
