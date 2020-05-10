@@ -12,20 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Base64;
-
-import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
-
-import static csd.wallet.Replication.Result.ok;
-
 @RestController
 public class SmartContractsClass extends RestResource implements SmartContractsInterface {
 
@@ -36,6 +22,7 @@ public class SmartContractsClass extends RestResource implements SmartContractsI
 	@Override
 	public ResponseEntity<Void> executeSmartContract(SmartContract smartContract) {
 		Logger.info("Request: SMART CONTRACT EXECUTE");
-		return super.getResponse(bftClient.getInvoke(RequestType.SMART_CONTRACT_EXECUTE, TOMMessageType.UNORDERED_REQUEST));
+		return super.getResponse(bftClient.getInvoke(RequestType.SMART_CONTRACT_EXECUTE,
+				TOMMessageType.UNORDERED_REQUEST, smartContract));
 	}
 }

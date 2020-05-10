@@ -1,8 +1,14 @@
 package CSD.Wallet.Models;
 
-public class SmartContract {
+import java.io.Serializable;
 
-    long ownerId;
+public class SmartContract implements Serializable {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	long ownerId;
     String code;
 
     public SmartContract(long ownerId, String code) {
