@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Method;
 import java.util.Base64;
+import java.util.List;
 
 import static csd.wallet.Replication.Result.ok;
 
@@ -33,12 +35,34 @@ public class SmartContractsClass extends RestResource implements SmartContractsI
 
         Class<?> smartcontractclass = null;
         try {
-            Logger.replication("OLA");
+
+
+            Logger.replication("OLA1");
             smartcontractclass = InMemoryJavaCompiler.newInstance().compile(SmartContractClient.class.getName(), sourceCode);
-            Logger.replication("OLA");
+            if( smartcontractclass.getMethod("execute") == null)
+                Logger.error("method is null"); // nao ta a printar, o que é bom
+
             SmartContractClient a = (SmartContractClient)smartcontractclass.newInstance();
-            Logger.replication("OLA");
             a.execute();
+            // smartcontractclass.getMethod("execute").invoke(smartcontractclass.getDeclaredConstructor().newInstance()); nao printa
+            // smartcontractclass.getMethod("execute").invoke(smartcontractclass.newInstance()); nao printa
+
+
+            Logger.replication("OLA2");
+
+
+
+            /*
+            Desnecessario?
+            SmartContractClient a = (SmartContractClient)smartcontractclass.newInstance();
+            Logger.replication("OLA3");
+            a.execute();
+
+             */
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
