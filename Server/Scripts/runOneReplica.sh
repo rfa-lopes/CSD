@@ -9,5 +9,5 @@ sed -i -e "s/bftsmart.id=[0-3]*/bftsmart.id=$1/" application.properties
 #sed -i -e "s/server.port=1100[0-3]*/server.port=1100$1/" application.properties
 cd ../../..
 #mvn spring-boot:run
-mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=1100$1"
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=1100$1" -e
 

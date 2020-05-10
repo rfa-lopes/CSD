@@ -12,11 +12,11 @@ import static csd.wallet.Replication.Result.ok;
 public class ResultSmartContractClass implements ResultSmartContractInterface{
 
     @Autowired
-    ServiceSmartContractsClass smartconstracts;
+    ServiceSmartContractsClass smartcontracts;
 
     @Override
     public Result<Void> executeSmartContract(SmartContract smartContract) {
-        smartconstracts.executeSmartContract(smartContract);
+        smartcontracts.executeSmartContract(smartContract);
         return ok();
     }
 }

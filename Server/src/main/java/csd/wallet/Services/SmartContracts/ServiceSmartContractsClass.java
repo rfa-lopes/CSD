@@ -10,9 +10,8 @@ import java.io.File;
 public class ServiceSmartContractsClass implements ServiceSmartContractsInterface{
     @Override
     public void executeSmartContract(SmartContract smartContract) {
-        File tmp = smartContract.getCode();
-
-        Logger.error(tmp.getName());
+        String tmp = smartContract.getCode();
+        Logger.error("Teste");
         Logger.error(String.valueOf(tmp.length()));
 
 

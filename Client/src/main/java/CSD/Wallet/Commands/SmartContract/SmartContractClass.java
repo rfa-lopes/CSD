@@ -12,6 +12,7 @@ import org.springframework.shell.standard.ShellOption;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @ShellComponent
 public class SmartContractClass implements SmartContractInterface {
@@ -29,7 +30,7 @@ public class SmartContractClass implements SmartContractInterface {
     @ShellMethod("Execute Smart Contract.")
     public String execute(
             @ShellOption({"-id", "-ownerid"}) long ownerId,
-            @ShellOption({"-f", "-file"})String pathToSmartContractJavaFile) {
+            @ShellOption({"-f", "-file"})String pathToSmartContractJavaFile) throws IOException {
         try {
             ResponseEntity<Void> resp = service.execute(ownerId, pathToSmartContractJavaFile);
             return "EXECUTED.";
