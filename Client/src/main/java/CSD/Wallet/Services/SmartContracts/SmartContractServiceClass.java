@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.stream.Stream;
 
 @Service
@@ -43,7 +44,9 @@ public class SmartContractServiceClass implements SmartContractServiceInter{
         stream.forEach(s -> contentBuilder.append(s).append("\n"));
         String sourceCode = contentBuilder.toString();
 
-        SmartContract smc = new SmartContract(owner, sourceCode);
+        System.out.println(Base64.getEncoder().encodeToString(sourceCode.getBytes()));
+
+        SmartContract smc = new SmartContract(owner, Base64.getEncoder().encodeToString(sourceCode.getBytes()));
 
         //Class<?> smartcontractclass = InMemoryJavaCompiler.newInstance().compile(SmartContractClient.class.getName(), sourceCode);
         //SmartContractClient a = (SmartContractClient)smartcontractclass.newInstance();
