@@ -1,16 +1,17 @@
 package csd.wallet.Replication.Tests;
 
 import csd.wallet.Replication.Result;
+import csd.wallet.Replication.ServiceProxy.SignedResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface ResultTestsInterface {
 
-    Result<String> test1();
+    SignedResult test1();
 
-    Result<String> test2();
+    SignedResult test2();
 
-    Result<String> test3();
+    SignedResult test3();
 
-    Result<Void> test4();
+    SignedResult test4();
 }

@@ -3,19 +3,20 @@ package csd.wallet.Replication.Transfers;
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Replication.Result;
 import csd.wallet.Models.Transfer;
+import csd.wallet.Replication.ServiceProxy.SignedResult;
 
 import java.util.List;
 
 public interface ResultTransfersInterface {
 
-    Result<Void> addMoney(AddRemoveForm idAmount);
+    SignedResult addMoney(AddRemoveForm idAmount);
 
-    Result<Void> removeMoney(AddRemoveForm idAmount);
+    SignedResult removeMoney(AddRemoveForm idAmount);
 
-    Result<Void> transfer(Transfer transfer) ;
+    SignedResult transfer(Transfer transfer) ;
 
-    Result<List<Transfer>> ledgerOfGlobalTransfers();
+    SignedResult ledgerOfGlobalTransfers();
 
-    Result<List<Transfer>> ledgerOfWalletTransfers(long id);
+    SignedResult ledgerOfWalletTransfers(long id);
 
 }

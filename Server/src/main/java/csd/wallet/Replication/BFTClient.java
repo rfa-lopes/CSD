@@ -2,21 +2,29 @@ package csd.wallet.Replication;
 
 import bftsmart.tom.ServiceProxy;
 
+
+
 import static csd.wallet.Replication.Result.*;
 import static csd.wallet.Replication.Result.ErrorCode.INTERNAL_ERROR;
 
 import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Enums.RequestType;
+import csd.wallet.Replication.ServiceProxy.BFTServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
 
 @Service
 public class BFTClient {
 
     @Autowired
-    ServiceProxy serviceProxy;
+    BFTServiceProxy serviceProxy;
+
+
 
     public <T> Result getInvoke(RequestType req, TOMMessageType type, T... inputs) {
         try {
@@ -46,6 +54,7 @@ public class BFTClient {
                 default:
                     return error(INTERNAL_ERROR);
             }
+
             ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
             ObjectInput objIn = new ObjectInputStream(byteIn);
             return (Result) objIn.readObject();
@@ -53,5 +62,7 @@ public class BFTClient {
             return error(INTERNAL_ERROR);
         }
     }
+
+
 
 }

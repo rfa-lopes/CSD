@@ -16,10 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import bftsmart.reconfiguration.util.RSAKeyLoader;
+import  bftsmart.tom.util.*;
+
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
 
 @Component
 public class BFTServer extends DefaultSingleRecoverable implements Serializable {
+
+
+    RSAKeyLoader keyLoader;
 
     @Autowired
     ResultTestsClass tests;
@@ -188,4 +197,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
         }
         return reply;
     }
+
+
+   
 }

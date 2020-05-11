@@ -2,15 +2,16 @@ package csd.wallet.Replication.Wallets;
 
 import csd.wallet.Replication.Result;
 import csd.wallet.Models.Wallet;
+import csd.wallet.Replication.ServiceProxy.SignedResult;
 
 public interface ResultWalletsInterface {
 
-    Result<Long> createWallet(Wallet wallet);
+    SignedResult createWallet(Wallet wallet);
 
-    Result<Void> deleteWallet(long id);
+    SignedResult deleteWallet(long id);
 
-    Result<Long> getCurrentAmount(long id);
+    SignedResult getCurrentAmount(long id);
 
-    Result<Wallet> getWalletInfo(long id);
+    SignedResult getWalletInfo(long id);
 
 }
