@@ -89,7 +89,15 @@ BFT-SMaRt [aqui](https://github.com/bft-smart/library/wiki/Getting-Started-with-
  
 ## Smart Contracts.
 
-A nossa implementação para o prof of concept dos smart contracts é muito básica, sendo apenas enviado para o servidor o código a executar em cada replica, sendo depois esse código executado sem qualquer verificação.
+A nossa implementação para o proof of concept dos smart contracts é muito básica, sendo apenas enviado para o servidor o código a executar em cada replica, sendo depois esse código executado sem qualquer verificação (Nesta fase inicial).
+
+O Código que irá ser executado encontra-se presente num ficheiro denomido SmartContract dentro da pasta SmartContract na root directory do Server.
+
+Consiste num ficheiro com uma classe Java que é transformado em Base 64 e enviado por um REST endpoint. Ao receber, cada réplica transforma o source code Base64 para texto e compila em RunTime através da classe JavaCompiler, e de seguida, a classe é inicializada (Executando assim o código presente no Construtor da Classe).
+
+De Momento não está a ser enforced nenhum mecanismo de controlo, porém temos acesso ao Cliente que enviou o SmartContract através do wallet name, por exemplo. A JVM poderá ser configurada de modo a controlar as permissões das operações provenientes do SmartContract.
+
+No futuro poderemos adaptar este SmartContract para fazer operações arbitrárias no sistema, tais como transferências num determinado horário automáticas.
  
 ## Garantias para tolerância a servidores bizantinos.
 
