@@ -3,6 +3,7 @@
 ### Arquitectura: [WA1](Server#servidor-não-replicado-wa1)
 ### Arquitectura: [WA2](Server#replicação-wa2)
 ### Auditoria: [WA3](Server/Documentation/Auditory/README.md)
+### Iteração: [WA4](Server/#iteração-wa4)
 
 ---
 

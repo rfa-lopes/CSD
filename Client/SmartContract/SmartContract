@@ -10,7 +10,7 @@ public class SmartContractClient implements Serializable {
 	public SmartContractClient() {
 		
 		for(int i=0;i<10;i++)
-			System.err.println("MINANDO BITCOINSSSSS");
+			System.err.println("Exemplo De SmartContract");
 	}
 
 }
