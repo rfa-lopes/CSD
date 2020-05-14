@@ -22,24 +22,24 @@ public class ControllerWalletsClass extends RestResource implements ControllerWa
     @Override
     public ResponseEntity<Long> createWallet(Wallet wallet) {
         Logger.info("Request: CREATEWALLET");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ORDERED_REQUEST, wallet));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ASYNC_REQUEST, wallet));
     }
 
     @Override
     public ResponseEntity<Void> deleteWallet(long id) {
         Logger.info("Request: DELETEWALLET");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, MessageType.ORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, MessageType.ASYNC_REQUEST, id));
     }
 
     @Override
     public ResponseEntity<Long> getCurrentAmount(long id) {
         Logger.info("Request: GETCURRENTAMOUNT");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, MessageType.UNORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, MessageType.ASYNC_REQUEST, id));
     }
 
     @Override
     public ResponseEntity<Wallet> getWalletInfo(long id) {
         Logger.info("Request: GETWALLETINFO");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, MessageType.UNORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, MessageType.ASYNC_REQUEST, id));
     }
 }

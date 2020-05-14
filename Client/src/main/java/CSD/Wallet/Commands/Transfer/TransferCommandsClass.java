@@ -29,6 +29,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
 
     private static final int MAX_AMOUNT = 999999999; //Config file
     private static final int MIN_AMOUNT = 0; //Config file
+    private static final String WRONG_SIGNATURE = "Wrong signatures.";
 
     private final TransferServiceInter service;
 
@@ -84,6 +85,8 @@ public class TransferCommandsClass implements TransferCommandsInter{
                 return MESSAGE_404;
             case 400:
                 return MESSAGE_400;
+            case 422:
+                return WRONG_SIGNATURE;
             default:
                 return MESSAGE_ERROR;
         }

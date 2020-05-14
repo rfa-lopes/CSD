@@ -24,6 +24,6 @@ public class SmartContractsClass extends RestResource implements SmartContractsI
 	public ResponseEntity<Void> executeSmartContract(SmartContract smartContract) {
 		Logger.info("Request: SMART CONTRACT EXECUTE");
 		return super.getResponse(bftClient.getInvoke(RequestType.SMART_CONTRACT_EXECUTE,
-				MessageType.UNORDERED_REQUEST, smartContract));
+				MessageType.ASYNC_REQUEST, smartContract));
 	}
 }

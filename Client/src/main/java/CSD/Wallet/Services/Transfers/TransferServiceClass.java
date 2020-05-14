@@ -1,16 +1,23 @@
 package CSD.Wallet.Services.Transfers;
 
 import CSD.Wallet.Models.AddRemoveForm;
+import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Transfer;
+import CSD.Wallet.Utils.Convert;
+import CSD.Wallet.Utils.Logger;
+import CSD.Wallet.Utils.Result;
+import CSD.Wallet.Utils.VerifySignatures;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -42,8 +49,11 @@ public class TransferServiceClass implements TransferServiceInter {
 
 		String url = createURL(TRANSFER);
 		Transfer body = new Transfer(fromId, toId, amount);
-		ResponseEntity<Void> response = restTemplate.postForEntity(url, body, Void.class);
-		return response;
+		ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url, body, SignedResults.class);
+		SignedResults s = signedResults.getBody();
+		if(VerifySignatures.verify(s.getSignatureReceive(), s.getResult()))
+			return signedResults.ok().build();
+		return ResponseEntity.status(422).build(); //Unprocessable Entity
 	}
 
 	@Override
@@ -54,8 +64,14 @@ public class TransferServiceClass implements TransferServiceInter {
 		f.setId(id);
 		f.setAmount(amount);
 
-		ResponseEntity<Void> response = restTemplate.postForEntity(url, f, Void.class);
-		return response;
+		ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url, f, SignedResults.class);
+		SignedResults s = signedResults.getBody();
+
+		Logger.warn("CENAS: " + Base64.getEncoder().encodeToString(s.getResult()));
+
+		if(!VerifySignatures.verify(s.getSignatureReceive(), s.getResult()))
+			return signedResults.status(422).build(); //Unprocessable Entity
+		return signedResults.ok().build();
 	}
 
 	@Override

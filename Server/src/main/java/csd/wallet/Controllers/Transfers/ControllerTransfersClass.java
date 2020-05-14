@@ -24,31 +24,31 @@ public class ControllerTransfersClass extends RestResource implements Controller
     @Override
     public ResponseEntity<Void> addMoney(AddRemoveForm idAmount) {
         Logger.info("Request: ADDMONEY");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_ADD, MessageType.ORDERED_REQUEST, idAmount));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_ADD, MessageType.ASYNC_REQUEST, idAmount));
     }
 
     @Override
     public ResponseEntity<Void> removeMoney(AddRemoveForm idAmount) {
         Logger.info("Request: REMOVEMONEY");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_REMOVE, MessageType.ORDERED_REQUEST, idAmount));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_REMOVE, MessageType.ASYNC_REQUEST, idAmount));
     }
 
     @Override
     public ResponseEntity<Void> transfer(Transfer transfer) {
         Logger.info("Request: TRANSFER");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_TRANSFER, MessageType.ORDERED_REQUEST, transfer));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_TRANSFER, MessageType.ASYNC_REQUEST, transfer));
     }
 
     @Override
     public ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers() {
         Logger.info("Request: LEDGEROFGLOBALTRANSFERS");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_GLOBALTRANSFERS, MessageType.UNORDERED_REQUEST));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_GLOBALTRANSFERS, MessageType.ASYNC_REQUEST));
     }
 
     @Override
     public ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(long id) {
         Logger.info("Request: LEDGEROFWALLETTRANSFERS");
-        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, MessageType.UNORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, MessageType.ASYNC_REQUEST, id));
     }
 
 }

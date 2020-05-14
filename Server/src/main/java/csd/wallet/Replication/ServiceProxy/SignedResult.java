@@ -2,7 +2,9 @@ package csd.wallet.Replication.ServiceProxy;
 
 import csd.wallet.Replication.Result;
 
-public class SignedResult {
+import java.io.Serializable;
+
+public class SignedResult implements Serializable {
 
     private Result result;
     private byte[] signature;
