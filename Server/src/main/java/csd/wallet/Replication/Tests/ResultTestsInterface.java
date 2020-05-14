@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ResultTestsInterface {
 
-    SignedResult test1();
+    Result test1();
 
-    SignedResult test2();
+    Result test2();
 
-    SignedResult test3();
+    Result test3();
 
-    SignedResult test4();
+    Result test4();
 }

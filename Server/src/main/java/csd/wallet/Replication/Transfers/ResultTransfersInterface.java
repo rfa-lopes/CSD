@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface ResultTransfersInterface {
 
-    SignedResult addMoney(AddRemoveForm idAmount);
+    Result addMoney(AddRemoveForm idAmount);
 
-    SignedResult removeMoney(AddRemoveForm idAmount);
+    Result removeMoney(AddRemoveForm idAmount);
 
-    SignedResult transfer(Transfer transfer) ;
+    Result transfer(Transfer transfer) ;
 
-    SignedResult ledgerOfGlobalTransfers();
+    Result ledgerOfGlobalTransfers();
 
-    SignedResult ledgerOfWalletTransfers(long id);
+    Result ledgerOfWalletTransfers(long id);
 
 }

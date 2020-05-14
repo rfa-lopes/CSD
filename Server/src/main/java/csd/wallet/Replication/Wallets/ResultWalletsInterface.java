@@ -6,12 +6,12 @@ import csd.wallet.Replication.ServiceProxy.SignedResult;
 
 public interface ResultWalletsInterface {
 
-    SignedResult createWallet(Wallet wallet);
+    Result createWallet(Wallet wallet);
 
-    SignedResult deleteWallet(long id);
+    Result deleteWallet(long id);
 
-    SignedResult getCurrentAmount(long id);
+    Result getCurrentAmount(long id);
 
-    SignedResult getWalletInfo(long id);
+    Result getWalletInfo(long id);
 
 }

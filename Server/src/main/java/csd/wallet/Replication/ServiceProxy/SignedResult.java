@@ -1,41 +1,40 @@
 package csd.wallet.Replication.ServiceProxy;
 
-import bftsmart.reconfiguration.util.RSAKeyLoader;
-import bftsmart.tom.util.TOMUtil;
 import csd.wallet.Replication.Result;
-
-import java.security.PrivateKey;
-import java.util.Base64;
 
 public class SignedResult {
 
     private Result result;
-    private String signature;
-    private RSAKeyLoader keyLoader;
+    private byte[] signature;
+    private int id;
 
-
-    private SignedResult(Result result){
+    public SignedResult(Result result, byte[] signature, int id){
         this.result = result;
-        PrivateKey privKey;
-        try {
-            privKey = keyLoader.loadPrivateKey();
-            signature = Base64.getEncoder().encodeToString(TOMUtil.signMessage(privKey,result.toString().getBytes()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static SignedResult createSignedResult(Result result){
-        return new SignedResult(result);
+        this.signature = signature;
+        this.id = id;
     }
 
     public Result getResult() {
         return result;
     }
 
-    public String getSignature(){
+    public byte[] getSignature(){
         return signature;
     }
 
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

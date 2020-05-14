@@ -7,10 +7,12 @@ import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
 import csd.wallet.Enums.RequestType;
 import csd.wallet.Models.*;
+import csd.wallet.Replication.ServiceProxy.SignedResult;
 import csd.wallet.Replication.SmartContracts.ResultSmartContractClass;
 import csd.wallet.Replication.Tests.ResultTestsClass;
 import csd.wallet.Replication.Transfers.ResultTransfersClass;
 import csd.wallet.Replication.Wallets.ResultWalletsClass;
+import csd.wallet.Utils.Convert;
 import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,9 +29,6 @@ import java.security.spec.InvalidKeySpecException;
 @Component
 public class BFTServer extends DefaultSingleRecoverable implements Serializable {
 
-
-    RSAKeyLoader keyLoader;
-
     @Autowired
     ResultTestsClass tests;
 
@@ -42,8 +41,14 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
     @Autowired
     ResultSmartContractClass smartcontract;
 
+    PrivateKey privKey;
+
+    int id;
+
     public BFTServer(@Value("${bftsmart.id}") int id) {
-        new ServiceReplica(id, this, this);
+        ServiceReplica a = new ServiceReplica(id, this, this);
+        this.id = id;
+        privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
     }
 
     @Override
@@ -128,8 +133,8 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
             }
-
-            objOut.writeObject(result);
+            SignedResult sigResult = new SignedResult(result, signReply(result), id);
+            objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
@@ -186,7 +191,8 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
             }
-            objOut.writeObject(result);
+            SignedResult sigResult = new SignedResult(result, signReply(result), id);
+            objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
@@ -198,6 +204,16 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
         return reply;
     }
 
-
+    private byte[] signReply(Result result){
+        byte[] signResult = null;
+        try {
+            byte[] resultBytes = Convert.toBytes(result);
+            signResult = TOMUtil.signMessage( privKey, resultBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return signResult;
+    }
    
 }

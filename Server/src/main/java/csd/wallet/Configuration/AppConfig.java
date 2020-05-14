@@ -1,5 +1,6 @@
 package csd.wallet.Configuration;
 
+import bftsmart.tom.AsynchServiceProxy;
 import csd.wallet.Replication.ServiceProxy.BFTServiceProxy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +16,13 @@ public class AppConfig {
 	}
 
 	@Bean
-	public BFTServiceProxy bftServiceProxy(@Value("${bftsmart.id}") int id) {
-		return new BFTServiceProxy(id);
+	public AsynchServiceProxy asynchServiceProxy(@Value("${bftsmart.id}") int id) {
+		return new AsynchServiceProxy(id);
+	}
+
+	@Bean
+	public BFTServiceProxy bftServiceProxy() {
+		return new BFTServiceProxy();
 	}
 
 }

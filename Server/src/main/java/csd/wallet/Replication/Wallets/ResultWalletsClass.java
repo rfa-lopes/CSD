@@ -4,7 +4,6 @@ import csd.wallet.Exceptions.WalletExceptions.EmptyWalletNameException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Replication.Result;
 import csd.wallet.Models.Wallet;
-import csd.wallet.Replication.ServiceProxy.SignedResult;
 import csd.wallet.Services.Wallets.ServiceWalletsClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import static csd.wallet.Replication.Result.ErrorCode.BAD_REQUEST;
 import static csd.wallet.Replication.Result.ErrorCode.NOT_FOUND;
 import static csd.wallet.Replication.Result.error;
 import static csd.wallet.Replication.Result.ok;
-import static csd.wallet.Replication.ServiceProxy.SignedResult.createSignedResult;
 
 @Service
 public class ResultWalletsClass implements ResultWalletsInterface{
@@ -22,39 +20,39 @@ public class ResultWalletsClass implements ResultWalletsInterface{
     ServiceWalletsClass wallets;
 
     @Override
-    public SignedResult createWallet(Wallet wallet) {
+    public Result createWallet(Wallet wallet) {
         try {
-             return createSignedResult(ok(new Long(wallets.createWallet(wallet))));
+             return (ok(new Long(wallets.createWallet(wallet))));
         } catch (EmptyWalletNameException e) {
-            return createSignedResult(error(BAD_REQUEST));
+            return (error(BAD_REQUEST));
         }
     }
 
     @Override
-    public SignedResult deleteWallet(long id) {
+    public Result deleteWallet(long id) {
         try {
             wallets.deleteWallet(id);
-            return createSignedResult(ok());
+            return (ok());
         } catch (WalletNotExistsException e) {
-            return createSignedResult(error(NOT_FOUND));
+            return (error(NOT_FOUND));
         }
     }
 
     @Override
-    public SignedResult getCurrentAmount(long id) {
+    public Result getCurrentAmount(long id) {
         try {
-            return createSignedResult(ok(wallets.getCurrentAmount(id)));
+            return (ok(wallets.getCurrentAmount(id)));
         } catch (WalletNotExistsException e) {
-            return createSignedResult(error(NOT_FOUND));
+            return (error(NOT_FOUND));
         }
     }
 
     @Override
-    public SignedResult getWalletInfo(long id) {
+    public Result getWalletInfo(long id) {
         try {
-            return createSignedResult(ok(wallets.getWalletInfo(id)));
+            return (ok(wallets.getWalletInfo(id)));
         } catch (WalletNotExistsException e) {
-            return createSignedResult(error(NOT_FOUND));
+            return (error(NOT_FOUND));
         }
     }
 }

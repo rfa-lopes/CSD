@@ -4,6 +4,7 @@ import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Replication.BFTClient;
 import csd.wallet.Controllers.RestResource;
+import csd.wallet.Replication.MessageType;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +22,24 @@ public class ControllerWalletsClass extends RestResource implements ControllerWa
     @Override
     public ResponseEntity<Long> createWallet(Wallet wallet) {
         Logger.info("Request: CREATEWALLET");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, TOMMessageType.ORDERED_REQUEST, wallet));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ORDERED_REQUEST, wallet));
     }
 
     @Override
     public ResponseEntity<Void> deleteWallet(long id) {
         Logger.info("Request: DELETEWALLET");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, TOMMessageType.ORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, MessageType.ORDERED_REQUEST, id));
     }
 
     @Override
     public ResponseEntity<Long> getCurrentAmount(long id) {
         Logger.info("Request: GETCURRENTAMOUNT");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, TOMMessageType.UNORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, MessageType.UNORDERED_REQUEST, id));
     }
 
     @Override
     public ResponseEntity<Wallet> getWalletInfo(long id) {
         Logger.info("Request: GETWALLETINFO");
-        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, TOMMessageType.UNORDERED_REQUEST, id));
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, MessageType.UNORDERED_REQUEST, id));
     }
 }

@@ -72,5 +72,4 @@ class ErrorResult<T> implements Result<T> {
     public ErrorCode error() {
         return error;
     }
-
 }

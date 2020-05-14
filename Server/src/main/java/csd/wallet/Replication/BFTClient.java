@@ -1,5 +1,6 @@
 package csd.wallet.Replication;
 
+import bftsmart.communication.client.ReplyListener;
 import bftsmart.tom.ServiceProxy;
 
 
@@ -7,26 +8,23 @@ import bftsmart.tom.ServiceProxy;
 import static csd.wallet.Replication.Result.*;
 import static csd.wallet.Replication.Result.ErrorCode.INTERNAL_ERROR;
 
-import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Enums.RequestType;
 import csd.wallet.Replication.ServiceProxy.BFTServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.spec.InvalidKeySpecException;
 
 @Service
 public class BFTClient {
 
     @Autowired
-    BFTServiceProxy serviceProxy;
+    ServiceProxy serviceProxy;
 
+    @Autowired
+    BFTServiceProxy bftServiceProxy;
 
-
-    public <T> Result getInvoke(RequestType req, TOMMessageType type, T... inputs) {
+    public <T> Result getInvoke(RequestType req, MessageType type, T... inputs) {
         try {
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutput objOut = new ObjectOutputStream(byteOut);
@@ -50,6 +48,9 @@ public class BFTClient {
                     break;
                 case UNORDERED_HASHED_REQUEST:
                     reply = serviceProxy.invokeUnorderedHashed(byteOut.toByteArray());
+                    break;
+                case ASYNC_REQUEST:
+                    reply = bftServiceProxy.invoke(byteOut.toByteArray());
                     break;
                 default:
                     return error(INTERNAL_ERROR);
