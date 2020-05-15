@@ -191,9 +191,8 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
             }
-            SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
-            Logger.error("BFTSERVER: " + Base64.getEncoder().encodeToString(Convert.toBytes(result)));
+            SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
             objOut.writeObject(sigResult);
             objOut.flush();
@@ -213,7 +212,6 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
             byte[] resultBytes = Convert.toBytes(result);
             signResult = TOMUtil.signMessage( privKey, resultBytes);
-
         } catch (IOException e) {
             e.printStackTrace();
             return null;
