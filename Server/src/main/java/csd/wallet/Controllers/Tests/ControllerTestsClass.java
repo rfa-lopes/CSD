@@ -25,20 +25,20 @@ public class ControllerTestsClass extends RestResource implements ControllerTest
     @Override
     public ResponseEntity<String> test2() {
         Logger.info("Request: TEST2");
-        return super.getResponse(bftClient.getInvoke(RequestType.TEST_2, MessageType.UNORDERED_REQUEST));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_2, MessageType.ASYNC_REQUEST));
     }
 
     @Override
     public ResponseEntity<String> test3() {
         Logger.info("Request: TEST3");
-        return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, MessageType.UNORDERED_REQUEST));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, MessageType.ASYNC_REQUEST));
         //return super.getResponse(bftClient.getInvoke(RequestType.TEST_3, TOMMessageType.UNORDERED_HASHED_REQUEST));
     }
 
     @Override
     public ResponseEntity<Void> test4() {
         Logger.info("Request: TEST4");
-        return super.getResponse(bftClient.getInvoke(RequestType.TEST_4, MessageType.ORDERED_REQUEST));
+        return super.getResponse(bftClient.getInvoke(RequestType.TEST_4, MessageType.ASYNC_REQUEST));
         //return super.getResponse(bftClient.getInvoke(true, RequestType.TEST_4, TOMMessageType.ORDERED_REQUEST));
     }
 }

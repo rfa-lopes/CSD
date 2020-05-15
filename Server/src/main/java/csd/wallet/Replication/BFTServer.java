@@ -25,6 +25,7 @@ import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
 @Component
 public class BFTServer extends DefaultSingleRecoverable implements Serializable {
@@ -45,10 +46,11 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
     int id;
 
+    ServiceReplica a;
+
     public BFTServer(@Value("${bftsmart.id}") int id) {
-        ServiceReplica a = new ServiceReplica(id, this, this);
+        a = new ServiceReplica(id, this, this);
         this.id = id;
-        privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
     }
 
     @Override
@@ -114,7 +116,6 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
                 case TRANSFERS_GLOBALTRANSFERS:
                     result = transfers.ledgerOfGlobalTransfers();
-                    Logger.error(result.toString());
                     break;
 
                 case TRANSFERS_WALLETTRANSFERS:
@@ -134,17 +135,16 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     break;
             }
             SignedResult sigResult = new SignedResult(result, signReply(result), id);
+
+            Logger.error("BFTSERVER: " + Base64.getEncoder().encodeToString(Convert.toBytes(result)));
+
             objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
 
-            TOMMessage tomMessage = messageContext.recreateTOMMessage(reply);
-            tomMessage.serializedMessageSignature = null;
-
             Logger.replication("Replication - " + reqType);
         } catch (IOException | ClassNotFoundException e) {
-          
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
@@ -191,7 +191,9 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
             }
+
             SignedResult sigResult = new SignedResult(result, signReply(result), id);
+
             objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
@@ -207,6 +209,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
     private byte[] signReply(Result result){
         byte[] signResult = null;
         try {
+            privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
             byte[] resultBytes = Convert.toBytes(result);
             signResult = TOMUtil.signMessage( privKey, resultBytes);
         } catch (IOException e) {

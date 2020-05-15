@@ -1,14 +1,17 @@
-package csd.wallet.Replication;
+package CSD.Wallet.Models;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class SignsResults {
+public class SignedResults implements Serializable {
 
     Map<Integer, byte[]> signatureReceive;
 
     byte[] result;
 
-    public SignsResults(Map<Integer, byte[]> signatureReceive, byte[] result) {
+    public SignedResults() { }
+
+    public SignedResults(Map<Integer, byte[]> signatureReceive, byte[] result) {
         this.signatureReceive = signatureReceive;
         this.result = result;
     }

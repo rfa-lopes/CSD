@@ -1,4 +1,4 @@
-package csd.wallet.Replication;
+package CSD.Wallet.Utils;
 
 import java.io.Serializable;
 
@@ -25,6 +25,7 @@ public interface Result<T> extends Serializable {
     }
 
 }
+
 class OkResult<T> implements Result<T> {
 
     final T result;
@@ -44,17 +45,17 @@ class OkResult<T> implements Result<T> {
     }
 
     @Override
-    public ErrorCode error() {
-        return ErrorCode.OK;
+    public Result.ErrorCode error() {
+        return Result.ErrorCode.OK;
     }
 
 }
 
 class ErrorResult<T> implements Result<T> {
 
-    final ErrorCode error;
+    final Result.ErrorCode error;
 
-    ErrorResult(ErrorCode error) {
+    ErrorResult(Result.ErrorCode error) {
         this.error = error;
     }
 
@@ -69,7 +70,7 @@ class ErrorResult<T> implements Result<T> {
     }
 
     @Override
-    public ErrorCode error() {
+    public Result.ErrorCode error() {
         return error;
     }
 }
