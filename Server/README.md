@@ -102,6 +102,8 @@ No futuro poderemos adaptar este SmartContract para fazer operações arbitrári
  
 ## Garantias para tolerância a servidores bizantinos.
 
+![Tolerância a servidores bizantinos](Documentation/Images/WA4.png)
+
 ---
 
 ## Configurações TLS (WA1)
