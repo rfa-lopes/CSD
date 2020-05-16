@@ -105,10 +105,10 @@ No futuro poderemos adaptar este SmartContract para fazer operações arbitrári
 ![Tolerância a servidores bizantinos](Documentation/Images/WA4.png)
 
 ## Receção das respostas assinadas das réplicas (Postman).
----
 
 ![Postman](Documentation/Images/WA4-Postman.png)
 
+---
 
 ## Configurações TLS (WA1)
 
