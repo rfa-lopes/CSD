@@ -1,7 +1,11 @@
 package CSD.Wallet.Commands.Wallet;
 
+import CSD.Wallet.Models.SignedResults;
+import CSD.Wallet.Models.Transfer;
 import CSD.Wallet.Models.Wallet;
 import CSD.Wallet.Services.Wallets.WalletServiceInter;
+import CSD.Wallet.Utils.Result;
+import CSD.Wallet.Utils.VerifySignatures;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +14,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 @ShellComponent
 public class WalletCommandsClass implements WalletCommandsInter{
@@ -17,6 +22,8 @@ public class WalletCommandsClass implements WalletCommandsInter{
     private static final String MESSAGE_404 = "Wallet ID doesn't exist.";
     private static final String MESSAGE_400 = "Bad request, try again.";
     private static final String MESSAGE_ERROR = "Something went wrong.";
+    private static final String WRONG_SIGNATURE = "Wrong signatures.";
+    private static final String MESSAGE_TIMEOUT = "Time out request.";
 
     private final WalletServiceInter service;
 
@@ -32,14 +39,17 @@ public class WalletCommandsClass implements WalletCommandsInter{
     public String create(
             @ShellOption({"-n", "-name"}) String name) throws URISyntaxException {
 
+        ResponseEntity<SignedResults> signedResults = service.create(name);
 
-        ResponseEntity<Long> response = service.create(name);
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
 
-        switch (response.getStatusCodeValue()){
-            case 200:
-                return "New wallet created!" + "\n" + "Id:" + Long.toString(response.getBody());
-            default:
-                return MESSAGE_ERROR;
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "New wallet created!" + "\n" + "Id:" + (Integer)res.getResult();
+            default: return MESSAGE_ERROR;
         }
     }
 
@@ -48,18 +58,20 @@ public class WalletCommandsClass implements WalletCommandsInter{
     public String delete(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<Long> response = service.getAmount(id);
+        ResponseEntity<SignedResults> signedResults = service.getAmount(id);
 
-        switch (response.getStatusCode().value()){
-            case 200:
-                service.delete(id);
-                return "Wallet deleted!";
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "Wallet deleted!";
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
 
     }
@@ -69,18 +81,22 @@ public class WalletCommandsClass implements WalletCommandsInter{
     public String getAmount(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<Long> response = service.getAmount(id);
+        ResponseEntity<SignedResults> signedResults = service.getAmount(id);
 
-        switch (response.getStatusCode().value()){
-            case 200:
-                return "Your wallet has the amount of:  " + Long.toString(response.getBody());
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "Your wallet has the amount of:  " + (Integer)res.getResult();
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
+
     }
 
     @Override
@@ -88,17 +104,21 @@ public class WalletCommandsClass implements WalletCommandsInter{
     public String getInfo(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<Wallet> response = service.getInfo(id);
+        ResponseEntity<SignedResults> signedResults = service.getInfo(id);
 
-        switch (response.getStatusCodeValue()){
-            case 200:
-                return "Your wallet's information:" + response.getBody().getInfo();
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "Your wallet's information:" + ((Wallet)res.getResult()).getInfo();
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
+
     }
 }

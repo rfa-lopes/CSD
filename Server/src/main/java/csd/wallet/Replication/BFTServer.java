@@ -13,6 +13,7 @@ import csd.wallet.Replication.Tests.ResultTestsClass;
 import csd.wallet.Replication.Transfers.ResultTransfersClass;
 import csd.wallet.Replication.Wallets.ResultWalletsClass;
 import csd.wallet.Utils.Convert;
+import csd.wallet.Utils.JSON;
 import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -136,8 +137,6 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             }
             SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
-            Logger.error("BFTSERVER: " + Base64.getEncoder().encodeToString(Convert.toBytes(result)));
-
             objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
@@ -208,14 +207,9 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
     private byte[] signReply(Result result){
         byte[] signResult = null;
-        try {
-            privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
-            byte[] resultBytes = Convert.toBytes(result);
-            signResult = TOMUtil.signMessage( privKey, resultBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
+        String json = JSON.toJson(result);
+        signResult = TOMUtil.signMessage( privKey, json.getBytes());
         return signResult;
     }
    

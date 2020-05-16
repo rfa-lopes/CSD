@@ -1,10 +1,8 @@
 package CSD.Wallet.Utils;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.*;
@@ -19,22 +17,22 @@ public class VerifySignatures {
     static Map<Integer, PublicKey> pubKeys;
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
-        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
-        Security.insertProviderAt(new BouncyCastleProvider(), 1);
         pubKeys = new HashMap<>();
         for (int i = 0; i < 4; i++)
             getPublicKey(i);
     }
 
-    public static boolean verify(Map<Integer, byte[]> signatureReceive, byte[] result) {
+    public static boolean verify(Map<Integer, byte[]> signatureReceive, Result result) {
         String sigAlg = "SHA256withECDSA";
         Set<Integer> keySet = signatureReceive.keySet();
         try {
             Signature signature = Signature.getInstance(sigAlg, "SunEC");
+
+            String res = JSON.toJson(result);
+
             for (Integer i : keySet) {
                 signature.initVerify(pubKeys.get(i));
-                signature.update(result);
+                signature.update(res.getBytes());
 
                 if(!signature.verify(signatureReceive.get(i)))
                     return false;
@@ -68,7 +66,7 @@ public class VerifySignatures {
     }
 
     private static PublicKey getPublicKeyFromString(String key) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
-        KeyFactory keyFactory = KeyFactory.getInstance("EC", "BC");
+        KeyFactory keyFactory = KeyFactory.getInstance("EC", "SunEC");
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(Base64.decodeBase64(key));
         PublicKey publicKey = keyFactory.generatePublic(pubKeySpec);
         return publicKey;

@@ -1,6 +1,10 @@
 package CSD.Wallet.Services.Wallets;
 
+import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Wallet;
+import CSD.Wallet.Utils.ConvertHttpStatus;
+import CSD.Wallet.Utils.Result;
+import CSD.Wallet.Utils.VerifySignatures;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +39,10 @@ public class WalletServiceClass implements WalletServiceInter {
     }
 
     @Override
-    public ResponseEntity<Long> create(String name) {
+    public ResponseEntity<SignedResults> create(String name) {
         String url = createURL(CREATE);
-        ResponseEntity<Long> response = restTemplate.postForEntity(url,new Wallet(name), Long.class);
-        return response;
+        ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url,new Wallet(name), SignedResults.class);
+        return signedResults;
     }
 
     @Override
@@ -49,18 +53,18 @@ public class WalletServiceClass implements WalletServiceInter {
     }
 
     @Override
-    public ResponseEntity<Long> getAmount(long id) throws URISyntaxException {
+    public ResponseEntity<SignedResults> getAmount(long id) throws URISyntaxException {
         String url = createURL(AMOUNT);
         String idToGet = createIdURL(id);
-        ResponseEntity<Long> response = restTemplate.getForEntity(new URI(url + idToGet), Long.class);
+        ResponseEntity<SignedResults> response = restTemplate.getForEntity(new URI(url + idToGet), SignedResults.class);
         return response;
     }
 
     @Override
-    public ResponseEntity<Wallet> getInfo(long id) throws URISyntaxException {
+    public ResponseEntity<SignedResults> getInfo(long id) throws URISyntaxException {
         String url = createURL(INFO);
         String idToGet = createIdURL(id);
-        ResponseEntity<Wallet> response = restTemplate.getForEntity(new URI(url + idToGet), Wallet.class);
+        ResponseEntity<SignedResults> response = restTemplate.getForEntity(new URI(url + idToGet), SignedResults.class);
         return response;
     }
 

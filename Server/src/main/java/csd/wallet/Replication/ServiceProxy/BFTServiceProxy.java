@@ -6,11 +6,10 @@ import bftsmart.tom.RequestContext;
 import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.core.messages.TOMMessageType;
 import bftsmart.tom.util.TOMUtil;
-import com.sun.xml.internal.rngom.parse.host.Base;
-import csd.wallet.Models.Transfer;
+import csd.wallet.Replication.Result;
 import csd.wallet.Replication.SignedResults;
 import csd.wallet.Utils.Convert;
-import csd.wallet.Utils.Logger;
+import csd.wallet.Utils.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import java.security.PublicKey;
 import java.util.*;
 
 import static csd.wallet.Replication.Result.ErrorCode.TIME_OUT;
-import static csd.wallet.Replication.Result.error;
+import static csd.wallet.Replication.Result.getError;
 import static csd.wallet.Replication.Result.ok;
 
 @Service
@@ -29,7 +28,7 @@ public class BFTServiceProxy implements ReplyListener {
     AsynchServiceProxy asynchServiceProxy;
 
     Map<Integer, byte[]> signatureReceive = new HashMap<>();
-    Map<Integer,byte[]> replies = new HashMap<>();
+    Map<Integer, Result> replies = new HashMap<>();
 
     int numValidReplicas;
 
@@ -42,11 +41,9 @@ public class BFTServiceProxy implements ReplyListener {
     public void replyReceived(RequestContext requestContext, TOMMessage tomMessage) {
         try {
             SignedResult signedResult = (SignedResult) Convert.toObject(tomMessage.getContent());
-            byte[] reply = Convert.toBytes(signedResult.getResult());
-            byte[] signature = Base64.getDecoder().decode(signedResult.getSignature());
+            byte[] reply = JSON.toJson(signedResult.getResult()).getBytes();
+            byte[] signature = signedResult.getSignature();
             int id = signedResult.getId();
-
-            Logger.error("replyReceived: id: " + id + " signature: "+Base64.getEncoder().encodeToString(signature) + " reply: " + Base64.getEncoder().encodeToString(reply));
 
             PublicKey pubKey = asynchServiceProxy.getViewManager().getStaticConf().getPublicKey(id);
 
@@ -55,8 +52,7 @@ public class BFTServiceProxy implements ReplyListener {
             if(isValid){
                 signatureReceive.put(id, signature);
                 numValidReplicas++;
-
-                replies.put(id, reply);
+                replies.put(id, signedResult.getResult());
                 int minReplicas = asynchServiceProxy.getViewManager().getCurrentViewF() * 2 + 1;
                 if(numValidReplicas >= minReplicas){
                     result = new SignedResults(signatureReceive, replies.get(id));
@@ -76,7 +72,7 @@ public class BFTServiceProxy implements ReplyListener {
         long timeout = System.currentTimeMillis() + 5 * 1000; //5 segundos
         while(numValidReplicas < minReplicas)
             if(System.currentTimeMillis() >= timeout)
-                return Convert.toBytes(error(TIME_OUT));
+                return Convert.toBytes(getError(TIME_OUT));
         return Convert.toBytes(ok(result));
     }
 }

@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -42,77 +43,49 @@ public class TransferServiceClass implements TransferServiceInter {
 	}
 
 	@Override
-	public ResponseEntity<Void> transfer(long fromId, long toId, long amount) {
+	public ResponseEntity<SignedResults> transfer(long fromId, long toId, long amount) {
 
 		String url = createURL(TRANSFER);
 		Transfer body = new Transfer(fromId, toId, amount);
 		ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url, body, SignedResults.class);
-		SignedResults s = signedResults.getBody();
-
-		Logger.warn("result: " + Base64.getEncoder().encodeToString(s.getResult()));
-
-		if(VerifySignatures.verify(s.getSignatureReceive(), s.getResult()))
-			return signedResults.ok().build();
-		return ResponseEntity.status(422).build(); //Unprocessable Entity
+		return signedResults;
 	}
 
 	@Override
-	public ResponseEntity<Void> addAmount(long id, long amount) {
+	public ResponseEntity<SignedResults> addAmount(long id, long amount) {
 		String url = createURL(ADD);
 		AddRemoveForm f = new AddRemoveForm();
-
 		f.setId(id);
 		f.setAmount(amount);
-
 		ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url, f, SignedResults.class);
-		SignedResults s = signedResults.getBody();
-
-		Logger.warn("CENAS: " + Base64.getEncoder().encodeToString(s.getResult()));
-
-		if(!VerifySignatures.verify(s.getSignatureReceive(), s.getResult()))
-			return signedResults.status(422).build(); //Unprocessable Entity
-		return signedResults.ok().build();
+		return signedResults;
 	}
 
 	@Override
-	public ResponseEntity<Void> removeAmount(long id, long amount) {
+	public ResponseEntity<SignedResults> removeAmount(long id, long amount) {
 
 		String url = createURL(REMOVE);
 		AddRemoveForm f = new AddRemoveForm();
 
 		f.setId(id);
 		f.setAmount(amount);
-		ResponseEntity<Void> response = restTemplate.postForEntity(url, f, Void.class);
+		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, f, SignedResults.class);
 		return response;
 
 	}
 
 	@Override
-	public ResponseEntity<List<Transfer>> listGlobalTransfers() throws URISyntaxException {
+	public ResponseEntity<SignedResults> listGlobalTransfers() throws URISyntaxException {
 		String url = createURL(GLOBAL);
-		//ResponseEntity<List<Transfer>> response = restTemplate.getForEntity(new URI(url), (Class<List<Transfer>>)(Object)List.class);
-
 		ResponseEntity<SignedResults> signedResults = restTemplate.getForEntity(new URI(url), SignedResults.class);;
-		SignedResults s = signedResults.getBody();
-
-		if(VerifySignatures.verify(s.getSignatureReceive(), s.getResult()))
-			return signedResults.ok().build();
-
-		try {
-			return ResponseEntity.ok((List<Transfer>) ObjectConvertorUtil.deserialize(s.getResult()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
+        return signedResults;
 	}
 
 	@Override
-	public ResponseEntity<List<Transfer>> listWalletTransfers(long id) throws URISyntaxException {
+	public ResponseEntity<SignedResults> listWalletTransfers(long id) throws URISyntaxException {
 		String url = createURL(WALLET);
 		String idToGet = url + BACKSLASH + id;
-		ResponseEntity<List<Transfer>> response = restTemplate.getForEntity(new URI(idToGet), (Class<List<Transfer>>)(Object)List.class);
+		ResponseEntity<SignedResults> response = restTemplate.getForEntity(new URI(idToGet), SignedResults.class);
 		return response;
 	}
 

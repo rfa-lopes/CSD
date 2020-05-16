@@ -1,7 +1,10 @@
 package CSD.Wallet.Commands.SmartContract;
 
+import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Services.SmartContracts.SmartContractServiceClass;
 import CSD.Wallet.Services.Transfers.TransferServiceInter;
+import CSD.Wallet.Utils.Result;
+import CSD.Wallet.Utils.VerifySignatures;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -19,6 +22,9 @@ public class SmartContractClass implements SmartContractInterface {
 
     private final SmartContractServiceClass service;
 
+    private static final String WRONG_SIGNATURE = "Wrong signatures.";
+    private static final String MESSAGE_TIMEOUT = "Time out request.";
+
     @Autowired
     public SmartContractClass(SmartContractServiceClass service, Environment env) {
         System.setProperty("javax.net.ssl.trustStore",  env.getProperty("client.ssl.trust-store"));
@@ -32,7 +38,13 @@ public class SmartContractClass implements SmartContractInterface {
             @ShellOption({"-id", "-ownerid"}) long ownerId,
             @ShellOption({"-f", "-file"})String pathToSmartContractJavaFile) {
         try {
-            ResponseEntity<Void> resp = service.execute(ownerId, pathToSmartContractJavaFile);
+            ResponseEntity<SignedResults> signedResults = service.execute(ownerId, pathToSmartContractJavaFile);
+            SignedResults s = signedResults.getBody();
+            Result res = s.getResult();
+
+            if(VerifySignatures.verify(s.getSignatureReceive(), res))
+                return WRONG_SIGNATURE;
+
             return "EXECUTED.";
         } catch (Exception e) {
             e.printStackTrace();

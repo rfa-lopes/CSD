@@ -1,7 +1,9 @@
 package CSD.Wallet.Commands.Transfer;
 
+import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Transfer;
 import CSD.Wallet.Services.Transfers.TransferServiceInter;
+import CSD.Wallet.Utils.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,14 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 
 @ShellComponent
@@ -30,6 +36,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
     private static final int MAX_AMOUNT = 999999999; //Config file
     private static final int MIN_AMOUNT = 0; //Config file
     private static final String WRONG_SIGNATURE = "Wrong signatures.";
+    private static final String MESSAGE_TIMEOUT = "Time out request.";
 
     private final TransferServiceInter service;
 
@@ -53,18 +60,22 @@ public class TransferCommandsClass implements TransferCommandsInter{
         if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             return "Incorrect amount.";
 
-        HttpStatus status = service.transfer(fromId, toId, amount).getStatusCode();
+        ResponseEntity<SignedResults> signedResults = service.transfer(fromId, toId, amount);
 
-        switch (status.value()){
-            case 200:
-                return "Transfer concluded.";
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "Transfer concluded.";
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
+
     }
 
     @Override
@@ -76,19 +87,20 @@ public class TransferCommandsClass implements TransferCommandsInter{
         if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             return "Incorrect amount.";
 
-        HttpStatus status = service.addAmount(id,amount).getStatusCode();
+        ResponseEntity<SignedResults> signedResults = service.addAmount(id, amount);
 
-        switch (status.value()){
-            case 200:
-                return "Amount added";
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            case 422:
-                return WRONG_SIGNATURE;
-            default:
-                return MESSAGE_ERROR;
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "Amount added";
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
     }
     @Override
@@ -100,33 +112,40 @@ public class TransferCommandsClass implements TransferCommandsInter{
         if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             return "Incorrect amount.";
 
-        HttpStatus status = service.removeAmount(id,amount).getStatusCode();
+        ResponseEntity<SignedResults> signedResults = service.removeAmount(id, amount);
 
-        switch (status.value()){
-            case 200:
-                return "Amount removed";
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return "Amount removed";
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
     }
 
     @Override
     @ShellMethod("List all made transfers.")
     public String listGlobalTransfers() throws URISyntaxException {
-        ResponseEntity<List<Transfer>> response = service.listGlobalTransfers();
-        switch (response.getStatusCode().value()){
-            case 200:
-                return stringInfoTransfers(response.getBody());
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        ResponseEntity<SignedResults> signedResults = service.listGlobalTransfers();
+
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return stringInfoTransfers((List<Transfer>)res.getResult());
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
     }
 
@@ -135,20 +154,25 @@ public class TransferCommandsClass implements TransferCommandsInter{
     public String listWalletTransfers(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<List<Transfer>> response = service.listWalletTransfers(id);
-        switch (response.getStatusCode().value()){
-            case 200:
-                return stringInfoTransfers(response.getBody());
-            case 404:
-                return MESSAGE_404;
-            case 400:
-                return MESSAGE_400;
-            default:
-                return MESSAGE_ERROR;
+        ResponseEntity<SignedResults> signedResults = service.listWalletTransfers(id);
+
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()){
+            case "OK": return stringInfoTransfers((List<Transfer>)res.getResult());
+            case "BAD_REQUEST": return MESSAGE_400;
+            case "NOT_FOUND": return MESSAGE_404;
+            case "TIME_OUT": return MESSAGE_TIMEOUT;
+            default: return MESSAGE_ERROR;
         }
     }
 
     private String stringInfoTransfers(List<Transfer> list){
+
         List<String> toPrint = new ArrayList<>();
         List<Transfer> arrayList = new ObjectMapper().convertValue(list, new TypeReference<List<Transfer>>(){});
         arrayList.forEach(transfer->toPrint.add(transfer.getInfo()));

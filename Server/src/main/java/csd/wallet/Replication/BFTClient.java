@@ -1,6 +1,5 @@
 package csd.wallet.Replication;
 
-import bftsmart.communication.client.ReplyListener;
 import bftsmart.tom.ServiceProxy;
 
 
@@ -53,14 +52,14 @@ public class BFTClient {
                     reply = bftServiceProxy.invoke(byteOut.toByteArray());
                     break;
                 default:
-                    return error(INTERNAL_ERROR);
+                    return getError(INTERNAL_ERROR);
             }
 
             ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
             ObjectInput objIn = new ObjectInputStream(byteIn);
             return (Result) objIn.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            return error(INTERNAL_ERROR);
+            return getError(INTERNAL_ERROR);
         }
     }
 

@@ -2,75 +2,43 @@ package CSD.Wallet.Utils;
 
 import java.io.Serializable;
 
-public interface Result<T> extends Serializable {
+public class Result<T> implements Serializable {
 
-    enum ErrorCode {OK, BAD_REQUEST, NOT_FOUND, INTERNAL_ERROR, NOT_IMPLEMENTED, TIME_OUT}
+    T result;
 
-    boolean isOK();
+    String error;
 
-    T value();
+    boolean ok;
 
-    ErrorCode error();
+    public Result() { }
 
-    static <T> Result<T> ok(T result) {
-        return new OkResult<>(result);
-    }
-
-    static <T> OkResult<T> ok() {
-        return new OkResult<>(null);
-    }
-
-    static <T> ErrorResult<T> error(ErrorCode error) {
-        return new ErrorResult<>(error);
-    }
-
-}
-
-class OkResult<T> implements Result<T> {
-
-    final T result;
-
-    OkResult(T result) {
+    public Result(T result, String error, boolean ok) {
         this.result = result;
+        this.error = error;
+        this.ok = ok;
     }
 
-    @Override
-    public boolean isOK() {
-        return true;
-    }
-
-    @Override
-    public T value() {
+    public T getResult() {
         return result;
     }
 
-    @Override
-    public Result.ErrorCode error() {
-        return Result.ErrorCode.OK;
+    public void setResult(T result) {
+        this.result = result;
     }
 
-}
+    public String getError() {
+        return error;
+    }
 
-class ErrorResult<T> implements Result<T> {
-
-    final Result.ErrorCode error;
-
-    ErrorResult(Result.ErrorCode error) {
+    public void setError(String error) {
         this.error = error;
     }
 
-    @Override
-    public boolean isOK() {
-        return false;
+    public boolean isOk() {
+        return ok;
     }
 
-    @Override
-    public T value() {
-        throw new RuntimeException("Attempting to extract the value of an Error: " + error());
-    }
-
-    @Override
-    public Result.ErrorCode error() {
-        return error;
+    public void setOk(boolean ok) {
+        this.ok = ok;
     }
 }

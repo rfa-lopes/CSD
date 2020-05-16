@@ -7,9 +7,9 @@ public class SignedResults implements Serializable {
 
     Map<Integer, byte[]> signatureReceive;
 
-    byte[] result;
+    Result result;
 
-    public SignedResults(Map<Integer, byte[]> signatureReceive, byte[] result) {
+    public SignedResults(Map<Integer, byte[]> signatureReceive, Result result) {
         this.signatureReceive = signatureReceive;
         this.result = result;
     }
@@ -22,11 +22,11 @@ public class SignedResults implements Serializable {
         this.signatureReceive = signatureReceive;
     }
 
-    public byte[] getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(byte[] result) {
+    public void setResult(Result result) {
         this.result = result;
     }
 }

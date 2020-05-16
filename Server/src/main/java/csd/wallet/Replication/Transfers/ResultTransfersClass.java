@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import static csd.wallet.Replication.Result.ErrorCode.BAD_REQUEST;
 import static csd.wallet.Replication.Result.ErrorCode.NOT_FOUND;
-import static csd.wallet.Replication.Result.error;
+import static csd.wallet.Replication.Result.getError;
 import static csd.wallet.Replication.Result.ok;
 
 @Service
@@ -27,9 +27,9 @@ public class ResultTransfersClass implements ResultTransfersInterface{
             transfers.addMoney(idAmount);
             return (ok());
         } catch (InvalidAmountException e) {
-            return (error(BAD_REQUEST));
+            return (getError(BAD_REQUEST));
         } catch (WalletNotExistsException e) {
-            return (error(NOT_FOUND));
+            return (getError(NOT_FOUND));
         }
     }
 
@@ -38,9 +38,9 @@ public class ResultTransfersClass implements ResultTransfersInterface{
             transfers.removeMoney(idAmount);
             return (ok());
         } catch (InvalidAmountException e) {
-            return (error(BAD_REQUEST));
+            return (getError(BAD_REQUEST));
         } catch (WalletNotExistsException e) {
-            return (error(NOT_FOUND));
+            return (getError(NOT_FOUND));
         }
     }
 
@@ -50,9 +50,9 @@ public class ResultTransfersClass implements ResultTransfersInterface{
             transfers.transfer(transfer);
             return (ok());
         } catch (InvalidAmountException | TransferToSameWalletException e) {
-            return (error(BAD_REQUEST));
+            return (getError(BAD_REQUEST));
         } catch (WalletNotExistsException e) {
-            return (error(NOT_FOUND));
+            return (getError(NOT_FOUND));
         }
     }
 
@@ -66,7 +66,7 @@ public class ResultTransfersClass implements ResultTransfersInterface{
         try {
             return ok(transfers.ledgerOfWalletTransfers(id));
         } catch (WalletNotExistsException e) {
-            return error(NOT_FOUND);
+            return getError(NOT_FOUND);
         }
     }
 }

@@ -1,5 +1,6 @@
 package CSD.Wallet.Services.SmartContracts;
 
+import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.SmartContract;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +36,7 @@ public class SmartContractServiceClass implements SmartContractServiceInter {
 	}
 
 	@Override
-	public ResponseEntity<Void> execute(long owner, String pathToSmartContractJavaFile) throws Exception {
+	public ResponseEntity<SignedResults>execute(long owner, String pathToSmartContractJavaFile) throws Exception {
 		String url = createURL(EXEC);
 
 		StringBuilder contentBuilder = new StringBuilder();
@@ -45,7 +46,7 @@ public class SmartContractServiceClass implements SmartContractServiceInter {
 
 		SmartContract smc = new SmartContract(owner, Base64.getEncoder().encodeToString(sourceCode.getBytes()));
 
-		ResponseEntity<Void> response = restTemplate.postForEntity(url, smc, Void.class);
+		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, smc, SignedResults.class);
 
 		return response;
 	}

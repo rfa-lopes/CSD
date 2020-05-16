@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import static csd.wallet.Replication.Result.ErrorCode.BAD_REQUEST;
 import static csd.wallet.Replication.Result.ErrorCode.NOT_FOUND;
-import static csd.wallet.Replication.Result.error;
+import static csd.wallet.Replication.Result.getError;
 import static csd.wallet.Replication.Result.ok;
 
 @Service
@@ -24,7 +24,7 @@ public class ResultWalletsClass implements ResultWalletsInterface{
         try {
              return (ok(new Long(wallets.createWallet(wallet))));
         } catch (EmptyWalletNameException e) {
-            return (error(BAD_REQUEST));
+            return (getError(BAD_REQUEST));
         }
     }
 
@@ -34,7 +34,7 @@ public class ResultWalletsClass implements ResultWalletsInterface{
             wallets.deleteWallet(id);
             return (ok());
         } catch (WalletNotExistsException e) {
-            return (error(NOT_FOUND));
+            return (getError(NOT_FOUND));
         }
     }
 
@@ -43,7 +43,7 @@ public class ResultWalletsClass implements ResultWalletsInterface{
         try {
             return (ok(wallets.getCurrentAmount(id)));
         } catch (WalletNotExistsException e) {
-            return (error(NOT_FOUND));
+            return (getError(NOT_FOUND));
         }
     }
 
@@ -52,7 +52,7 @@ public class ResultWalletsClass implements ResultWalletsInterface{
         try {
             return (ok(wallets.getWalletInfo(id)));
         } catch (WalletNotExistsException e) {
-            return (error(NOT_FOUND));
+            return (getError(NOT_FOUND));
         }
     }
 }

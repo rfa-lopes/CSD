@@ -1,16 +1,18 @@
 package csd.wallet.Replication;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 public interface Result<T> extends Serializable {
 
     enum ErrorCode {OK, BAD_REQUEST, NOT_FOUND, INTERNAL_ERROR, NOT_IMPLEMENTED, TIME_OUT}
 
+    T getResult();
+
     boolean isOK();
 
-    T value();
-
-    ErrorCode error();
+    ErrorCode getError();
 
     static <T> Result<T> ok(T result) {
         return new OkResult<>(result);
@@ -20,12 +22,14 @@ public interface Result<T> extends Serializable {
         return new OkResult<>(null);
     }
 
-    static <T> ErrorResult<T> error(ErrorCode error) {
+    static <T> ErrorResult<T> getError(ErrorCode error) {
         return new ErrorResult<>(error);
     }
 
 }
-class OkResult<T> implements Result<T> {
+
+@Data
+class OkResult<T> implements Result<T>, Serializable {
 
     final T result;
 
@@ -39,18 +43,19 @@ class OkResult<T> implements Result<T> {
     }
 
     @Override
-    public T value() {
+    public T getResult() {
         return result;
     }
 
     @Override
-    public ErrorCode error() {
+    public ErrorCode getError() {
         return ErrorCode.OK;
     }
 
 }
 
-class ErrorResult<T> implements Result<T> {
+@Data
+class ErrorResult<T> implements Result<T>, Serializable {
 
     final ErrorCode error;
 
@@ -64,12 +69,12 @@ class ErrorResult<T> implements Result<T> {
     }
 
     @Override
-    public T value() {
-        throw new RuntimeException("Attempting to extract the value of an Error: " + error());
+    public T getResult() {
+        return null;
     }
 
     @Override
-    public ErrorCode error() {
+    public ErrorCode getError() {
         return error;
     }
 }
