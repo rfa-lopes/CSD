@@ -47,8 +47,8 @@ public class SmartContractServiceClass implements SmartContractServiceInter {
 		String sourceCode = contentBuilder.toString();
 
 		SmartContract smc = new SmartContract(owner, Base64.getEncoder().encodeToString(sourceCode.getBytes()));
-		SignedObject signedSmc = SmartContractSigner.sign(smc);
-		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, signedSmc, SignedResults.class);
+		//SignedObject signedSmc = SmartContractSigner.sign(smc);
+		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, smc, SignedResults.class);
 
 		return response;
 	}

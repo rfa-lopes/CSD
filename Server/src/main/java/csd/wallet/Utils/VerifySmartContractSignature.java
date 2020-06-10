@@ -9,6 +9,7 @@ public class VerifySmartContractSignature {
     public static boolean verifies(SignedObject smartContract) throws NoSuchAlgorithmException {
         String keyAlg = "SHA256withRSA";
         Signature sig = Signature.getInstance(keyAlg);
-        return smartContract.verify(publicKey, sig);
+        return false;
+      //  return smartContract.verify(publicKey, sig);
     }
 }

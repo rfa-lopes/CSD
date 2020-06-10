@@ -25,8 +25,6 @@ public class ResultWalletsClass implements ResultWalletsInterface{
              return ok(wallets.createWallet(wallet));
         } catch (EmptyWalletNameException e) {
             return getError(BAD_REQUEST);
-        } catch (WalletAlreadyExistException e) {
-            return getError(CONFLICT);
         }
     }
 

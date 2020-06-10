@@ -12,20 +12,20 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-<<<<<<< Updated upstream
+
 import java.security.Permissions;
-=======
+
 import java.security.SignedObject;
->>>>>>> Stashed changes
+
 import java.util.Base64;
 
 @Service
 public class ServiceSmartContractsClass implements ServiceSmartContractsInterface {
 	@Override
-	public void executeSmartContract(SignedObject smartContract) throws Exception {
-		if (VerifySmartContractSignature.verifies(smartContract)) {
-			SmartContract sc = (SmartContract) smartContract.getObject();
-			byte[] sourceCodeByte = Base64.getDecoder().decode(sc.getCode());
+	public void executeSmartContract(SmartContract smartContract) throws Exception {
+		//if (VerifySmartContractSignature.verifies(smartContract)) {
+			//SmartContract sc = (SmartContract) smartContract.getObject();
+			byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
 			String sourceCode = new String(sourceCodeByte);
 			String tmpProperty = System.getProperty("java.io.tmpdir");
 			Path sourcePath = Paths.get(tmpProperty, "SmartContractClient.java");
@@ -44,4 +44,4 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
 		}
 	}
-}
+//}

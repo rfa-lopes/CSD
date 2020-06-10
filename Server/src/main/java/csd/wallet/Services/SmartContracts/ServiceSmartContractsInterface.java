@@ -8,6 +8,6 @@ import java.security.SignedObject;
 @Service
 public interface ServiceSmartContractsInterface {
 
-    void executeSmartContract(SignedObject smartContract) throws Exception;
+    void executeSmartContract(SmartContract smartContract) throws Exception;
 
 }
