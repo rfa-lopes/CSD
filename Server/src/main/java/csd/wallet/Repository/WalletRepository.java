@@ -5,4 +5,8 @@ import csd.wallet.Models.Wallet;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WalletRepository extends CrudRepository<Wallet,Long> { }
+public interface WalletRepository extends CrudRepository<Wallet,Long> {
+
+    Wallet findByName(String name);
+
+}

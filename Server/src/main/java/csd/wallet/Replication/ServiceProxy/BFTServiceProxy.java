@@ -10,7 +10,9 @@ import csd.wallet.Replication.Result;
 import csd.wallet.Replication.SignedResults;
 import csd.wallet.Utils.Convert;
 import csd.wallet.Utils.JSON;
+import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,18 +29,24 @@ public class BFTServiceProxy implements ReplyListener {
     @Autowired
     AsynchServiceProxy asynchServiceProxy;
 
-    Map<Integer, byte[]> signatureReceive = new HashMap<>();
-    Map<Integer, Result> replies = new HashMap<>();
-
+    Map<Integer, byte[]> signatureReceive;
+    Map<Integer, Result> replies;
+    SignedResults result;
     int numValidReplicas;
+    int minReplicas;
 
-    SignedResults result ;
+    int TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS = 5;
+
+    @Value("${bftsmart.id}")
+    int this_id;
 
     @Override
-    public void reset() { }
+    public void reset() {
+    }
 
     @Override
     public void replyReceived(RequestContext requestContext, TOMMessage tomMessage) {
+
         try {
             SignedResult signedResult = (SignedResult) Convert.toObject(tomMessage.getContent());
             byte[] reply = JSON.toJson(signedResult.getResult()).getBytes();
@@ -48,31 +56,38 @@ public class BFTServiceProxy implements ReplyListener {
             PublicKey pubKey = asynchServiceProxy.getViewManager().getStaticConf().getPublicKey(id);
 
             boolean isValid = TOMUtil.verifySignature(pubKey, reply, signature);
-
-            if(isValid){
+            if (isValid) {
                 signatureReceive.put(id, signature);
                 numValidReplicas++;
                 replies.put(id, signedResult.getResult());
-                int minReplicas = asynchServiceProxy.getViewManager().getCurrentViewF() * 2 + 1;
-                if(numValidReplicas >= minReplicas){
-                    result = new SignedResults(signatureReceive, replies.get(id));
-                    asynchServiceProxy.cleanAsynchRequest(requestContext.getOperationId());
+                if (numValidReplicas >= minReplicas) {
+                    result = new SignedResults(signatureReceive, replies.get(this_id));
+                    //asynchServiceProxy.cleanAsynchRequest(requestContext.getOperationId());
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException e) {
+            Logger.error("<<BFTServiceProxy Error>>");
         }
     }
 
     public byte[] invoke(byte[] toByteArray) throws IOException {
+
+        signatureReceive = new HashMap<>();
+        replies = new HashMap<>();
+        result = new SignedResults();
+        numValidReplicas = 0;
+        minReplicas = asynchServiceProxy.getViewManager().getCurrentViewF() * 3 + 1;
+
         asynchServiceProxy.invokeAsynchRequest(toByteArray, this, TOMMessageType.ORDERED_REQUEST);
-        int minReplicas = asynchServiceProxy.getViewManager().getCurrentViewF() * 2 + 1;
-        long timeout = System.currentTimeMillis() + 5 * 1000; //5 segundos
-        while(numValidReplicas < minReplicas)
-            if(System.currentTimeMillis() >= timeout)
-                return Convert.toBytes(getError(TIME_OUT));
-        return Convert.toBytes(ok(result));
+        long timeout = System.currentTimeMillis() + TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS * 1000; //5 segundos
+        byte[] res = null;
+        while (numValidReplicas < minReplicas)
+            if (System.currentTimeMillis() >= timeout) {
+                res = Convert.toBytes(getError(TIME_OUT));
+                break;
+            }
+        if (res == null)
+            res = Convert.toBytes(ok(result));
+        return res;
     }
 }

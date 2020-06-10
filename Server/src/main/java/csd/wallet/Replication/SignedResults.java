@@ -9,6 +9,9 @@ public class SignedResults implements Serializable {
 
     Result result;
 
+    public SignedResults() {
+    }
+
     public SignedResults(Map<Integer, byte[]> signatureReceive, Result result) {
         this.signatureReceive = signatureReceive;
         this.result = result;
