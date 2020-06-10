@@ -47,5 +47,3 @@ public class SmartContract implements Serializable {
         this.code = code;
     }
 }
-
-}
