@@ -1,0 +1,2 @@
+keytool -genkeypair -alias client -keyalg RSA -keystore clientKeystore.jks  -keysize 2048
+Password: password

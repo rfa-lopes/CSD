@@ -12,8 +12,10 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.SignedObject;
 import java.util.Base64;
 import java.util.stream.Stream;
+import  CSD.Wallet.Utils.SmartContractSigner;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -45,8 +47,8 @@ public class SmartContractServiceClass implements SmartContractServiceInter {
 		String sourceCode = contentBuilder.toString();
 
 		SmartContract smc = new SmartContract(owner, Base64.getEncoder().encodeToString(sourceCode.getBytes()));
-
-		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, smc, SignedResults.class);
+		SignedObject signedSmc = SmartContractSigner.sign(smc);
+		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, signedSmc, SignedResults.class);
 
 		return response;
 	}

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.SignedObject;
+
 @RestController
 public class SmartContractsClass extends RestResource implements SmartContractsInterface {
 
@@ -21,7 +23,7 @@ public class SmartContractsClass extends RestResource implements SmartContractsI
 
 	@SuppressWarnings("all")
 	@Override
-	public ResponseEntity<Void> executeSmartContract(SmartContract smartContract) {
+	public ResponseEntity<Void> executeSmartContract(SignedObject smartContract) {
 		Logger.info("Request: SMART CONTRACT EXECUTE");
 		return super.getResponse(bftClient.getInvoke(RequestType.SMART_CONTRACT_EXECUTE,
 				MessageType.ASYNC_REQUEST, smartContract));
