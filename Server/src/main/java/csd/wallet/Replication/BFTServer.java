@@ -1,5 +1,6 @@
 package csd.wallet.Replication;
 
+import bftsmart.reconfiguration.util.ECDSAKeyLoader;
 import bftsmart.tom.MessageContext;
 
 import bftsmart.tom.ServiceReplica;
@@ -23,9 +24,9 @@ import bftsmart.reconfiguration.util.RSAKeyLoader;
 import  bftsmart.tom.util.*;
 
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Component
@@ -136,14 +137,14 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     break;
             }
             SignedResult sigResult = new SignedResult(result, signReply(result), id);
-
+            System.err.println(sigResult.toString());
             objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
 
             Logger.replication("Replication - " + reqType);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException | InvalidKeyException | SignatureException e) {
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
@@ -198,19 +199,25 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             byteOut.flush();
             reply = byteOut.toByteArray();
             Logger.replication("Replication - " + reqType);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException | InvalidKeyException | SignatureException e) {
         	e.printStackTrace();
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
     }
 
-    private byte[] signReply(Result result){
+    private byte[] signReply(Result result) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, InvalidKeyException, SignatureException, IOException {
         byte[] signResult = null;
-        privKey = a.getReplicaContext().getStaticConfiguration().getPrivateKey();
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+        ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
+
+        privKey = keyloader.loadPrivateKey();
+
         String json = JSON.toJson(result);
         signResult = TOMUtil.signMessage( privKey, json.getBytes());
+        System.out.println(Base64.getEncoder().encodeToString(signResult));
         return signResult;
     }
-   
+
 }
