@@ -50,6 +50,7 @@ public class BFTServiceProxy implements ReplyListener {
         try {
             SignedResult signedResult = (SignedResult) Convert.toObject(tomMessage.getContent());
             byte[] reply = JSON.toJson(signedResult.getResult()).getBytes();
+
             byte[] signature = signedResult.getSignature();
             int id = signedResult.getId();
 

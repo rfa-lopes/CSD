@@ -13,14 +13,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Permissions;
 import java.util.Base64;
+import java.util.PropertyPermission;
 
 @Service
 public class ServiceSmartContractsClass implements ServiceSmartContractsInterface {
+
 	@Override
 	public void executeSmartContract(SmartContract smartContract) throws Exception {
 
+		/*Permissions perms = new Permissions();
+		perms.add(new PropertyPermission("*", "read"));
+		perms.add(new RuntimePermission("getenv.TIKA_CONFIG"));*/
+
 		byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
 		String sourceCode = new String(sourceCodeByte);
+
 		String tmpProperty = System.getProperty("java.io.tmpdir");
 		Path sourcePath = Paths.get(tmpProperty, "SmartContractClient.java");
 		Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
@@ -32,6 +39,7 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
 		URL classUrl = compiled.getParent().toFile().toURI().toURL();
 		URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { classUrl });
+
 		Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
 
 		clazz.newInstance();
