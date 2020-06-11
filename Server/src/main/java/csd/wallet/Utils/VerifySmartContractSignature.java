@@ -10,6 +10,6 @@ public class VerifySmartContractSignature {
         String keyAlg = "SHA256withRSA";
         Signature sig = Signature.getInstance(keyAlg);
         return false;
-      //  return smartContract.verify(publicKey, sig);
+        //  return smartContract.verify(publicKey, sig);
     }
 }
