@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.SignedObject;
-
 @RestController
 @RequestMapping(value = "/smartcontract")
 public interface SmartContractsInterface {
@@ -18,6 +16,6 @@ public interface SmartContractsInterface {
      * @return TEST1
      */
     @PostMapping(value = "/execute")
-    ResponseEntity<Void> executeSmartContract(@RequestBody SignedObject smartContract);
+    ResponseEntity<Void> executeSmartContract(@RequestBody SmartContract smartContract);
 
 }

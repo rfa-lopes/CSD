@@ -2,6 +2,8 @@ package csd.wallet.Replication;
 
 import bftsmart.tom.ServiceProxy;
 
+
+
 import static csd.wallet.Replication.Result.*;
 import static csd.wallet.Replication.Result.ErrorCode.INTERNAL_ERROR;
 
@@ -60,5 +62,7 @@ public class BFTClient {
             return getError(INTERNAL_ERROR);
         }
     }
+
+
 
 }

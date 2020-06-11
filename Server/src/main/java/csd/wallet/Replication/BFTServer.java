@@ -26,7 +26,6 @@ import  bftsmart.tom.util.*;
 import java.io.*;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Component
@@ -137,14 +136,14 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                     break;
             }
             SignedResult sigResult = new SignedResult(result, signReply(result), id);
-            System.err.println(sigResult.toString());
+
             objOut.writeObject(sigResult);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
 
             Logger.replication("Replication - " + reqType);
-        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException | InvalidKeyException | SignatureException e) {
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
@@ -199,25 +198,20 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             byteOut.flush();
             reply = byteOut.toByteArray();
             Logger.replication("Replication - " + reqType);
-        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException | InvalidKeyException | SignatureException e) {
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
         	e.printStackTrace();
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
     }
 
-    private byte[] signReply(Result result) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, InvalidKeyException, SignatureException, IOException {
-        byte[] signResult = null;
+    private byte[] signReply(Result result) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-
         ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
-
         privKey = keyloader.loadPrivateKey();
-
         String json = JSON.toJson(result);
-        signResult = TOMUtil.signMessage( privKey, json.getBytes());
-        System.out.println(Base64.getEncoder().encodeToString(signResult));
+        byte[] signResult = TOMUtil.signMessage( privKey, json.getBytes());
         return signResult;
     }
-
+   
 }

@@ -33,6 +33,7 @@ public class VerifySignatures {
             for (Integer i : keySet) {
                 signature.initVerify(pubKeys.get(i));
                 signature.update(res.getBytes());
+
                 if(!signature.verify(signatureReceive.get(i)))
                     return false;
             }

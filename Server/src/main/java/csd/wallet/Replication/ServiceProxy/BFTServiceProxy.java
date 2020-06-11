@@ -1,6 +1,7 @@
 package csd.wallet.Replication.ServiceProxy;
 
 import bftsmart.communication.client.ReplyListener;
+import bftsmart.reconfiguration.util.ECDSAKeyLoader;
 import bftsmart.tom.AsynchServiceProxy;
 import bftsmart.tom.RequestContext;
 import bftsmart.tom.core.messages.TOMMessage;
@@ -16,7 +17,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
 import static csd.wallet.Replication.Result.ErrorCode.TIME_OUT;
@@ -35,7 +39,7 @@ public class BFTServiceProxy implements ReplyListener {
     int numValidReplicas;
     int minReplicas;
 
-    int TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS = 5;
+    int TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS = 10;
 
     @Value("${bftsmart.id}")
     int this_id;
@@ -50,11 +54,20 @@ public class BFTServiceProxy implements ReplyListener {
         try {
             SignedResult signedResult = (SignedResult) Convert.toObject(tomMessage.getContent());
             byte[] reply = JSON.toJson(signedResult.getResult()).getBytes();
-
             byte[] signature = signedResult.getSignature();
             int id = signedResult.getId();
 
-            PublicKey pubKey = asynchServiceProxy.getViewManager().getStaticConf().getPublicKey(id);
+            ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
+            PublicKey pubKey = null;
+
+            try {
+                pubKey = keyloader.loadPublicKey();
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException | CertificateException e) {
+                e.printStackTrace();
+            }
+
+
+            //PublicKey pubKey = asynchServiceProxy.getViewManager().getStaticConf().getPublicKey(id);
 
             boolean isValid = TOMUtil.verifySignature(pubKey, reply, signature);
             if (isValid) {
@@ -79,8 +92,10 @@ public class BFTServiceProxy implements ReplyListener {
         numValidReplicas = 0;
         minReplicas = asynchServiceProxy.getViewManager().getCurrentViewF() * 3 + 1;
 
+        System.out.println("minimini: "+minReplicas);
+
         asynchServiceProxy.invokeAsynchRequest(toByteArray, this, TOMMessageType.ORDERED_REQUEST);
-        long timeout = System.currentTimeMillis() + TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS * 1000; //5 segundos
+        long timeout = System.currentTimeMillis() + TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS * 1000;
         byte[] res = null;
         while (numValidReplicas < minReplicas)
             if (System.currentTimeMillis() >= timeout) {
