@@ -210,6 +210,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
         ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
         privKey = keyloader.loadPrivateKey();
         String json = JSON.toJson(result);
+        System.out.println(json);
         byte[] signResult = TOMUtil.signMessage( privKey, json.getBytes());
         return signResult;
     }

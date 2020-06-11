@@ -92,8 +92,6 @@ public class BFTServiceProxy implements ReplyListener {
         numValidReplicas = 0;
         minReplicas = asynchServiceProxy.getViewManager().getCurrentViewF() * 3 + 1;
 
-        System.out.println("minimini: "+minReplicas);
-
         asynchServiceProxy.invokeAsynchRequest(toByteArray, this, TOMMessageType.ORDERED_REQUEST);
         long timeout = System.currentTimeMillis() + TIME_OUT_SIGNED_REPLICAS_RESPONSES_IN_SECONDS * 1000;
         byte[] res = null;
