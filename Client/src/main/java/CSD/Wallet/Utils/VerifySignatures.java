@@ -27,9 +27,13 @@ public class VerifySignatures {
         try {
             Signature signature = Signature.getInstance("SHA256withECDSA", "SunEC");
 
-            String res = result.isOk() ?
-                    "{\"result\":" + JSON.toJson(result.getResult()) + "}" :
-                    "{\"error\":\"" + JSON.toJson(result.getError()) + "\"}";
+            String res = null;
+            if (result.getResult() == null && result.isOk())
+                res = "{}";
+            else
+                res = result.isOk() ?
+                        "{\"result\":" + JSON.toJson(result.getResult()) + "}" :
+                        "{\"error\":" + JSON.toJson(result.getError()) + "}";
 
             for (Integer i : keySet) {
                 signature.initVerify(pubKeys.get(i));

@@ -41,15 +41,14 @@ public class WalletServiceClass implements WalletServiceInter {
     @Override
     public ResponseEntity<SignedResults> create(String name) {
         String url = createURL(CREATE);
-        ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url,new Wallet(name), SignedResults.class);
-        return signedResults;
+        return restTemplate.postForEntity(url,new Wallet(name), SignedResults.class);
     }
 
     @Override
-    public void delete(long id) throws URISyntaxException {
+    public ResponseEntity<SignedResults> delete(long id) throws URISyntaxException {
         String url = createURL(DELETE);
         String idToDelete = createIdURL(id);
-        restTemplate.delete(new URI(url + idToDelete));
+        return restTemplate.getForEntity(new URI(url + idToDelete), SignedResults.class);
     }
 
     @Override

@@ -57,10 +57,7 @@ public class Wallet implements Serializable {
     }
 
     public String getInfo() {
-       return String.format(
-                "\n"+
-                "ID: %s\n" + "Name owner: %s\n" + "Amount: %s\n",
-                Long.toString(getId()), getName(),  Long.toString(getAmount()));
+       return String.format("\n"+ "ID: %s\n" + "Name owner: %s\n" + "Amount: %s\n", (id), name, amount);
     }
 }
 

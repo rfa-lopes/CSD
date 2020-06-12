@@ -6,6 +6,7 @@ import CSD.Wallet.Models.Wallet;
 import CSD.Wallet.Services.Wallets.WalletServiceInter;
 import CSD.Wallet.Utils.Result;
 import CSD.Wallet.Utils.VerifySignatures;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
     public String delete(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
-        ResponseEntity<SignedResults> signedResults = service.getAmount(id);
+        ResponseEntity<SignedResults> signedResults = service.delete(id);
 
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
@@ -112,8 +113,11 @@ public class WalletCommandsClass implements WalletCommandsInter{
         if(VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
+        ObjectMapper mapper = new ObjectMapper();
+        Wallet result = mapper.convertValue(res.getResult(), Wallet.class);
+
         switch (res.getError()){
-            case "OK": return "Your wallet's information:" + ((Wallet)res.getResult()).getInfo();
+            case "OK": return "Your wallet's information:" + result.getInfo();
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;

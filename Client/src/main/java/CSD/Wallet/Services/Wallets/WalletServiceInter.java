@@ -10,7 +10,7 @@ public interface WalletServiceInter {
 
     ResponseEntity<SignedResults> create(String name) throws URISyntaxException;
 
-    void delete(long id) throws URISyntaxException ;
+    ResponseEntity<SignedResults> delete(long id) throws URISyntaxException;
 
     ResponseEntity<SignedResults> getAmount(long id) throws URISyntaxException;
 

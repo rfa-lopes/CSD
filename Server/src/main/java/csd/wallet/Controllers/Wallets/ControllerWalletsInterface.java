@@ -38,7 +38,7 @@ public interface ControllerWalletsInterface {
      *  NOT FOUND, if Wallet id does not exist.
      *  INTERNAL_SERVER_ERROR, if server error.
      */
-    @DeleteMapping(
+    @GetMapping(
             value = DELETE)
     ResponseEntity<Void> deleteWallet (@PathVariable long id);
 
