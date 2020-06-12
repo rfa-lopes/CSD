@@ -18,9 +18,9 @@ public class ResultSmartContractClass implements ResultSmartContractInterface {
 	ServiceSmartContractsClass smartconstracts;
 
 	@Override
-	public Result<Void> executeSmartContract(SmartContract smartContract) {
+	public Result executeSmartContract(SmartContract smartContract) {
 		try {
-			
+
 			smartconstracts.executeSmartContract(smartContract);
 			return ok();
 		} catch (Exception e) {

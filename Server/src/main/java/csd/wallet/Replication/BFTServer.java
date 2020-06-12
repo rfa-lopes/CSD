@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import bftsmart.reconfiguration.util.RSAKeyLoader;
-import  bftsmart.tom.util.*;
+import bftsmart.tom.util.*;
 
 import java.io.*;
 import java.security.*;
@@ -199,7 +199,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
             reply = byteOut.toByteArray();
             Logger.replication("Replication - " + reqType);
         } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             Logger.error("<<<BFT Server error>>>");
         }
         return reply;
@@ -210,9 +210,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
         ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
         privKey = keyloader.loadPrivateKey();
         String json = JSON.toJson(result);
-        System.out.println(json);
-        byte[] signResult = TOMUtil.signMessage( privKey, json.getBytes());
-        return signResult;
+        return TOMUtil.signMessage(privKey, json.getBytes());
     }
-   
+
 }

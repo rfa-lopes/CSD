@@ -27,7 +27,7 @@ public class SmartContractClass implements SmartContractInterface {
 
     @Autowired
     public SmartContractClass(SmartContractServiceClass service, Environment env) {
-        System.setProperty("javax.net.ssl.trustStore",  env.getProperty("client.ssl.trust-store"));
+        System.setProperty("javax.net.ssl.trustStore", env.getProperty("client.ssl.trust-store"));
         System.setProperty("javax.net.ssl.trustStorePassword", env.getProperty("client.ssl.trust-store-password"));
         this.service = service;
     }
@@ -36,18 +36,18 @@ public class SmartContractClass implements SmartContractInterface {
     @ShellMethod("Execute Smart Contract.")
     public String execute(
             @ShellOption({"-id", "-ownerid"}) long ownerId,
-            @ShellOption({"-f", "-file"})String pathToSmartContractJavaFile) {
+            @ShellOption({"-f", "-file"}) String pathToSmartContractJavaFile) {
         try {
             ResponseEntity<SignedResults> signedResults = service.execute(ownerId, pathToSmartContractJavaFile);
             SignedResults s = signedResults.getBody();
             Result res = s.getResult();
 
-            if(VerifySignatures.verify(s.getSignatureReceive(), res))
+            if (VerifySignatures.verify(s.getSignatureReceive(), res))
                 return WRONG_SIGNATURE;
 
             return "EXECUTED.";
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return "File does not exist.";
         }
     }

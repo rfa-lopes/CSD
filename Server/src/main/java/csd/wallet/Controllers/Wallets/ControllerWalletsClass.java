@@ -1,10 +1,10 @@
 package csd.wallet.Controllers.Wallets;
 
-import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Models.Wallet;
 import csd.wallet.Replication.BFTClient;
 import csd.wallet.Controllers.RestResource;
 import csd.wallet.Replication.MessageType;
+import csd.wallet.Replication.Result;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ControllerWalletsClass extends RestResource implements ControllerWa
     BFTClient bftClient;
 
     @Override
-    public ResponseEntity<Long> createWallet(Wallet wallet) {
+    public ResponseEntity<Result> createWallet(Wallet wallet) {
         Logger.info("Request: CREATEWALLET");
         return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ASYNC_REQUEST, wallet));
     }

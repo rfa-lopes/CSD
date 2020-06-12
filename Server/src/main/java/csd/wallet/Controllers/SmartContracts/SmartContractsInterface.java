@@ -1,7 +1,7 @@
 package csd.wallet.Controllers.SmartContracts;
 
-
 import csd.wallet.Models.SmartContract;
+import csd.wallet.Replication.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public interface SmartContractsInterface {
 
     /**
-     * @return TEST1
+     * @return Execute Smart Contracts
      */
     @PostMapping(value = "/execute")
-    ResponseEntity<Void> executeSmartContract(@RequestBody SmartContract smartContract);
+    ResponseEntity<Result> executeSmartContract(
+            @RequestBody SmartContract smartContract);
 
 }
