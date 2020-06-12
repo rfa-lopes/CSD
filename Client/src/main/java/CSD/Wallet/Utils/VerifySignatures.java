@@ -23,30 +23,24 @@ public class VerifySignatures {
     }
 
     public static boolean verify(Map<Integer, byte[]> signatureReceive, Result result) {
-        String sigAlg = "SHA256withECDSA";
         Set<Integer> keySet = signatureReceive.keySet();
         try {
-            Signature signature = Signature.getInstance(sigAlg, "SunEC");
+            Signature signature = Signature.getInstance("SHA256withECDSA", "SunEC");
 
-            String res = JSON.toJson(result);
+            String res = result.isOk() ?
+                    "{\"result\":" + JSON.toJson(result.getResult()) + "}" :
+                    "{\"error\":\"" + JSON.toJson(result.getError()) + "\"}";
 
             for (Integer i : keySet) {
                 signature.initVerify(pubKeys.get(i));
                 signature.update(res.getBytes());
-
-                if(!signature.verify(signatureReceive.get(i)))
-                    return false;
+                if (!signature.verify(signatureReceive.get(i)))
+                    return true;
             }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (SignatureException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
+        } catch (NoSuchAlgorithmException | SignatureException | NoSuchProviderException | InvalidKeyException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 
     private static void getPublicKey(int id) {
@@ -55,13 +49,14 @@ public class VerifySignatures {
             BufferedReader r = new BufferedReader(f);
             String tmp = "";
             String key;
-            for (key = ""; (tmp = r.readLine()) != null; key = key + tmp) {}
+            for (key = ""; (tmp = r.readLine()) != null; key = key + tmp) {
+            }
             f.close();
             r.close();
             PublicKey ret = getPublicKeyFromString(key);
             pubKeys.put(id, ret);
         } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
-            //Logger.error("Provider error.", e);
+            e.printStackTrace();
         }
     }
 
