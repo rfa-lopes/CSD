@@ -65,7 +65,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/bin/BFT-SMaRt.jar</systemPath>
 		</dependency>
-
+	
 		<dependency>
 			<groupId>BFT</groupId>
 			<artifactId>BFT2</artifactId>

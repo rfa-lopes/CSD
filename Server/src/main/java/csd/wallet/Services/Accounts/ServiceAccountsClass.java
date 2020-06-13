@@ -10,20 +10,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAccountsClass implements ServiceAccountsInterface {
 
-    @Autowired
-    AccountRepository accountRepository;
+	@Autowired
+	AccountRepository accountRepository;
 
-    @Override
-    public long create(Account account) throws AccountUsernameAlreadyExistsException, InvalidAccountUsernameException {
+	@Override
+	public long create(Account account) throws AccountUsernameAlreadyExistsException, InvalidAccountUsernameException {
 
-        if (account.getUsername().equals("") || account.getUsername() == null)
-            throw new InvalidAccountUsernameException();
+		if (account.getUsername().equals("") || account.getUsername() == null)
+			throw new InvalidAccountUsernameException();
 
-        if (accountRepository.findByUsername(account.getUsername()) != null)
-            throw new AccountUsernameAlreadyExistsException();
+		if (accountRepository.findByUsername(account.getUsername()) != null)
+			throw new AccountUsernameAlreadyExistsException();
 
-        //Generate password hash
-        Account acc = accountRepository.save(account);
-        return acc.getId();
-    }
+		// Generate password hash
+		account.hashPassword();
+
+		Account acc = accountRepository.save(account);
+		return acc.getId();
+	}
 }

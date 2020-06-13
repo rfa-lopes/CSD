@@ -2,8 +2,6 @@ package csd.wallet.Replication;
 
 import bftsmart.tom.ServiceProxy;
 
-
-
 import static csd.wallet.Replication.Operations.Result.*;
 import static csd.wallet.Replication.Operations.Result.ErrorCode.INTERNAL_ERROR;
 
@@ -18,52 +16,50 @@ import java.io.*;
 @Service
 public class BFTClient {
 
-    @Autowired
-    ServiceProxy serviceProxy;
+	@Autowired
+	ServiceProxy serviceProxy;
 
-    @Autowired
-    BFTServiceProxy bftServiceProxy;
+	@Autowired
+	BFTServiceProxy bftServiceProxy;
 
-    public <T> Result getInvoke(RequestType req, MessageType type, T... inputs) {
-        try {
-            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-            ObjectOutput objOut = new ObjectOutputStream(byteOut);
+	public <T> Result getInvoke(RequestType req, MessageType type, T... inputs) {
+		try {
+			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+			ObjectOutput objOut = new ObjectOutputStream(byteOut);
 
-            objOut.writeObject(req);
+			objOut.writeObject(req);
 
-            for (T input : inputs)
-                objOut.writeObject(input);
+			for (T input : inputs)
+				objOut.writeObject(input);
 
-            objOut.flush();
-            byteOut.flush();
+			objOut.flush();
+			byteOut.flush();
 
-            byte[] reply;
+			byte[] reply;
 
-            switch (type) {
-                case ORDERED_REQUEST:
-                    reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-                    break;
-                case UNORDERED_REQUEST:
-                    reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-                    break;
-                case UNORDERED_HASHED_REQUEST:
-                    reply = serviceProxy.invokeUnorderedHashed(byteOut.toByteArray());
-                    break;
-                case ASYNC_REQUEST:
-                    reply = bftServiceProxy.invoke(byteOut.toByteArray());
-                    break;
-                default:
-                    return getError(INTERNAL_ERROR);
-            }
+			switch (type) {
+			case ORDERED_REQUEST:
+				reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+				break;
+			case UNORDERED_REQUEST:
+				reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
+				break;
+			case UNORDERED_HASHED_REQUEST:
+				reply = serviceProxy.invokeUnorderedHashed(byteOut.toByteArray());
+				break;
+			case ASYNC_REQUEST:
+				reply = bftServiceProxy.invoke(byteOut.toByteArray());
+				break;
+			default:
+				return getError(INTERNAL_ERROR);
+			}
 
-            ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-            ObjectInput objIn = new ObjectInputStream(byteIn);
-            return (Result) objIn.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return getError(INTERNAL_ERROR);
-        }
-    }
-
-
+			ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
+			ObjectInput objIn = new ObjectInputStream(byteIn);
+			return (Result) objIn.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			return getError(INTERNAL_ERROR);
+		}
+	}
 
 }

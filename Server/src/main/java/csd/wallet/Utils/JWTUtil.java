@@ -37,9 +37,12 @@ public class JWTUtil {
     }
 
     public static String parseJWT(String jwt) throws SignatureException, ExpiredJwtException{
+    	
+    	
         Claims claims = Jwts.parser()
                 .setSigningKey(KEY_BYTES)
                 .parseClaimsJws(jwt).getBody();
+        
         return claims.getId();
     }
 }

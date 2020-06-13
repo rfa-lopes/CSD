@@ -1,5 +1,6 @@
 package csd.wallet.Services.Wallets;
 
+import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Exceptions.WalletExceptions.EmptyWalletNameException;
 import csd.wallet.Exceptions.WalletExceptions.WalletAlreadyExistException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
@@ -9,12 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ServiceWalletsInterface {
 
-    long createWallet (Wallet wallet) throws EmptyWalletNameException, WalletAlreadyExistException;
+	long createWallet(long accId, Wallet wallet)
+			throws EmptyWalletNameException, WalletAlreadyExistException;
 
-    void deleteWallet (long id) throws WalletNotExistsException;
+	void deleteWallet(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 
-    long getCurrentAmount (long id) throws WalletNotExistsException;
+	long getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 
-    Wallet getWalletInfo (long id) throws WalletNotExistsException;
-
+	Wallet getWalletInfo(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 }

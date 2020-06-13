@@ -14,50 +14,54 @@ import java.io.Serializable;
 @Data
 public class Account implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	long id;
 
-    @NotNull
-    String username;
+	@NotNull
+	String username;
 
-    @NotNull
-    String password;
+	@NotNull
+	String password;
 
-    public Account() {
-    }
+	public Account() {
+	}
 
-    public Account(@NotNull long id, @NotNull String password) {
-        this.id = id;
-        this.password = HashingUtils.hashPwd(password);
-    }
+	public Account(@NotNull long id, @NotNull String password) {
+		this.id = id;
+		this.password = password;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = HashingUtils.hashPwd(password);
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public boolean isValidPassword(String toCompare) {
-        return HashingUtils.validatePassword(toCompare, password);
-    }
+	public void hashPassword() {
+		this.password = HashingUtils.hashPwd(password);
+	}
+
+	public boolean isValidPassword(String toCompare) {
+		return HashingUtils.validatePassword(toCompare, password);
+	}
 
 }

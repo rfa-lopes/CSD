@@ -20,5 +20,5 @@ public enum RequestType {
 
     SMART_CONTRACT_EXECUTE,
 
-    ACCOUNT_CREATE
+    ACCOUNT_CREATE, LOGIN
 }

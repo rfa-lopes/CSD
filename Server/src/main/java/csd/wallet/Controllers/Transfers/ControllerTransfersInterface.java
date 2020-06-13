@@ -31,7 +31,7 @@ public interface ControllerTransfersInterface {
      */
     @PostMapping(
             value = ADD_MONEY)
-    ResponseEntity<Void> addMoney(@RequestBody AddRemoveForm idAmount);
+    ResponseEntity<Void> addMoney(@RequestAttribute("id") long accId,@RequestBody AddRemoveForm idAmount);
 
     /**
      * @param idAmount: Wallet id | Amount to remove from the wallet.
@@ -43,7 +43,7 @@ public interface ControllerTransfersInterface {
      */
     @PostMapping(
             value = REMOVE_MONEY)
-    ResponseEntity<Void> removeMoney(@RequestBody AddRemoveForm idAmount);
+    ResponseEntity<Void> removeMoney(@RequestAttribute("id") long accId,@RequestBody AddRemoveForm idAmount);
 
     /**
      * @param transfer: Transference with: fromId, toId and amount.
@@ -55,7 +55,7 @@ public interface ControllerTransfersInterface {
      */
     @PostMapping(
             value = TRANSFER)
-    ResponseEntity<Void> transfer(@RequestBody Transfer transfer);
+    ResponseEntity<Void> transfer(@RequestAttribute("id") long accId,@RequestBody Transfer transfer);
 
     /**
      * @return OK and List of all transfers.
@@ -65,7 +65,7 @@ public interface ControllerTransfersInterface {
     @GetMapping(
             value = GLOBAL,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers();
+    ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers(@RequestAttribute("id") long accId);
 
     /**
      * @param id: Wallet id.
@@ -77,7 +77,7 @@ public interface ControllerTransfersInterface {
     @GetMapping(
             value = WALLET,
             produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(@PathVariable long id);
+    ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(@RequestAttribute("id") long accId,@PathVariable long id);
 
 
 }
