@@ -3,20 +3,17 @@ package CSD.Wallet.Services.Transfers;
 import CSD.Wallet.Models.AddRemoveForm;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Transfer;
-import CSD.Wallet.Utils.*;
+import CSD.Wallet.Services.LocalRepo.LocalRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -44,10 +41,11 @@ public class TransferServiceClass implements TransferServiceInter {
 
 	@Override
 	public ResponseEntity<SignedResults> transfer(long fromId, long toId, long amount) {
-
 		String url = createURL(TRANSFER);
 		Transfer body = new Transfer(fromId, toId, amount);
-		ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url, body, SignedResults.class);
+		HttpEntity<Transfer> entity = new HttpEntity<Transfer>(body, createHeaders());
+		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
+				SignedResults.class);
 		return signedResults;
 	}
 
@@ -57,36 +55,41 @@ public class TransferServiceClass implements TransferServiceInter {
 		AddRemoveForm f = new AddRemoveForm();
 		f.setId(id);
 		f.setAmount(amount);
-		ResponseEntity<SignedResults> signedResults = restTemplate.postForEntity(url, f, SignedResults.class);
+		HttpEntity<AddRemoveForm> entity = new HttpEntity<AddRemoveForm>(f, createHeaders());
+		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
+				SignedResults.class);
 		return signedResults;
 	}
 
 	@Override
 	public ResponseEntity<SignedResults> removeAmount(long id, long amount) {
-
 		String url = createURL(REMOVE);
 		AddRemoveForm f = new AddRemoveForm();
-
 		f.setId(id);
 		f.setAmount(amount);
-		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, f, SignedResults.class);
-		return response;
-
+		HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders());
+		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
+				SignedResults.class);
+		return signedResults;
 	}
 
 	@Override
 	public ResponseEntity<SignedResults> listGlobalTransfers() throws URISyntaxException {
 		String url = createURL(GLOBAL);
-		ResponseEntity<SignedResults> signedResults = restTemplate.getForEntity(new URI(url), SignedResults.class);;
-        return signedResults;
+		HttpEntity entity = new HttpEntity(createHeaders());
+		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.GET, entity,
+				SignedResults.class);
+		return signedResults;
 	}
 
 	@Override
 	public ResponseEntity<SignedResults> listWalletTransfers(long id) throws URISyntaxException {
 		String url = createURL(WALLET);
 		String idToGet = url + BACKSLASH + id;
-		ResponseEntity<SignedResults> response = restTemplate.getForEntity(new URI(idToGet), SignedResults.class);
-		return response;
+		HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(idToGet, HttpMethod.GET, entity,
+				SignedResults.class);
+		return signedResults;
 	}
 
 	/*
@@ -96,6 +99,14 @@ public class TransferServiceClass implements TransferServiceInter {
 
 	private <T> String createURL(String method) {
 		return String.format(SERVER_URL + BASE + method);
+	}
+
+	private HttpHeaders createHeaders() {
+		return new HttpHeaders() {
+			{
+				set("Authorization", LocalRepo.getJWT());
+			}
+		};
 	}
 
 }

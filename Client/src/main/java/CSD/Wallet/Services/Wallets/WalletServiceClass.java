@@ -2,11 +2,12 @@ package CSD.Wallet.Services.Wallets;
 
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Wallet;
-import CSD.Wallet.Utils.ConvertHttpStatus;
-import CSD.Wallet.Utils.Result;
-import CSD.Wallet.Utils.VerifySignatures;
+import CSD.Wallet.Services.LocalRepo.LocalRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +29,7 @@ public class WalletServiceClass implements WalletServiceInter {
 
     private static String BACKSLASH = "/";
     /* Methods */
+
     private static String CREATE = "/create";
     private static String DELETE = "/delete";
     private static String AMOUNT = "/amount";
@@ -41,33 +43,42 @@ public class WalletServiceClass implements WalletServiceInter {
     @Override
     public ResponseEntity<SignedResults> create(String name) {
         String url = createURL(CREATE);
-        return restTemplate.postForEntity(url,new Wallet(name), SignedResults.class);
+        HttpEntity<Wallet> entity = new HttpEntity<Wallet>(new Wallet(name), createHeaders());
+        ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
+                SignedResults.class);
+        return signedResults;
     }
+
 
     @Override
     public ResponseEntity<SignedResults> delete(long id) throws URISyntaxException {
         String url = createURL(DELETE);
         String idToDelete = createIdURL(id);
-        return restTemplate.getForEntity(new URI(url + idToDelete), SignedResults.class);
+        HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+        ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToDelete), HttpMethod.DELETE, entity,
+                SignedResults.class);
+        return signedResults;
     }
 
     @Override
     public ResponseEntity<SignedResults> getAmount(long id) throws URISyntaxException {
         String url = createURL(AMOUNT);
         String idToGet = createIdURL(id);
-        ResponseEntity<SignedResults> response = restTemplate.getForEntity(new URI(url + idToGet), SignedResults.class);
-        return response;
+        HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+        ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToGet), HttpMethod.GET, entity,
+                SignedResults.class);
+        return signedResults;
     }
 
     @Override
     public ResponseEntity<SignedResults> getInfo(long id) throws URISyntaxException {
         String url = createURL(INFO);
         String idToGet = createIdURL(id);
-        ResponseEntity<SignedResults> response = restTemplate.getForEntity(new URI(url + idToGet), SignedResults.class);
-        return response;
+        HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+        ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToGet), HttpMethod.GET, entity,
+                SignedResults.class);
+        return signedResults;
     }
-
-
 
     /* Auxiliary Methods ------------------------------------------------------------------- */
 
@@ -78,4 +89,13 @@ public class WalletServiceClass implements WalletServiceInter {
     private <T> String createIdURL(Long id) {
         return String.format(BACKSLASH + Long.toString(id));
     }
+
+    private HttpHeaders createHeaders() {
+        return new HttpHeaders() {
+            {
+                set("Authorization", LocalRepo.getJWT());
+            }
+        };
+    }
+
 }

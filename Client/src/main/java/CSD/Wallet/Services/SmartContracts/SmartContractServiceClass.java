@@ -3,8 +3,12 @@ package CSD.Wallet.Services.SmartContracts;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.SmartContract;
 
+import CSD.Wallet.Services.LocalRepo.LocalRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -46,13 +50,22 @@ public class SmartContractServiceClass implements SmartContractServiceInter {
 
 		SmartContract smc = new SmartContract(owner, Base64.getEncoder().encodeToString(sourceCode.getBytes()));
 
-		ResponseEntity<SignedResults> response = restTemplate.postForEntity(url, smc, SignedResults.class);
-
-		return response;
+		HttpEntity<SmartContract> entity = new HttpEntity<>(smc, createHeaders());
+		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
+				SignedResults.class);
+		return signedResults;
 	}
 
 	private <T> String createURL(String method) {
 		return String.format(SERVER_URL + BASE + method);
+	}
+
+	private HttpHeaders createHeaders() {
+		return new HttpHeaders() {
+			{
+				set("Authorization", LocalRepo.getJWT());
+			}
+		};
 	}
 
 }

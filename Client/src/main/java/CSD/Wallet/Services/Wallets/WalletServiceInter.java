@@ -15,4 +15,5 @@ public interface WalletServiceInter {
     ResponseEntity<SignedResults> getAmount(long id) throws URISyntaxException;
 
     ResponseEntity<SignedResults> getInfo(long id) throws URISyntaxException;
+
 }
