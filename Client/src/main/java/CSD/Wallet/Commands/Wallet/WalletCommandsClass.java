@@ -1,8 +1,8 @@
 package CSD.Wallet.Commands.Wallet;
 
 import CSD.Wallet.Models.SignedResults;
-import CSD.Wallet.Models.Transfer;
 import CSD.Wallet.Models.Wallet;
+import CSD.Wallet.Services.LocalRepo.LocalRepo;
 import CSD.Wallet.Services.Wallets.WalletServiceInter;
 import CSD.Wallet.Utils.Result;
 import CSD.Wallet.Utils.VerifySignatures;
@@ -15,7 +15,6 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import java.net.URISyntaxException;
-import java.util.List;
 
 @ShellComponent
 public class WalletCommandsClass implements WalletCommandsInter{
@@ -24,6 +23,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
     private static final String MESSAGE_400 = "Bad request, try again.";
     private static final String MESSAGE_ERROR = "Something went wrong.";
     private static final String WRONG_SIGNATURE = "Wrong signatures.";
+    private static final String FAILED_AUTH = "You don't have permissions to execute this operation!";
     private static final String MESSAGE_TIMEOUT = "Time out request.";
 
     private final WalletServiceInter service;
@@ -34,6 +34,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
         System.setProperty("javax.net.ssl.trustStorePassword", env.getProperty("client.ssl.trust-store-password"));
         this.service = service;
     }
+
 
     @Override
     @ShellMethod("Create new wallet.")
@@ -49,7 +50,9 @@ public class WalletCommandsClass implements WalletCommandsInter{
             return WRONG_SIGNATURE;
 
         switch (res.getError()){
-            case "OK": return "New wallet created!" + "\n" + "Id:" + (Integer)res.getResult();
+            case "OK":
+                int id = (Integer)res.getResult();
+                return "New wallet created!" + "\n" + "Id:" + id;
             default: return MESSAGE_ERROR;
         }
     }
@@ -72,6 +75,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
+            case "FORBIDDEN": return FAILED_AUTH;
             default: return MESSAGE_ERROR;
         }
 
@@ -95,6 +99,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
+            case "FORBIDDEN": return FAILED_AUTH;
             default: return MESSAGE_ERROR;
         }
 
@@ -121,8 +126,10 @@ public class WalletCommandsClass implements WalletCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
+            case "FORBIDDEN": return FAILED_AUTH;
             default: return MESSAGE_ERROR;
         }
 
     }
+
 }
