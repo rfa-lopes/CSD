@@ -1,5 +1,7 @@
 package csd.wallet.Replication;
 
+import csd.wallet.Replication.Operations.Result;
+
 import java.io.Serializable;
 import java.util.Map;
 

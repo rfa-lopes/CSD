@@ -1,7 +1,7 @@
 package csd.wallet.Controllers.Wallets;
 
 import csd.wallet.Models.Wallet;
-import csd.wallet.Replication.Result;
+import csd.wallet.Replication.Operations.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.MediaType.*;

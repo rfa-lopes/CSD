@@ -4,29 +4,27 @@ import bftsmart.reconfiguration.util.ECDSAKeyLoader;
 import bftsmart.tom.MessageContext;
 
 import bftsmart.tom.ServiceReplica;
-import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
 import csd.wallet.Enums.RequestType;
 import csd.wallet.Models.*;
+import csd.wallet.Replication.Operations.Accounts.ResultAccountsClass;
+import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Replication.ServiceProxy.SignedResult;
-import csd.wallet.Replication.SmartContracts.ResultSmartContractClass;
-import csd.wallet.Replication.Tests.ResultTestsClass;
-import csd.wallet.Replication.Transfers.ResultTransfersClass;
-import csd.wallet.Replication.Wallets.ResultWalletsClass;
-import csd.wallet.Utils.Convert;
+import csd.wallet.Replication.Operations.SmartContracts.ResultSmartContractClass;
+import csd.wallet.Replication.Operations.Tests.ResultTestsClass;
+import csd.wallet.Replication.Operations.Transfers.ResultTransfersClass;
+import csd.wallet.Replication.Operations.Wallets.ResultWalletsClass;
 import csd.wallet.Utils.JSON;
 import csd.wallet.Utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import bftsmart.reconfiguration.util.RSAKeyLoader;
 import bftsmart.tom.util.*;
 
 import java.io.*;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
 
 @Component
 public class BFTServer extends DefaultSingleRecoverable implements Serializable {
@@ -42,6 +40,9 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
     @Autowired
     ResultSmartContractClass smartcontract;
+
+    @Autowired
+    ResultAccountsClass accounts;
 
     PrivateKey privKey;
 
@@ -134,6 +135,8 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
                 case SMART_CONTRACT_EXECUTE:
                     result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
                     break;
+                case ACCOUNT_CREATE:
+                    result = accounts.createAccount((Account) objIn.readObject());
             }
             SignedResult sigResult = new SignedResult(result, signReply(result), id);
 

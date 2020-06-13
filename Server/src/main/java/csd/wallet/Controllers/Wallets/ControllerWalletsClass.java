@@ -4,7 +4,7 @@ import csd.wallet.Models.Wallet;
 import csd.wallet.Replication.BFTClient;
 import csd.wallet.Controllers.RestResource;
 import csd.wallet.Replication.MessageType;
-import csd.wallet.Replication.Result;
+import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -19,4 +19,6 @@ public enum RequestType {
     TRANSFERS_WALLETTRANSFERS,
 
     SMART_CONTRACT_EXECUTE,
+
+    ACCOUNT_CREATE
 }

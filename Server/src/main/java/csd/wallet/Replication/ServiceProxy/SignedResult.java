@@ -1,6 +1,6 @@
 package csd.wallet.Replication.ServiceProxy;
 
-import csd.wallet.Replication.Result;
+import csd.wallet.Replication.Operations.Result;
 
 import java.io.Serializable;
 

@@ -1,5 +1,6 @@
 package csd.wallet.Services.Wallets;
 
+import csd.wallet.Exceptions.WalletExceptions.WalletAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import csd.wallet.Exceptions.WalletExceptions.EmptyWalletNameException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
@@ -17,8 +18,8 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
 	public long createWallet(Wallet wallet) throws EmptyWalletNameException {
 		if (wallet.getName() == null)
 			throw new EmptyWalletNameException();
-		Wallet newWallet = new Wallet(wallet.getName());
-		Wallet w = wallets.save(newWallet);
+
+		Wallet w = wallets.save(wallet);
 		return w.getId();
 	}
 

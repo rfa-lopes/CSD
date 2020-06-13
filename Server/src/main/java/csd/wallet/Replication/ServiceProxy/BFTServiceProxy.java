@@ -7,7 +7,7 @@ import bftsmart.tom.RequestContext;
 import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.core.messages.TOMMessageType;
 import bftsmart.tom.util.TOMUtil;
-import csd.wallet.Replication.Result;
+import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Replication.SignedResults;
 import csd.wallet.Utils.Convert;
 import csd.wallet.Utils.JSON;
@@ -23,9 +23,9 @@ import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
-import static csd.wallet.Replication.Result.ErrorCode.TIME_OUT;
-import static csd.wallet.Replication.Result.getError;
-import static csd.wallet.Replication.Result.ok;
+import static csd.wallet.Replication.Operations.Result.ErrorCode.TIME_OUT;
+import static csd.wallet.Replication.Operations.Result.getError;
+import static csd.wallet.Replication.Operations.Result.ok;
 
 @Service
 public class BFTServiceProxy implements ReplyListener {

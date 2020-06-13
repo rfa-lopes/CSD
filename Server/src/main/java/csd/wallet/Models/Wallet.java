@@ -12,52 +12,57 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
-public class Wallet implements Serializable{
+public class Wallet implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	public Wallet() {}
-	
-	public Wallet(@NotNull String name) {
-		this.name = name;
-		this.amount = 0;
-	}
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
 
-	@NotNull
-	String name;
+    @NotNull
+    String name;
 
-	@NotNull
-	long amount;
+    @NotNull
+    long amount;
 
-	public long getId() {
-		return id;
-	}
+    public Wallet() {
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Wallet(@NotNull String name) {
+        this.name = name;
+        this.amount = 0;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public long getAmount() {
-		return amount;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setAmount(long value) {
-		this.amount = value;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void addAmount(long value){this.amount += value;}
+    public long getAmount() {
+        return amount;
+    }
 
-	public void removeAmount(long value){this.amount -= value;}
+    public void setAmount(long value) {
+        this.amount = value;
+    }
+
+    public void addAmount(long value) {
+        this.amount += value;
+    }
+
+    public void removeAmount(long value) {
+        this.amount -= value;
+    }
 }

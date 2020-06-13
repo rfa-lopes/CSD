@@ -1,6 +1,6 @@
 package csd.wallet.Controllers;
 
-import csd.wallet.Replication.Result;
+import csd.wallet.Replication.Operations.Result;
 
 import static org.springframework.http.HttpStatus.*;
 
