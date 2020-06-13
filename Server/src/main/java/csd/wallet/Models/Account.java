@@ -53,11 +53,7 @@ public class Account implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void generatePasswordHash(){
-        this.password =  HashingUtils.hashPwd(password);
+        this.password = HashingUtils.hashPwd(password);
     }
 
     public boolean isValidPassword(String toCompare) {

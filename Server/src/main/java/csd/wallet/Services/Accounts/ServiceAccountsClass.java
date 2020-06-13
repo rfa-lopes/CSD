@@ -23,7 +23,6 @@ public class ServiceAccountsClass implements ServiceAccountsInterface {
             throw new AccountUsernameAlreadyExistsException();
 
         //Generate password hash
-        account.generatePasswordHash();
         Account acc = accountRepository.save(account);
         return acc.getId();
     }
