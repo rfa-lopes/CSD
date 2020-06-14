@@ -4,6 +4,7 @@
 ### Arquitectura: [WA2](Server#replicação-wa2)
 ### Auditoria: [WA3](Server/Documentation/Auditory/README.md)
 ### Iteração: [WA4](Server/#iteração-wa4)
+### Documentação: [PROJETO FINAL](Server/Documentation/Project/README.md)
 
 ---
 
