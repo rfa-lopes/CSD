@@ -22,6 +22,7 @@ POST/accounts/login
 {
     "Token":"eyJ0eX...ovIxaTdiPGxEYQ"
 }
+```
 
 ### Response
 - **200 OK** - Login efetuado com sucesso.
