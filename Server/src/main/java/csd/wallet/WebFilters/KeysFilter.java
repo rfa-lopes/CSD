@@ -29,7 +29,6 @@ public class KeysFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
 
         String keys = req.getHeader(KEYS);
 

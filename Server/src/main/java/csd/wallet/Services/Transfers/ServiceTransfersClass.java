@@ -9,6 +9,7 @@ import csd.wallet.Models.*;
 import csd.wallet.Repository.AccountWalletsAssociationRepository;
 import csd.wallet.Repository.DepositsRepository;
 import csd.wallet.Repository.WalletRepository;
+import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import csd.wallet.Repository.TransferRepository;
@@ -42,7 +43,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public void addMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
 
-        if(accId == -1)
+        if(accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (!isWalletOwner(accId, idAmount.getId()))
@@ -72,7 +73,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public void removeMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
 
-        if(accId == -1)
+        if(accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (!isWalletOwner(accId, idAmount.getId()))
@@ -100,7 +101,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public void transfer(long accId, Transfer transfer, String addKey) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException, AuthenticationErrorException {
 
-        if(accId == -1)
+        if(accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (!isWalletOwner(accId, transfer.getFromId()))
@@ -136,7 +137,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public List<Transfer> ledgerOfGlobalTransfers(long accId) throws AuthenticationErrorException {
 
-        if(accId == -1)
+        if(accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         List<Transfer> globalTransfers = new ArrayList<>();
@@ -147,7 +148,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public List<Transfer> ledgerOfWalletTransfers(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-        if(accId == -1)
+        if(accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));

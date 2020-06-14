@@ -1,5 +1,6 @@
 package csd.wallet.Services.Wallets;
 
+import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
@@ -26,7 +27,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
     @Override
     public long createWallet(long accId, Wallet wallet) throws EmptyWalletNameException, AuthenticationErrorException {
 
-        if (accId == -1)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (wallet.getName().equals(""))
@@ -41,7 +42,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
     @Override
     public void deleteWallet(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-        if (accId == -1)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         //So pode apagar as suas wallets
@@ -55,7 +56,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
     @Override
     public BigInteger getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-        if (accId == -1)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         //So pode ver o amount das suas wallets
@@ -69,7 +70,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
     @Override
     public Wallet getWalletInfo(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-        if (accId == -1)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         //So pode ver a informacao das suas wallets

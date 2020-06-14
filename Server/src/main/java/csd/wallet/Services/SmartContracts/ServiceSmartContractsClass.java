@@ -3,6 +3,7 @@ package csd.wallet.Services.SmartContracts;
 import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Models.SmartContract;
 
+import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
     @Override
     public void executeSmartContract(long accId, SmartContract smartContract) throws AuthenticationErrorException, IOException, IllegalAccessException, InstantiationException {
 
-        if (accId == -1)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());

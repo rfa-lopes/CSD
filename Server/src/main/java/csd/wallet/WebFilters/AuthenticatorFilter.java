@@ -24,6 +24,9 @@ public class AuthenticatorFilter implements Filter {
     @Autowired
     AccountRepository accountRepository;
 
+    public static final int NO_AUTH = -2;
+    public static final int FAIL_AUTH = -2;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {

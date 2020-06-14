@@ -7,6 +7,7 @@ import csd.wallet.Replication.BFTClient;
 import csd.wallet.Replication.MessageType;
 import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Utils.Logger;
+import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,6 @@ public class ControllerAccountsClass extends RestResource implements ControllerA
     public ResponseEntity<Result> createAccount(Account account) {
         Logger.info("Request: CREATE ACCOUNT");
         return super.getResponse(bftClient.getInvoke(RequestType.ACCOUNT_CREATE,
-                MessageType.ASYNC_REQUEST, -2, account));
+                MessageType.ASYNC_REQUEST, AuthenticatorFilter.NO_AUTH, account));
     }
 }

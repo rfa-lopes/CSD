@@ -8,6 +8,7 @@ import csd.wallet.Replication.MessageType;
 import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Utils.Logger;
 import csd.wallet.Enums.RequestType;
+import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class ControllerLoginClass extends RestResource implements ControllerLogi
 	@Override
 	public ResponseEntity<Result> login(Account account) {
       Logger.info("Request: LOGIN");
-      return super.getResponse(bftClient.getInvoke(RequestType.LOGIN, MessageType.ASYNC_REQUEST, -2, account));
+      return super.getResponse(bftClient.getInvoke(RequestType.LOGIN, MessageType.ASYNC_REQUEST, AuthenticatorFilter.NO_AUTH, account));
 	}
 
 }
