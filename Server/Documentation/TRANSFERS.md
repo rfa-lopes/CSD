@@ -4,10 +4,13 @@
 
 ## Adicionar dinheiro a uma Wallet
 ### Request
+
 **URI**
+
 ```
 POST/transfers/add
 ```
+
 **Body**
 ```json
 {
