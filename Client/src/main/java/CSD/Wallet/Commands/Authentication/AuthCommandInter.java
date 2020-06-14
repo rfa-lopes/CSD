@@ -17,8 +17,7 @@ public interface AuthCommandInter {
      */
     String login(String username, String password) throws URISyntaxException;
 
-    @ShellMethod("create")
-    String create(
-            @ShellOption({"-u", "-username"}) String username,
-            @ShellOption({"-pw", "-password"}) String password);
+
+    String createUser(String username, String password) throws URISyntaxException;
+
 }

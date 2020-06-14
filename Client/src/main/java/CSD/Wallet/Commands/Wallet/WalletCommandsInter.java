@@ -10,7 +10,7 @@ public interface WalletCommandsInter {
      * @param name Name of the wallet's owner
      * @return Status code of operation
      */
-    String create(String name) throws URISyntaxException;
+    String createWallet(String name) throws URISyntaxException;
 
     /**
      * Description
@@ -18,7 +18,7 @@ public interface WalletCommandsInter {
      * @param id Wallet's id
      * @return Status code of operation
      */
-    String delete(long id) throws URISyntaxException;
+    String deleteWallet(long id) throws URISyntaxException;
 
 
     /**
@@ -36,5 +36,5 @@ public interface WalletCommandsInter {
      * @param id Wallet's id
      * @return Wallet's information if succeeded
      */
-    String getInfo(long id) throws URISyntaxException;
+    String getInfoWallet(long id) throws URISyntaxException;
 }

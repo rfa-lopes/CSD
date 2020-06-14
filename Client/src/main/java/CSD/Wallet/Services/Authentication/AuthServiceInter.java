@@ -7,5 +7,6 @@ public interface AuthServiceInter {
 
     ResponseEntity<SignedResults> login(String username, String password);
 
+
     ResponseEntity<SignedResults> create(String username, String password);
 }

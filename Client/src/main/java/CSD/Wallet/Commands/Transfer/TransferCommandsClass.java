@@ -36,7 +36,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
     private static final int MAX_AMOUNT = 999999999; //Config file
     private static final int MIN_AMOUNT = 0; //Config file
     private static final String WRONG_SIGNATURE = "Wrong signatures.";
-    private static final String FAILED_AUTH = "You don't have permissions to execute this operation!";
+    private static final String UNAUTHORIZED = "You don't have permissions to execute this operation!";
     private static final String MESSAGE_TIMEOUT = "Time out request.";
 
     private final TransferServiceInter service;
@@ -74,7 +74,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
 
@@ -102,7 +102,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
     }
@@ -128,7 +128,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
     }
@@ -149,7 +149,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
     }
@@ -173,7 +173,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
     }

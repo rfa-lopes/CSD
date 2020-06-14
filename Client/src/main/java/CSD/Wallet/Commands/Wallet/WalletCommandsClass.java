@@ -23,7 +23,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
     private static final String MESSAGE_400 = "Bad request, try again.";
     private static final String MESSAGE_ERROR = "Something went wrong.";
     private static final String WRONG_SIGNATURE = "Wrong signatures.";
-    private static final String FAILED_AUTH = "You don't have permissions to execute this operation!";
+    private static final String UNAUTHORIZED = "You don't have permissions to execute this operation!";
     private static final String MESSAGE_TIMEOUT = "Time out request.";
 
     private final WalletServiceInter service;
@@ -38,7 +38,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
 
     @Override
     @ShellMethod("Create new wallet.")
-    public String create(
+    public String createWallet(
             @ShellOption({"-n", "-name"}) String name) throws URISyntaxException {
 
         ResponseEntity<SignedResults> signedResults = service.create(name);
@@ -59,7 +59,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
 
     @Override
     @ShellMethod("Delete wallet.")
-    public String delete(
+    public String deleteWallet(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
         ResponseEntity<SignedResults> signedResults = service.delete(id);
@@ -75,7 +75,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
 
@@ -99,7 +99,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
 
@@ -107,7 +107,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
 
     @Override
     @ShellMethod("Get Wallet's information")
-    public String getInfo(
+    public String getInfoWallet(
             @ShellOption({"-id"}) long id) throws URISyntaxException {
 
         ResponseEntity<SignedResults> signedResults = service.getInfo(id);
@@ -126,7 +126,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "FORBIDDEN": return FAILED_AUTH;
+            case "UNAUTHORIZED": return UNAUTHORIZED;
             default: return MESSAGE_ERROR;
         }
 

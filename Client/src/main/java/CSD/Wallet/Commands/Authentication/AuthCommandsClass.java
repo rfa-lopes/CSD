@@ -24,7 +24,7 @@ public class AuthCommandsClass implements AuthCommandInter {
     private static final int MAX_AMOUNT = 999999999; //Config file
     private static final int MIN_AMOUNT = 0; //Config file
     private static final String WRONG_SIGNATURE = "Wrong signatures.";
-    private static final String UNAUTHORIZED = "You don't have permissions to execute this operation!";
+    private static final String UNAUTHORIZED = "Username or password are wrong!";
     private static final String MESSAGE_TIMEOUT = "Time out request.";
     private static final String BAD_REQUEST = "Invalid parameters." ;
 
@@ -40,7 +40,7 @@ public class AuthCommandsClass implements AuthCommandInter {
 
 
     @Override
-    @ShellMethod("Login")
+    @ShellMethod("Login in account")
     public String login(
             @ShellOption({"-u", "-username"}) String username,
             @ShellOption({"-pw", "-password"}) String password) {
@@ -55,7 +55,7 @@ public class AuthCommandsClass implements AuthCommandInter {
         switch (res.getError()) {
             case "OK":
                 LocalRepo.setJWT((String)res.getResult());
-                return "User is now logged!";
+                return "You are now logged in, " + username + "!";
             case "TIME_OUT":
                 return MESSAGE_TIMEOUT;
             case "UNAUTHORIZED":
@@ -66,12 +66,12 @@ public class AuthCommandsClass implements AuthCommandInter {
     }
 
     @Override
-    @ShellMethod("create")
-    public String create(
+    @ShellMethod("Creates a mew user")
+    public String createUser(
             @ShellOption({"-u", "-username"}) String username,
             @ShellOption({"-pw", "-password"}) String password) {
 
-        ResponseEntity<SignedResults> signedResults = service.login(username, password);
+        ResponseEntity<SignedResults> signedResults = service.create(username, password);
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
@@ -80,7 +80,7 @@ public class AuthCommandsClass implements AuthCommandInter {
 
         switch (res.getError()) {
             case "OK":
-                return "" + (long)res.getResult();
+                return "New account was created for " + username + ".";
             case "TIME_OUT":
                 return MESSAGE_TIMEOUT;
             case "BAD_REQUEST":
