@@ -10,6 +10,7 @@
 * **BFT-SMaRt** (WA2, WA3 e WA4)
 * **Docker** (WA3 e WA4)
 * **Docker Compose** (WA3 e WA4)
+* **homomorphic encryption** (PROJ)
 
 Spring initializer [aqui](https://start.spring.io/).
 
