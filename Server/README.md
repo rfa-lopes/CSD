@@ -60,7 +60,7 @@ E correr script runDockerBuild.sh:
 ./Scripts/runDockerBuild.sh
 ```
 
-## Funcionalidades (WA1)
+## Funcionalidades (WA1 + WA4)
 ### Tests
 * Documentação [Tests](Documentation/TESTS.md).
 ### Wallets
