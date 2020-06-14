@@ -18,14 +18,16 @@ POST/accounts/login
     "password":"passwordsecreta"
 }
 ```
+
+### Response
+- **200 OK** - Login efetuado com sucesso.
+
 ```json
 {
     "Token":"eyJ0eX...ovIxaTdiPGxEYQ"
 }
 ```
 
-### Response
-- **200 OK** - Login efetuado com sucesso.
 - **401 UNAUTHORIZED**  - Login fail.
 
 ---
