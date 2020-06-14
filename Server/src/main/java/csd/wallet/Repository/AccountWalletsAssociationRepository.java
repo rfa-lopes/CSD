@@ -10,6 +10,6 @@ import java.util.List;
 public interface AccountWalletsAssociationRepository extends CrudRepository<AccountWalletsAssociation,Long> {
 
     List<AccountWalletsAssociation> findAllByUserId(long userId);
-    List<AccountWalletsAssociation> findByUserIdAndWalletId(long userId,long walletId);
+    List<AccountWalletsAssociation> findByUserId(long userId);
 
 }

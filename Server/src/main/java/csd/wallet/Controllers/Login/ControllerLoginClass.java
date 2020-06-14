@@ -23,14 +23,7 @@ public class ControllerLoginClass extends RestResource implements ControllerLogi
 	@Override
 	public ResponseEntity<Result> login(Account account) {
       Logger.info("Request: LOGIN");
-      return super.getResponse(bftClient.getInvoke(RequestType.LOGIN, MessageType.ASYNC_REQUEST, account));
+      return super.getResponse(bftClient.getInvoke(RequestType.LOGIN, MessageType.ASYNC_REQUEST, -2, account));
 	}
-
-//    @Override
-//    public ResponseEntity<Result> createWallet(Wallet wallet) {
-//        Logger.info("Request: CREATEWALLET");
-//        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ASYNC_REQUEST, wallet));
-//    }
-
 
 }

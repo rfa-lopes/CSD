@@ -1,5 +1,6 @@
 package csd.wallet.Services.Login;
 
+import csd.wallet.Exceptions.AccountsExceptions.InvalidAccountUsernameException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
@@ -12,21 +13,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceLoginClass implements ServiceLoginInterface {
 
-	@Autowired
-	private AccountRepository accs;
+    @Autowired
+    private AccountRepository accs;
 
-	@Override
-	public String login(Account account) throws AuthenticationErrorException {
+    @Override
+    public String login(Account account) throws AuthenticationErrorException {
 
-		long id = account.getId();
-		String pw = account.getPassword();
+        String username = account.getUsername();
+        String password = account.getPassword();
 
-		Account acc = accs.findById(id);
+        if (username.equals("") || password.equals(""))
+            throw new AuthenticationErrorException();
 
-		if (acc == null || !acc.isValidPassword(pw))
-			throw new AuthenticationErrorException();
+        Account acc = accs.findByUsername(username);
 
-		return JWTUtil.createJWT(id);
-	}
+        if (acc == null || !acc.isValidPassword(password))
+            throw new AuthenticationErrorException();
+
+        Account a = accs.save(account);
+
+        return JWTUtil.createJWT(a.getId());
+    }
 
 }

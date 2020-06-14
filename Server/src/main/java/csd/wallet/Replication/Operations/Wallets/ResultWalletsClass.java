@@ -26,6 +26,8 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 			return ok(wallets.createWallet(accId, wallet));
 		} catch (EmptyWalletNameException e) {
 			return getError(BAD_REQUEST);
+		} catch (AuthenticationErrorException e) {
+			return getError(UNAUTHORIZED);
 		}
 	}
 
@@ -37,7 +39,6 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 		} catch (WalletNotExistsException e) {
 			return getError(NOT_FOUND);
 		} catch (AuthenticationErrorException e) {
-			// TODO Auto-generated catch block
 			return getError(UNAUTHORIZED);
 		}
 	}
@@ -49,7 +50,6 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 		} catch (WalletNotExistsException e) {
 			return (getError(NOT_FOUND));
 		} catch (AuthenticationErrorException e) {
-			// TODO Auto-generated catch block
 			return getError(UNAUTHORIZED);
 		}
 	}
@@ -61,7 +61,6 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 		} catch (WalletNotExistsException e) {
 			return (getError(NOT_FOUND));
 		} catch (AuthenticationErrorException e) {
-			// TODO Auto-generated catch block
 			return getError(UNAUTHORIZED);
 		}
 	}

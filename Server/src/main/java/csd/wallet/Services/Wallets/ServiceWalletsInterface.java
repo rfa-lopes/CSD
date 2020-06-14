@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public interface ServiceWalletsInterface {
 
 	long createWallet(long accId, Wallet wallet)
-			throws EmptyWalletNameException, WalletAlreadyExistException;
+			throws EmptyWalletNameException, WalletAlreadyExistException, AuthenticationErrorException;
 
 	void deleteWallet(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 

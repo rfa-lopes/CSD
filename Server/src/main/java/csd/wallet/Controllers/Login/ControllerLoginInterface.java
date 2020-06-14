@@ -11,7 +11,9 @@ import static org.springframework.http.MediaType.*;
 @RequestMapping(value = ControllerLoginInterface.BASE_URL)
 public interface ControllerLoginInterface {
 
-	String BASE_URL = "/login";
+	String BASE_URL = "/accounts";
+
+	String LOGIN = "/login";
 
 	/**
 	 * @Description //TODO:
@@ -19,7 +21,7 @@ public interface ControllerLoginInterface {
 	 * @return OK, if wallet was created, and wallet id generated.
 	 *         INTERNAL_SERVER_ERROR, if server error.
 	 */
-	@PostMapping(consumes = APPLICATION_JSON_VALUE)
+	@PostMapping(value=LOGIN, consumes = APPLICATION_JSON_VALUE)
 	ResponseEntity<Result> login(@RequestBody Account account);
 
 }

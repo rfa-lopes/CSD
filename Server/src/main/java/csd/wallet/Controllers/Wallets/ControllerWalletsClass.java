@@ -16,31 +16,30 @@ import java.io.Serializable;
 @RestController
 public class ControllerWalletsClass extends RestResource implements ControllerWalletsInterface, Serializable {
 
-	@Autowired
-	BFTClient bftClient;
+    @Autowired
+    BFTClient bftClient;
 
-	@Override
-	public ResponseEntity<Long> createWallet(long accId, Wallet wallet) {
-		Logger.info("Request: CREATEWALLET");
-		return super.getResponse(
-				bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ASYNC_REQUEST, accId, wallet));
-	}
+    @Override
+    public ResponseEntity<Long> createWallet(long accId, Wallet wallet) {
+        Logger.info("Request: CREATEWALLET");
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_CREATE, MessageType.ASYNC_REQUEST, accId, wallet));
+    }
 
-	@Override
-	public ResponseEntity<Void> deleteWallet(long accId, long id) {
-		Logger.info("Request: DELETEWALLET");
-		return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, MessageType.ASYNC_REQUEST, accId, id));
-	}
+    @Override
+    public ResponseEntity<Void> deleteWallet(long accId, long id) {
+        Logger.info("Request: DELETEWALLET");
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_DELETE, MessageType.ASYNC_REQUEST, accId, id));
+    }
 
-	@Override
-	public ResponseEntity<Long> getCurrentAmount(long accId, long id) {
-		Logger.info("Request: GETCURRENTAMOUNT");
-		return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, MessageType.ASYNC_REQUEST, accId, id));
-	}
+    @Override
+    public ResponseEntity<Long> getCurrentAmount(long accId, long id) {
+        Logger.info("Request: GETCURRENTAMOUNT");
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_AMOUNT, MessageType.ASYNC_REQUEST, accId, id));
+    }
 
-	@Override
-	public ResponseEntity<Wallet> getWalletInfo(long accId, long id) {
-		Logger.info("Request: GETWALLETINFO");
-		return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, MessageType.ASYNC_REQUEST, accId, id));
-	}
+    @Override
+    public ResponseEntity<Wallet> getWalletInfo(long accId, long id) {
+        Logger.info("Request: GETWALLETINFO");
+        return super.getResponse(bftClient.getInvoke(RequestType.WALLET_INFO, MessageType.ASYNC_REQUEST, accId, id));
+    }
 }

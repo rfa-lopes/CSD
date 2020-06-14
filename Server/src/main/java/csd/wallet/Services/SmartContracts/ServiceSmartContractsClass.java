@@ -1,5 +1,6 @@
 package csd.wallet.Services.SmartContracts;
 
+import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Models.SmartContract;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -25,7 +27,10 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
     int this_id;
 
     @Override
-    public void executeSmartContract(SmartContract smartContract) throws Exception {
+    public void executeSmartContract(long accId, SmartContract smartContract) throws AuthenticationErrorException, IOException, IllegalAccessException, InstantiationException {
+
+        if (accId == -1)
+            throw new AuthenticationErrorException();
 
         byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
         String sourceCode = new String(sourceCodeByte);
@@ -53,13 +58,8 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
         Class<?> pluginClass = loader.loadClass(pluginNames[0]);
 
-        if(pluginClass != null) {
-            try {
-                pluginClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                System.out.println("Error loading plugin ");
-            }
-        }
+        if (pluginClass != null)
+            pluginClass.newInstance();
 
         //URL classUrl = compiled.getParent().toFile().toURI().toURL();
         //URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});

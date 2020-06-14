@@ -7,6 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ResultSmartContractInterface {
 
-    Result executeSmartContract(SmartContract smartContract);
-
+    Result executeSmartContract(long accId, SmartContract smartContract);
 }

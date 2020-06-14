@@ -1,11 +1,14 @@
 package csd.wallet.Services.Transfers;
 
+import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
+import csd.wallet.Models.AccountWalletsAssociation;
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Models.Wallet;
+import csd.wallet.Repository.AccountWalletsAssociationRepository;
 import csd.wallet.Repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,11 +28,21 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Autowired
     private WalletRepository wallets;
 
+    @Autowired
+    AccountWalletsAssociationRepository accountWalletsAssociation;
+
     public static long MIN_AMOUNT = 0;
     public static long MAX_AMOUNT = 999999999;
 
     @Override
-    public void addMoney(AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException {
+    public void addMoney(long accId, AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
+
+        if(accId == -1)
+            throw new AuthenticationErrorException();
+
+        if (!isWalletOwner(accId, idAmount.getId()))
+            throw new AuthenticationErrorException();
+
         long id = idAmount.getId();
         long amount = idAmount.getAmount();
         AmountRestrictions(amount);
@@ -39,7 +52,14 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     @Override
-    public void removeMoney(AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException {
+    public void removeMoney(long accId, AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
+
+        if(accId == -1)
+            throw new AuthenticationErrorException();
+
+        if (!isWalletOwner(accId, idAmount.getId()))
+            throw new AuthenticationErrorException();
+
         long id = idAmount.getId();
         long amount = idAmount.getAmount();
         AmountRestrictions(amount);
@@ -52,7 +72,14 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     @Override
-    public void transfer(Transfer transfer) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException {
+    public void transfer(long accId, Transfer transfer) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException, AuthenticationErrorException {
+
+        if(accId == -1)
+            throw new AuthenticationErrorException();
+
+        if (!isWalletOwner(accId, transfer.getFromId()))
+            throw new AuthenticationErrorException();
+
         long amount = transfer.getAmount();
         long fromId = transfer.getFromId();
         long toId = transfer.getToId();
@@ -72,14 +99,22 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     @Override
-    public List<Transfer> ledgerOfGlobalTransfers() {
+    public List<Transfer> ledgerOfGlobalTransfers(long accId) throws AuthenticationErrorException {
+
+        if(accId == -1)
+            throw new AuthenticationErrorException();
+
         List<Transfer> globalTransfers = new ArrayList<>();
         transfers.findAll().forEach(globalTransfers::add);
         return globalTransfers;
     }
 
     @Override
-    public List<Transfer> ledgerOfWalletTransfers(long id) throws WalletNotExistsException {
+    public List<Transfer> ledgerOfWalletTransfers(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
+
+        if(accId == -1)
+            throw new AuthenticationErrorException();
+
         wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
         List<Transfer> walletTransfers = new LinkedList<>();
         walletTransfers.addAll(transfers.findAllByFromId(id));
@@ -90,5 +125,13 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     private void AmountRestrictions(long amount) throws InvalidAmountException {
         if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             throw new InvalidAmountException();
+    }
+
+    private boolean isWalletOwner(long accId, long walletId) {
+        List<AccountWalletsAssociation> accWallets = accountWalletsAssociation.findAllByUserId(accId);
+        for (AccountWalletsAssociation a : accWallets)
+            if (a.getWalletId() == walletId)
+                return true;
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package csd.wallet.Services.Transfers;
 
+import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Exceptions.TransfersExceptions.InvalidAmountException;
 import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
 import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
@@ -12,14 +13,13 @@ import java.util.List;
 @Service
 public interface ServiceTransfersInterface {
 
-    void addMoney(AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException;
+    void addMoney(long accId, AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException;
 
-    void removeMoney(AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException;
+    void removeMoney(long accId, AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException;
 
-    void transfer(Transfer transfer) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException;
+    void transfer(long accId, Transfer transfer) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException, AuthenticationErrorException;
 
-    List<Transfer> ledgerOfGlobalTransfers();
+    List<Transfer> ledgerOfGlobalTransfers(long accId) throws AuthenticationErrorException;
 
-    List<Transfer> ledgerOfWalletTransfers(long id) throws WalletNotExistsException;
-
+    List<Transfer> ledgerOfWalletTransfers(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 }

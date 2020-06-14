@@ -21,6 +21,6 @@ public class ControllerAccountsClass extends RestResource implements ControllerA
     public ResponseEntity<Result> createAccount(Account account) {
         Logger.info("Request: CREATE ACCOUNT");
         return super.getResponse(bftClient.getInvoke(RequestType.ACCOUNT_CREATE,
-                MessageType.ASYNC_REQUEST, account));
+                MessageType.ASYNC_REQUEST, -2, account));
     }
 }

@@ -11,54 +11,78 @@ import csd.wallet.Repository.AccountWalletsAssociationRepository;
 import csd.wallet.Repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ServiceWalletsClass implements ServiceWalletsInterface {
 
-	@Autowired
-	private WalletRepository wallets;
+    @Autowired
+    private WalletRepository wallets;
 
-	@Autowired
-	private AccountWalletsAssociationRepository accWallets;
+    @Autowired
+    private AccountWalletsAssociationRepository accountWalletsAssociation;
 
-	@Override
-	public long createWallet(long accId, Wallet wallet) throws EmptyWalletNameException {
+    @Override
+    public long createWallet(long accId, Wallet wallet) throws EmptyWalletNameException, AuthenticationErrorException {
 
-		accWallets.save(new AccountWalletsAssociation(accId, wallet.getId()));
+        if (accId == -1)
+            throw new AuthenticationErrorException();
 
-		if (wallet.getName() == null)
-			throw new EmptyWalletNameException();
+        if (wallet.getName().equals(""))
+            throw new EmptyWalletNameException();
 
-		Wallet w = wallets.save(wallet);
-		return w.getId();
-	}
+        Wallet w = wallets.save(wallet);
+        accountWalletsAssociation.save(new AccountWalletsAssociation(accId, w.getId()));
+        return w.getId();
+    }
 
-	@Override
-	public void deleteWallet(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
+    @Override
+    public void deleteWallet(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-		if (accWallets.findByUserIdAndWalletId(accId, id).isEmpty())
-			throw new AuthenticationErrorException();
+        if (accId == -1)
+            throw new AuthenticationErrorException();
 
-		Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
-		wallets.delete(w);
-	}
+        //So pode apagar as suas wallets
+        if (!isWalletOwner(accId, id))
+            throw new AuthenticationErrorException();
 
-	@Override
-	public long getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
+        Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
+        wallets.delete(w);
+    }
 
-		if (accWallets.findByUserIdAndWalletId(accId, id).isEmpty())
-			throw new AuthenticationErrorException();
+    @Override
+    public long getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-		Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
-		return w.getAmount();
-	}
+        if (accId == -1)
+            throw new AuthenticationErrorException();
 
-	@Override
-	public Wallet getWalletInfo(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
+        //So pode ver o amount das suas wallets
+        if (!isWalletOwner(accId, id))
+            throw new AuthenticationErrorException();
 
-		if (accWallets.findByUserIdAndWalletId(accId, id).isEmpty())
-			throw new AuthenticationErrorException();
+        Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
+        return w.getAmount();
+    }
 
-		Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
-		return w;
-	}
+    @Override
+    public Wallet getWalletInfo(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
+
+        if (accId == -1)
+            throw new AuthenticationErrorException();
+
+        //So pode ver a informacao das suas wallets
+        if (!isWalletOwner(accId, id))
+            throw new AuthenticationErrorException();
+
+        return wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
+    }
+
+    private boolean isWalletOwner(long accId, long walletId) {
+        List<AccountWalletsAssociation> accWallets = accountWalletsAssociation.findAllByUserId(accId);
+        for (AccountWalletsAssociation a : accWallets)
+            if (a.getWalletId() == walletId)
+                return true;
+        return false;
+    }
+
 }

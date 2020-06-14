@@ -17,6 +17,7 @@ public interface SmartContractsInterface {
      */
     @PostMapping(value = "/execute")
     ResponseEntity<Result> executeSmartContract(
+            @RequestAttribute("id") long accId,
             @RequestBody SmartContract smartContract);
 
 }

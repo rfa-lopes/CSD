@@ -102,49 +102,51 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 				break;
 
 			case TRANSFERS_ADD:
-				result = transfers.addMoney((AddRemoveForm) objIn.readObject());
+				result = transfers.addMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject());
 				break;
 
 			case TRANSFERS_REMOVE:
-				result = transfers.removeMoney((AddRemoveForm) objIn.readObject());
+				result = transfers.removeMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject());
 				break;
 
 			case TRANSFERS_TRANSFER:
-				result = transfers.transfer((Transfer) objIn.readObject());
+				result = transfers.transfer((long)objIn.readObject(), (Transfer) objIn.readObject());
 				break;
 
 			case WALLET_CREATE:
-				result = wallets.createWallet((Wallet) objIn.readObject());
+				result = wallets.createWallet((long)objIn.readObject(), (Wallet) objIn.readObject());
 				break;
 
 			case WALLET_DELETE:
-				result = wallets.deleteWallet((long) objIn.readObject());
+				result = wallets.deleteWallet((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case TRANSFERS_GLOBALTRANSFERS:
-				result = transfers.ledgerOfGlobalTransfers();
+				result = transfers.ledgerOfGlobalTransfers((long)objIn.readObject());
 				break;
 
 			case TRANSFERS_WALLETTRANSFERS:
-				result = transfers.ledgerOfWalletTransfers((long) objIn.readObject());
+				result = transfers.ledgerOfWalletTransfers((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case WALLET_INFO:
-				result = wallets.getWalletInfo((long) objIn.readObject());
+				result = wallets.getWalletInfo((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case WALLET_AMOUNT:
-				result = wallets.getCurrentAmount((long) objIn.readObject());
+				result = wallets.getCurrentAmount((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case SMART_CONTRACT_EXECUTE:
-				result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
+				result = smartcontract.executeSmartContract((long)objIn.readObject(), (SmartContract) objIn.readObject());
 				break;
 			case ACCOUNT_CREATE:
 				result = accounts.createAccount((Account) objIn.readObject());
+				break;
+
 			case LOGIN:
 				result = login.login((Account) objIn.readObject());
-
+				break;
 			}
 			SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
@@ -182,23 +184,23 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 				break;
 
 			case TRANSFERS_GLOBALTRANSFERS:
-				result = transfers.ledgerOfGlobalTransfers();
+				result = transfers.ledgerOfGlobalTransfers((long)objIn.readObject());
 				break;
 
 			case TRANSFERS_WALLETTRANSFERS:
-				result = transfers.ledgerOfWalletTransfers((long) objIn.readObject());
+				result = transfers.ledgerOfWalletTransfers((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case WALLET_INFO:
-				result = wallets.getWalletInfo((long) objIn.readObject());
+				result = wallets.getWalletInfo((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case WALLET_AMOUNT:
-				result = wallets.getCurrentAmount((long) objIn.readObject());
+				result = wallets.getCurrentAmount((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
 			case SMART_CONTRACT_EXECUTE:
-				result = smartcontract.executeSmartContract((SmartContract) objIn.readObject());
+				result = smartcontract.executeSmartContract((long)objIn.readObject(), (SmartContract) objIn.readObject());
 				break;
 			}
 
