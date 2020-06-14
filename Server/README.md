@@ -67,6 +67,8 @@ E correr script runDockerBuild.sh:
 * Documentação [Wallets](Documentation/WALLETS.md).
 ### Transfers
 * Documentação [Transfers](Documentation/TRANSFERS.md).
+### Accounts
+* Documentação [Accounts](Documentation/ACCOUNTS.md).
 
 ---
 
