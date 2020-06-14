@@ -6,11 +6,11 @@ import csd.wallet.Models.Transfer;
 
 public interface ResultTransfersInterface {
 
-    Result addMoney(long accId, AddRemoveForm idAmount);
+    Result addMoney(long accId, AddRemoveForm idAmount, String keys);
 
-    Result removeMoney(long accId, AddRemoveForm idAmount);
+    Result removeMoney(long accId, AddRemoveForm idAmount, String keys);
 
-    Result transfer(long accId, Transfer transfer);
+    Result transfer(long accId, Transfer transfer, String keys);
 
     Result ledgerOfGlobalTransfers(long accId);
 

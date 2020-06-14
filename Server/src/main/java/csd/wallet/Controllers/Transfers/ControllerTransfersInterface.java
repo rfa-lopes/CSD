@@ -2,6 +2,7 @@ package csd.wallet.Controllers.Transfers;
 
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.Transfer;
+import csd.wallet.WebFilters.KeysFilter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,10 @@ public interface ControllerTransfersInterface {
      */
     @PostMapping(
             value = ADD_MONEY)
-    ResponseEntity<Void> addMoney(@RequestAttribute("id") long accId,@RequestBody AddRemoveForm idAmount);
+    ResponseEntity<Void> addMoney(
+            @RequestAttribute("id") long accId,
+            @RequestBody AddRemoveForm idAmount,
+            @RequestAttribute(KeysFilter.KEYS) String keys);
 
     /**
      * @param idAmount: Wallet id | Amount to remove from the wallet.
@@ -43,7 +47,10 @@ public interface ControllerTransfersInterface {
      */
     @PostMapping(
             value = REMOVE_MONEY)
-    ResponseEntity<Void> removeMoney(@RequestAttribute("id") long accId,@RequestBody AddRemoveForm idAmount);
+    ResponseEntity<Void> removeMoney(
+            @RequestAttribute("id") long accId,
+            @RequestBody AddRemoveForm idAmount,
+            @RequestAttribute(KeysFilter.KEYS) String keys);
 
     /**
      * @param transfer: Transference with: fromId, toId and amount.
@@ -55,7 +62,10 @@ public interface ControllerTransfersInterface {
      */
     @PostMapping(
             value = TRANSFER)
-    ResponseEntity<Void> transfer(@RequestAttribute("id") long accId,@RequestBody Transfer transfer);
+    ResponseEntity<Void> transfer(
+            @RequestAttribute("id") long accId,
+            @RequestBody Transfer transfer,
+            @RequestAttribute(KeysFilter.KEYS) String keys);
 
     /**
      * @return OK and List of all transfers.

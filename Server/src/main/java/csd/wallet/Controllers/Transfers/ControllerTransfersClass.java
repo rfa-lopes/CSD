@@ -1,6 +1,5 @@
 package csd.wallet.Controllers.Transfers;
 
-import bftsmart.tom.core.messages.TOMMessageType;
 import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Replication.BFTClient;
@@ -18,42 +17,45 @@ import java.util.List;
 @RestController
 public class ControllerTransfersClass extends RestResource implements ControllerTransfersInterface, Serializable {
 
-	@Autowired
-	BFTClient bftClient;
+    @Autowired
+    BFTClient bftClient;
 
-	@Override
-	public ResponseEntity<Void> addMoney(long accId, AddRemoveForm idAmount) {
-		Logger.info("Request: ADDMONEY");
-		return super.getResponse(
-				bftClient.getInvoke(RequestType.TRANSFERS_ADD, MessageType.ASYNC_REQUEST, accId, idAmount));
-	}
+    @Override
+    public ResponseEntity<Void> addMoney(long accId, AddRemoveForm idAmount, String keys) {
+        Logger.info("Request: ADDMONEY");
+        bftClient.setKeys(keys);
+        return super.getResponse(
+                bftClient.getInvoke(RequestType.TRANSFERS_ADD, MessageType.ASYNC_REQUEST, accId, idAmount));
+    }
 
-	@Override
-	public ResponseEntity<Void> removeMoney(long accId, AddRemoveForm idAmount) {
-		Logger.info("Request: REMOVEMONEY");
-		return super.getResponse(
-				bftClient.getInvoke(RequestType.TRANSFERS_REMOVE, MessageType.ASYNC_REQUEST, accId, idAmount));
-	}
+    @Override
+    public ResponseEntity<Void> removeMoney(long accId, AddRemoveForm idAmount, String keys) {
+        Logger.info("Request: REMOVEMONEY");
+        bftClient.setKeys(keys);
+        return super.getResponse(
+                bftClient.getInvoke(RequestType.TRANSFERS_REMOVE, MessageType.ASYNC_REQUEST, accId, idAmount));
+    }
 
-	@Override
-	public ResponseEntity<Void> transfer(long accId, Transfer transfer) {
-		Logger.info("Request: TRANSFER");
-		return super.getResponse(
-				bftClient.getInvoke(RequestType.TRANSFERS_TRANSFER, MessageType.ASYNC_REQUEST, accId, transfer));
-	}
+    @Override
+    public ResponseEntity<Void> transfer(long accId, Transfer transfer, String keys) {
+        Logger.info("Request: TRANSFER");
+        bftClient.setKeys(keys);
+        return super.getResponse(
+                bftClient.getInvoke(RequestType.TRANSFERS_TRANSFER, MessageType.ASYNC_REQUEST, accId, transfer));
+    }
 
-	@Override
-	public ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers(long accId) {
-		Logger.info("Request: LEDGEROFGLOBALTRANSFERS");
-		return super.getResponse(
-				bftClient.getInvoke(RequestType.TRANSFERS_GLOBALTRANSFERS, MessageType.ASYNC_REQUEST, accId));
-	}
+    @Override
+    public ResponseEntity<List<Transfer>> ledgerOfGlobalTransfers(long accId) {
+        Logger.info("Request: LEDGEROFGLOBALTRANSFERS");
+        return super.getResponse(
+                bftClient.getInvoke(RequestType.TRANSFERS_GLOBALTRANSFERS, MessageType.ASYNC_REQUEST, accId));
+    }
 
-	@Override
-	public ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(long accId, long id) {
-		Logger.info("Request: LEDGEROFWALLETTRANSFERS");
-		return super.getResponse(
-				bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, MessageType.ASYNC_REQUEST, accId, id));
-	}
+    @Override
+    public ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(long accId, long id) {
+        Logger.info("Request: LEDGEROFWALLETTRANSFERS");
+        return super.getResponse(
+                bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, MessageType.ASYNC_REQUEST, accId, id));
+    }
 
 }

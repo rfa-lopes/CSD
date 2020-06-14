@@ -3,6 +3,7 @@ package csd.wallet.Models;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,14 +25,14 @@ public class Wallet implements Serializable {
     String name;
 
     @NotNull
-    long amount;
+    BigInteger amount_add;
 
     public Wallet() {
     }
 
     public Wallet(@NotNull String name) {
         this.name = name;
-        this.amount = 0;
+        this.amount_add = BigInteger.ZERO;
     }
 
     public long getId() {
@@ -50,19 +51,11 @@ public class Wallet implements Serializable {
         this.name = name;
     }
 
-    public long getAmount() {
-        return amount;
+    public BigInteger getAmount_add() {
+        return amount_add;
     }
 
-    public void setAmount(long value) {
-        this.amount = value;
-    }
-
-    public void addAmount(long value) {
-        this.amount += value;
-    }
-
-    public void removeAmount(long value) {
-        this.amount -= value;
+    public void setAmount_add(BigInteger amount_add) {
+        this.amount_add = amount_add;
     }
 }

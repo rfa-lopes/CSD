@@ -22,6 +22,12 @@ public class BFTClient {
     @Autowired
     BFTServiceProxy bftServiceProxy;
 
+    private String keys;
+
+    public void setKeys(String keys) {
+        this.keys = keys;
+    }
+
     public <T> Result getInvoke(RequestType req, MessageType type, long accId, T... inputs) {
         try {
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
@@ -34,6 +40,9 @@ public class BFTClient {
 
             for (T input : inputs)
                 objOut.writeObject(input);
+
+            if (keys != null)
+                objOut.writeObject(keys);
 
             objOut.flush();
             byteOut.flush();
@@ -59,8 +68,12 @@ public class BFTClient {
 
             ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
             ObjectInput objIn = new ObjectInputStream(byteIn);
+
+            keys = null;
+
             return (Result) objIn.readObject();
         } catch (IOException | ClassNotFoundException e) {
+            keys = null;
             return getError(INTERNAL_ERROR);
         }
     }

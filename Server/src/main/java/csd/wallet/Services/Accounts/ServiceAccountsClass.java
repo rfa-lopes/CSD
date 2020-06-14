@@ -1,5 +1,6 @@
 package csd.wallet.Services.Accounts;
 
+import csd.wallet.Crypto.OnionBuilder;
 import csd.wallet.Exceptions.AccountsExceptions.AccountUsernameAlreadyExistsException;
 import csd.wallet.Exceptions.AccountsExceptions.InvalidAccountUsernameException;
 import csd.wallet.Models.Account;
@@ -19,7 +20,9 @@ public class ServiceAccountsClass implements ServiceAccountsInterface {
 		if (account.getUsername().equals("") || account.getUsername() == null)
 			throw new InvalidAccountUsernameException();
 
-		if (accountRepository.findByUsername(account.getUsername()) != null)
+		String RND_DET_username = account.getUsername();
+
+		if (accountRepository.findByUsername(RND_DET_username) != null)
 			throw new AccountUsernameAlreadyExistsException();
 
 		// Generate password hash

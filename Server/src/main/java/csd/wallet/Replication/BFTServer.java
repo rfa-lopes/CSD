@@ -102,15 +102,15 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 				break;
 
 			case TRANSFERS_ADD:
-				result = transfers.addMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject());
+				result = transfers.addMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject(), (String)objIn.readObject());
 				break;
 
 			case TRANSFERS_REMOVE:
-				result = transfers.removeMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject());
+				result = transfers.removeMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject(), (String)objIn.readObject());
 				break;
 
 			case TRANSFERS_TRANSFER:
-				result = transfers.transfer((long)objIn.readObject(), (Transfer) objIn.readObject());
+				result = transfers.transfer((long)objIn.readObject(), (Transfer) objIn.readObject(), (String)objIn.readObject());
 				break;
 
 			case WALLET_CREATE:

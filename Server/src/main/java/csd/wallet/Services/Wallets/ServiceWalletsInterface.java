@@ -7,6 +7,8 @@ import csd.wallet.Exceptions.WalletExceptions.WalletNotExistsException;
 import csd.wallet.Models.Wallet;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+
 @Service
 public interface ServiceWalletsInterface {
 
@@ -15,7 +17,7 @@ public interface ServiceWalletsInterface {
 
 	void deleteWallet(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 
-	long getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
+	BigInteger getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 
 	Wallet getWalletInfo(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
 }

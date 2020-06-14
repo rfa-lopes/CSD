@@ -11,6 +11,7 @@ import csd.wallet.Repository.AccountWalletsAssociationRepository;
 import csd.wallet.Repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
         if (wallet.getName().equals(""))
             throw new EmptyWalletNameException();
 
+        //Amount com um valor
         Wallet w = wallets.save(wallet);
         accountWalletsAssociation.save(new AccountWalletsAssociation(accId, w.getId()));
         return w.getId();
@@ -51,7 +53,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
     }
 
     @Override
-    public long getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
+    public BigInteger getCurrentAmount(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
         if (accId == -1)
             throw new AuthenticationErrorException();
@@ -61,7 +63,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
             throw new AuthenticationErrorException();
 
         Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
-        return w.getAmount();
+        return w.getAmount_add();
     }
 
     @Override

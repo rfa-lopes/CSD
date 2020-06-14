@@ -8,12 +8,14 @@ import csd.wallet.Models.AddRemoveForm;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Services.Transfers.ServiceTransfersClass;
+import csd.wallet.Utils.KeysUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static csd.wallet.Replication.Operations.Result.ErrorCode.*;
 import static csd.wallet.Replication.Operations.Result.getError;
 import static csd.wallet.Replication.Operations.Result.ok;
+import static csd.wallet.Utils.KeysUtil.KeyType.HOMOADD;
 
 @Service
 public class ResultTransfersClass implements ResultTransfersInterface{
@@ -22,9 +24,15 @@ public class ResultTransfersClass implements ResultTransfersInterface{
     ServiceTransfersClass transfers;
 
     @Override
-    public Result addMoney(long accId, AddRemoveForm idAmount) {
+    public Result addMoney(long accId, AddRemoveForm idAmount, String keys) {
+
+        KeysUtil keysUtil = new KeysUtil(keys);
+        String addKey = keysUtil.getKey(HOMOADD);
+        if(addKey == null)
+            getError(BAD_REQUEST);
+
         try {
-            transfers.addMoney(accId,idAmount);
+            transfers.addMoney(accId,idAmount,addKey);
             return (ok());
         } catch (InvalidAmountException e) {
             return (getError(BAD_REQUEST));
@@ -36,9 +44,15 @@ public class ResultTransfersClass implements ResultTransfersInterface{
     }
 
     @Override
-    public Result removeMoney(long accId, AddRemoveForm idAmount) {
+    public Result removeMoney(long accId, AddRemoveForm idAmount, String keys) {
+
+        KeysUtil keysUtil = new KeysUtil(keys);
+        String addKey = keysUtil.getKey(HOMOADD);
+        if(addKey == null)
+            getError(BAD_REQUEST);
+
         try {
-            transfers.removeMoney(accId,idAmount);
+            transfers.removeMoney(accId,idAmount,addKey);
             return (ok());
         } catch (InvalidAmountException e) {
             return (getError(BAD_REQUEST));
@@ -50,9 +64,15 @@ public class ResultTransfersClass implements ResultTransfersInterface{
     }
 
     @Override
-    public Result transfer(long accId, Transfer transfer) {
+    public Result transfer(long accId, Transfer transfer, String keys) {
+
+        KeysUtil keysUtil = new KeysUtil(keys);
+        String addKey = keysUtil.getKey(HOMOADD);
+        if(addKey == null)
+            getError(BAD_REQUEST);
+
         try {
-            transfers.transfer(accId,transfer);
+            transfers.transfer(accId,transfer,addKey);
             return (ok());
         } catch (InvalidAmountException | TransferToSameWalletException e) {
             return (getError(BAD_REQUEST));

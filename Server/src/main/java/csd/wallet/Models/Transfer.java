@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,16 +16,6 @@ import java.util.Date;
 public class Transfer implements Serializable {
 
     public static final String FORMAT_DATE = "yyyy/MM/dd HH:mm:ss";
-
-    public Transfer(){}
-
-    public Transfer(long fromId, long toId, long amount){
-        this.fromId = fromId;
-        this.toId = toId;
-        this.amount = amount;
-        this.date = getActualDate();
-    }
-
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,10 +28,23 @@ public class Transfer implements Serializable {
     long toId;
 
     @NotNull
-    long amount;
+    BigInteger amount_add;
+
+    @NotNull
+    long amount_ope;
     
     @NotNull
     String date;
+
+    public Transfer(){}
+
+    public Transfer(long fromId, long toId, BigInteger amount_add, long amount_ope){
+        this.fromId = fromId;
+        this.toId = toId;
+        this.amount_add = amount_add;
+        this.amount_ope = amount_ope;
+        this.date = getActualDate();
+    }
 
     public long getId() {
         return id;
@@ -66,12 +70,24 @@ public class Transfer implements Serializable {
         this.toId = toId;
     }
 
-    public long getAmount() {
-        return amount;
+    public void setToId(long toId) {
+        this.toId = toId;
     }
 
-    public void setAmount(long amount) {
-        this.amount = amount;
+    public BigInteger getAmount_add() {
+        return amount_add;
+    }
+
+    public void setAmount_add(BigInteger amount_add) {
+        this.amount_add = amount_add;
+    }
+
+    public long getAmount_ope() {
+        return amount_ope;
+    }
+
+    public void setAmount_ope(long amount_ope) {
+        this.amount_ope = amount_ope;
     }
 
     public String getDate() {
@@ -82,6 +98,8 @@ public class Transfer implements Serializable {
         this.date = date;
     }
 
-    private String getActualDate() {return new SimpleDateFormat(FORMAT_DATE).format(new Date());}
+    private String getActualDate() {
+        return new SimpleDateFormat(FORMAT_DATE).format(new Date());
+    }
 
 }

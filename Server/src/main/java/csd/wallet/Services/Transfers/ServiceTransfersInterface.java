@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public interface ServiceTransfersInterface {
 
-    void addMoney(long accId, AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException;
+    void addMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException;
 
-    void removeMoney(long accId, AddRemoveForm idAmount) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException;
+    void removeMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException;
 
-    void transfer(long accId, Transfer transfer) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException, AuthenticationErrorException;
+    void transfer(long accId, Transfer transferr, String addKey) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException, AuthenticationErrorException;
 
     List<Transfer> ledgerOfGlobalTransfers(long accId) throws AuthenticationErrorException;
 
