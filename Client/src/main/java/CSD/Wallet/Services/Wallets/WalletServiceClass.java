@@ -93,7 +93,7 @@ public class WalletServiceClass implements WalletServiceInter {
     private HttpHeaders createHeaders() {
         return new HttpHeaders() {
             {
-                set("Authorization", LocalRepo.getJWT());
+                set("Authorization", LocalRepo.getInstance().getJWT());
             }
         };
     }

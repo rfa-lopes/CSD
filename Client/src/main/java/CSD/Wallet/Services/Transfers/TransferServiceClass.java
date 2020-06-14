@@ -104,7 +104,7 @@ public class TransferServiceClass implements TransferServiceInter {
 	private HttpHeaders createHeaders() {
 		return new HttpHeaders() {
 			{
-				set("Authorization", LocalRepo.getJWT());
+				set("Authorization", LocalRepo.getInstance().getJWT());
 			}
 		};
 	}

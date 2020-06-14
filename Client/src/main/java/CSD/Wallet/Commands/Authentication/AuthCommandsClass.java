@@ -54,7 +54,7 @@ public class AuthCommandsClass implements AuthCommandInter {
 
         switch (res.getError()) {
             case "OK":
-                LocalRepo.setJWT((String)res.getResult());
+                LocalRepo.getInstance().setJWT((String)res.getResult());
                 return "You are now logged in, " + username + "!";
             case "TIME_OUT":
                 return MESSAGE_TIMEOUT;

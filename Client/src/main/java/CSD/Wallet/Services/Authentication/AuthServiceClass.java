@@ -1,14 +1,20 @@
 package CSD.Wallet.Services.Authentication;
 
+import CSD.Wallet.Crypto.OnionBuilder;
+import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
 import CSD.Wallet.Models.Account;
 import CSD.Wallet.Models.SignedResults;
+import CSD.Wallet.Services.LocalRepo.LocalRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import static CSD.Wallet.Crypto.Utils.OnionBuilderOperation.Operation.*;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -45,10 +51,10 @@ public class AuthServiceClass implements AuthServiceInter {
     }
 
     private ResponseEntity<SignedResults> request(String url, String username, String password){
-        HttpEntity<Account> entity = new HttpEntity<>(new Account(username,password));
+        String onionUsername = OnionBuilderOperation.generateOnion(ONION_EQUALITY, username.getBytes());
+        HttpEntity<Account> entity = new HttpEntity<>(new Account(onionUsername,password));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
                 SignedResults.class);
         return signedResults;
     }
-
 }
