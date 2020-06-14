@@ -30,9 +30,7 @@ public class ServiceLoginClass implements ServiceLoginInterface {
         if (acc == null || !acc.isValidPassword(password))
             throw new AuthenticationErrorException();
 
-        Account a = accs.save(account);
-
-        return JWTUtil.createJWT(a.getId());
+        return JWTUtil.createJWT(acc.getId());
     }
 
 }

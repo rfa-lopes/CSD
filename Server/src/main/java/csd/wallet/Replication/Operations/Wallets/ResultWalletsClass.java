@@ -34,7 +34,7 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 	@Override
 	public Result deleteWallet(long accId, long id) {
 		try {
-			wallets.deleteWallet(id, id);
+			wallets.deleteWallet(accId, id);
 			return ok();
 		} catch (WalletNotExistsException e) {
 			return getError(NOT_FOUND);
@@ -46,7 +46,7 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 	@Override
 	public Result getCurrentAmount(long accId, long id) {
 		try {
-			return (ok(wallets.getCurrentAmount(id, id)));
+			return (ok(wallets.getCurrentAmount(accId, id)));
 		} catch (WalletNotExistsException e) {
 			return (getError(NOT_FOUND));
 		} catch (AuthenticationErrorException e) {
@@ -57,7 +57,7 @@ public class ResultWalletsClass implements ResultWalletsInterface {
 	@Override
 	public Result getWalletInfo(long accId, long id) {
 		try {
-			return (ok(wallets.getWalletInfo(id, id)));
+			return (ok(wallets.getWalletInfo(accId, id)));
 		} catch (WalletNotExistsException e) {
 			return (getError(NOT_FOUND));
 		} catch (AuthenticationErrorException e) {
