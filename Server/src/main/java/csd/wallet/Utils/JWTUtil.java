@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class JWTUtil {
 
+    public static final String HEADER_NAME = "Authorization";
+
     private static final String KEY = "password_ultra_S$cret@--123456";
 
     private static final byte[] KEY_BYTES = KEY.getBytes();
