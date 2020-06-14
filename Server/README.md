@@ -70,6 +70,8 @@ E correr script runDockerBuild.sh:
 * Documentação [Transfers](Documentation/TRANSFERS.md).
 ### Accounts
 * Documentação [Accounts](Documentation/ACCOUNTS.md).
+### Authentication
+* Documentação [Authentication](Documentation/AUTHENTICATION.md).
 
 ---
 
