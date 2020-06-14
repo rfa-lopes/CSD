@@ -15,7 +15,7 @@ public class HashingUtils {
     private static final String HASH_ALG = "PBKDF2WithHmacSHA512";
     private static final String SHA_256 = "SHA-256";
 
-    public static String hashPwd(String password){
+    public static String hashPwd(String password) {
         return hashPwd(password, null, 0);
     }
 
@@ -29,9 +29,7 @@ public class HashingUtils {
             SecretKeyFactory skf = SecretKeyFactory.getInstance(HASH_ALG);
             byte[] hash = skf.generateSecret(spec).getEncoded();
             return it + ":" + encodeBase64(salt) + ":" + encodeBase64(hash);
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println(e.getMessage());
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             System.err.println(e.getMessage());
         }
         return null;
@@ -59,5 +57,4 @@ public class HashingUtils {
         sr.nextBytes(salt);
         return salt;
     }
-
 }

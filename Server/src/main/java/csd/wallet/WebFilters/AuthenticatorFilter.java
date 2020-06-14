@@ -31,7 +31,7 @@ public class AuthenticatorFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        String token = req.getHeader("Authorization");//JWT
+        String token = req.getHeader(JWTUtil.HEADER_NAME);
 
         try {
             Long id = Long.parseLong(JWTUtil.parseJWT(token));
