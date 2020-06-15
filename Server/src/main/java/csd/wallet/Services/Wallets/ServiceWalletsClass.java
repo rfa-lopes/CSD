@@ -1,5 +1,6 @@
 package csd.wallet.Services.Wallets;
 
+import csd.wallet.Utils.JSON;
 import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,6 +33,8 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
 
         if (wallet.getName().equals(""))
             throw new EmptyWalletNameException();
+
+        System.out.println(JSON.toJson(wallet));
 
         //Amount com um valor
         Wallet w = wallets.save(wallet);

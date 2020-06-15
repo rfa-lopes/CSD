@@ -1,7 +1,11 @@
 package CSD.Wallet.Commands.Wallet;
 
+import CSD.Wallet.Crypto.Deterministic.HomoDet;
+import CSD.Wallet.Crypto.Random.HomoRand;
+import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Wallet;
+import CSD.Wallet.Services.LocalRepo.KeyType;
 import CSD.Wallet.Services.LocalRepo.LocalRepo;
 import CSD.Wallet.Services.Wallets.WalletServiceInter;
 import CSD.Wallet.Utils.Result;
@@ -14,7 +18,14 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.math.BigInteger;
 import java.net.URISyntaxException;
+import java.util.Base64;
+
+import static CSD.Wallet.Crypto.Utils.OnionBuilderOperation.Operation.ONION_EQUALITY;
+import static CSD.Wallet.Services.LocalRepo.KeyType.*;
 
 @ShellComponent
 public class WalletCommandsClass implements WalletCommandsInter{
@@ -94,8 +105,11 @@ public class WalletCommandsClass implements WalletCommandsInter{
         if(VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
+        BigInteger amount_add = (BigInteger) res.getResult();
+        BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
+
         switch (res.getError()){
-            case "OK": return "Your wallet has the amount of:  " + (Integer)res.getResult();
+            case "OK": return "Your wallet has the amount of:  " + amount;
             case "BAD_REQUEST": return MESSAGE_400;
             case "NOT_FOUND": return MESSAGE_404;
             case "TIME_OUT": return MESSAGE_TIMEOUT;
@@ -120,6 +134,24 @@ public class WalletCommandsClass implements WalletCommandsInter{
 
         ObjectMapper mapper = new ObjectMapper();
         Wallet result = mapper.convertValue(res.getResult(), Wallet.class);
+
+        BigInteger amount_add = new BigInteger(result.getAmount_add());
+        BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
+        result.setAmount_add(amount.toString());
+
+        LocalRepo l = LocalRepo.getInstance();
+        String name_det_rnd = result.getName();
+        String RNDKey = l.getKey(RND);
+        byte[] RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
+        SecretKey RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
+        String name_det = HomoRand.decrypt(RNDKeySecret, Base64.getDecoder().decode(l.getKey(IV)), name_det_rnd);
+
+        String DETKey = l.getKey(DET);
+        byte[] DETKeySecretBytes = Base64.getDecoder().decode(DETKey);
+        SecretKey DETKeySecret = new SecretKeySpec(DETKeySecretBytes, 0, DETKeySecretBytes.length, "AES");
+        String name = HomoDet.decrypt(DETKeySecret, name_det);
+
+        result.setName(name);
 
         switch (res.getError()){
             case "OK": return "Your wallet's information:" + result.getInfo();

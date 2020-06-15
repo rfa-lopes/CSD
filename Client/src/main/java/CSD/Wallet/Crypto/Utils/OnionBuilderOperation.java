@@ -20,11 +20,12 @@ import static CSD.Wallet.Services.LocalRepo.KeyType.*;
 public class OnionBuilderOperation {
 
     public enum Operation {
-        ONION_EQUALITY,ONION_ORDER, ONION_ADD, ONION_SEARCH
+        ONION_EQUALITY, ONION_ORDER, ONION_ADD, ONION_SEARCH
     }
-   static LocalRepo repo = LocalRepo.getInstance();
 
-    public static String generateOnion(Operation op, byte[] value)  {
+    static LocalRepo repo = LocalRepo.getInstance();
+
+    public static String generateOnion(Operation op, byte[] value) {
         OnionBuilder onionBuilder = new OnionBuilder(value);
         String RNDKey = null;
         SecretKey RNDKeySecret;
@@ -46,10 +47,33 @@ public class OnionBuilderOperation {
                 iv = repo.getKey(IV);
                 String OPEKey = repo.getKey(OPE);
                 HomoOpeInt ope = new HomoOpeInt(OPEKey);
-                return HomoRand.encrypt(RNDKeySecret,Base64.getDecoder().decode(iv),String.valueOf(ope.encrypt(new BigInteger(value).intValue())));
+                return HomoRand.encrypt(RNDKeySecret, Base64.getDecoder().decode(iv), String.valueOf(ope.encrypt(new BigInteger(value).intValue())));
             case ONION_SEARCH:
                 String SRKey = repo.getKey(SR);
                 return HomoSearch.encrypt(SRKey, new String(value));
+        }
+        return null;
+    }
+
+    public static String parseOnion(Operation op, byte[] value) {
+        OnionBuilder onionBuilder = new OnionBuilder(value);
+        String RNDKey = null;
+        SecretKey RNDKeySecret;
+        String iv = null;
+        switch (op) {
+            case ONION_EQUALITY:
+                RNDKey = repo.getKey(RND);
+                byte[] RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
+                RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
+                iv = repo.getKey(IV);
+                String DETKey = repo.getKey(DET);
+                byte[] DETKeySecretBytes = Base64.getDecoder().decode(DETKey);
+                SecretKey DETKeySecret = new SecretKeySpec(DETKeySecretBytes, 0, DETKeySecretBytes.length, "AES");
+                return onionBuilder.decryptRND(RNDKeySecret, Base64.getDecoder().decode(iv)).decryptDET(DETKeySecret).getB64Result();
+            case ONION_ORDER:
+                return null; //TODO
+            case ONION_SEARCH:
+                return null; //TODO
         }
         return null;
     }
@@ -58,6 +82,16 @@ public class OnionBuilderOperation {
         PaillierKey PLKey = repo.getPk();
         try {
             return HomoAdd.encrypt(bi, PLKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static BigInteger decryptHomoAdd(BigInteger bi) {
+        PaillierKey PLKey = repo.getPk();
+        try {
+            return HomoAdd.decrypt(bi, PLKey);
         } catch (Exception e) {
             e.printStackTrace();
         }

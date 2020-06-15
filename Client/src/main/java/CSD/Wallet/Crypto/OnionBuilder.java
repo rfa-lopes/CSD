@@ -30,6 +30,21 @@ public class OnionBuilder {
         return this;
     }
 
+    public OnionBuilder decryptDET(SecretKey key){
+        value = HomoDet.decrypt(key, value);
+        return this;
+    }
+
+    public OnionBuilder decryptRND(SecretKey key, byte[] iv){
+        value = HomoRand.decrypt(key, iv, value);
+        return this;
+    }
+
+    public OnionBuilder decryptRNDAESPKCS7(SecretKey key){
+        value = HomoRandAESPkcs7.decrypt(HomoRand.stringFromKey(key), new String(value)).getBytes();
+        return this;
+    }
+
     public String getB64Result(){
         return Base64.getEncoder().encodeToString(value);
     }

@@ -4,6 +4,8 @@ import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Wallet;
 import CSD.Wallet.Services.LocalRepo.LocalRepo;
+import CSD.Wallet.Utils.JSON;
+import CSD.Wallet.Utils.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
@@ -52,7 +54,7 @@ public class WalletServiceClass implements WalletServiceInter {
         Wallet wallet = new Wallet(onionWalletName);
         BigInteger onionAmount = OnionBuilderOperation.encryptHomoAdd(new BigInteger("0"));
         wallet.setAmount_add(onionAmount.toString());
-        HttpEntity<Wallet> entity = new HttpEntity<Wallet>(wallet, createHeaders());
+        HttpEntity<Wallet> entity = new HttpEntity<>(wallet, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
                 SignedResults.class);
         return signedResults;
@@ -64,8 +66,9 @@ public class WalletServiceClass implements WalletServiceInter {
         String url = createURL(DELETE);
         String idToDelete = createIdURL(id);
         HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
-        ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToDelete), HttpMethod.DELETE, entity,
+        ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToDelete), HttpMethod.GET, entity,
                 SignedResults.class);
+        
         return signedResults;
     }
 
@@ -73,9 +76,10 @@ public class WalletServiceClass implements WalletServiceInter {
     public ResponseEntity<SignedResults> getAmount(long id) throws URISyntaxException {
         String url = createURL(AMOUNT);
         String idToGet = createIdURL(id);
-        HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+        HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToGet), HttpMethod.GET, entity,
                 SignedResults.class);
+
         return signedResults;
     }
 

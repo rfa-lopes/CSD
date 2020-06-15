@@ -3,12 +3,8 @@ package csd.wallet.Models;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -25,6 +21,8 @@ public class Wallet implements Serializable {
     String name;
 
     @NotNull
+    @Lob
+    @Column(length = 3000)
     String amount_add;
 
     public Wallet() {
