@@ -62,14 +62,7 @@ public class OnionBuilderOperation {
         String iv = null;
         switch (op) {
             case ONION_EQUALITY:
-                RNDKey = repo.getKey(RND);
-                byte[] RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
-                RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
-                iv = repo.getKey(IV);
-                String DETKey = repo.getKey(DET);
-                byte[] DETKeySecretBytes = Base64.getDecoder().decode(DETKey);
-                SecretKey DETKeySecret = new SecretKeySpec(DETKeySecretBytes, 0, DETKeySecretBytes.length, "AES");
-                return onionBuilder.decryptRND(RNDKeySecret, Base64.getDecoder().decode(iv)).decryptDET(DETKeySecret).getB64Result();
+                return null; //TODO
             case ONION_ORDER:
                 return null; //TODO
             case ONION_SEARCH:

@@ -65,7 +65,7 @@ public class WalletServiceClass implements WalletServiceInter {
     public ResponseEntity<SignedResults> delete(long id) throws URISyntaxException {
         String url = createURL(DELETE);
         String idToDelete = createIdURL(id);
-        HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+        HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToDelete), HttpMethod.GET, entity,
                 SignedResults.class);
         
@@ -87,7 +87,7 @@ public class WalletServiceClass implements WalletServiceInter {
     public ResponseEntity<SignedResults> getInfo(long id) throws URISyntaxException {
         String url = createURL(INFO);
         String idToGet = createIdURL(id);
-        HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+        HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToGet), HttpMethod.GET, entity,
                 SignedResults.class);
         return signedResults;

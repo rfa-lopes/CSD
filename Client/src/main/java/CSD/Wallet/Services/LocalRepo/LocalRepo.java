@@ -41,7 +41,7 @@ public class LocalRepo {
     private static PaillierKey pk;
 
     private LocalRepo(){
-        onionKeys = new HashMap<String,String>();
+        onionKeys = new HashMap<>();
         onionKeys.put(RND.name(),RND_KEY);
         onionKeys.put(DET.name(),DET_KEY);
         onionKeys.put(IV.name(),RND_IV);
@@ -58,7 +58,7 @@ public class LocalRepo {
         BigInteger nsquare = new BigInteger(PL_nsquare);
         BigInteger g = new BigInteger(PL_g);
         BigInteger mu = new BigInteger(PL_m);
-        pk = new PaillierKey(p,q,lambda,n,nsquare,q,mu);
+        pk = new PaillierKey(p,q,lambda,n,nsquare,g,mu);
     }
 
     public static PaillierKey getPk() {

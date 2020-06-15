@@ -34,8 +34,6 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
         if (wallet.getName().equals(""))
             throw new EmptyWalletNameException();
 
-        System.out.println(JSON.toJson(wallet));
-
         //Amount com um valor
         Wallet w = wallets.save(wallet);
         accountWalletsAssociation.save(new AccountWalletsAssociation(accId, w.getId()));

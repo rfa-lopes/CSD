@@ -43,7 +43,7 @@ public class TransferServiceClass implements TransferServiceInter {
 	public ResponseEntity<SignedResults> transfer(long fromId, long toId, long amount) {
 		String url = createURL(TRANSFER);
 		Transfer body = new Transfer(fromId, toId, amount);
-		HttpEntity<Transfer> entity = new HttpEntity<Transfer>(body, createHeaders());
+		HttpEntity<Transfer> entity = new HttpEntity<>(body, createHeaders());
 		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
 				SignedResults.class);
 		return signedResults;
@@ -54,8 +54,8 @@ public class TransferServiceClass implements TransferServiceInter {
 		String url = createURL(ADD);
 		AddRemoveForm f = new AddRemoveForm();
 		f.setId(id);
-		f.setAmount(amount);
-		HttpEntity<AddRemoveForm> entity = new HttpEntity<AddRemoveForm>(f, createHeaders());
+		f.setAmount_add(amount);
+		HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders());
 		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
 				SignedResults.class);
 		return signedResults;
@@ -66,7 +66,7 @@ public class TransferServiceClass implements TransferServiceInter {
 		String url = createURL(REMOVE);
 		AddRemoveForm f = new AddRemoveForm();
 		f.setId(id);
-		f.setAmount(amount);
+		f.setAmount_add(amount);
 		HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders());
 		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
 				SignedResults.class);
@@ -86,7 +86,7 @@ public class TransferServiceClass implements TransferServiceInter {
 	public ResponseEntity<SignedResults> listWalletTransfers(long id) throws URISyntaxException {
 		String url = createURL(WALLET);
 		String idToGet = url + BACKSLASH + id;
-		HttpEntity<Long> entity = new HttpEntity<Long>(id, createHeaders());
+		HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders());
 		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(idToGet, HttpMethod.GET, entity,
 				SignedResults.class);
 		return signedResults;
@@ -105,7 +105,8 @@ public class TransferServiceClass implements TransferServiceInter {
 		return new HttpHeaders() {
 			{
 				set("Authorization", LocalRepo.getInstance().getJWT());
-				set("Authorization", LocalRepo.getInstance().getPk().getNsquare());
+				System.out.println(LocalRepo.getInstance().getPk().getNsquare().toString());
+				set("keys", "HOMOADD:"+LocalRepo.getInstance().getPk().getNsquare().toString());
 			}
 		};
 	}

@@ -3,6 +3,7 @@ package csd.wallet.Configuration;
 import bftsmart.tom.AsynchServiceProxy;
 import csd.wallet.Replication.ServiceProxy.BFTServiceProxy;
 import csd.wallet.WebFilters.AuthenticatorFilter;
+import csd.wallet.WebFilters.KeysFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +49,16 @@ public class AppConfig {
 				"/smartcontract/*",
 				"/transfers/*");
 
+		return registrationBean;
+	}
+
+	@Bean
+	public FilterRegistrationBean keyFilter(){
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		Filter keysFilter = new KeysFilter();
+		beanFactory.autowireBean(keysFilter);
+		registrationBean.setFilter(keysFilter);
+		registrationBean.addUrlPatterns("/*");
 		return registrationBean;
 	}
 
