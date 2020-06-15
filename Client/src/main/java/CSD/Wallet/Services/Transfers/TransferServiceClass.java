@@ -1,5 +1,7 @@
 package CSD.Wallet.Services.Transfers;
 
+import CSD.Wallet.Crypto.Sum.HomoAdd;
+import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
 import CSD.Wallet.Models.AddRemoveForm;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Transfer;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
 import java.net.URISyntaxException;
 
 @Service
@@ -54,7 +57,11 @@ public class TransferServiceClass implements TransferServiceInter {
 		String url = createURL(ADD);
 		AddRemoveForm f = new AddRemoveForm();
 		f.setId(id);
-		f.setAmount_add(amount);
+
+		BigInteger amount_normal = BigInteger.valueOf(amount);
+		BigInteger amount_add = OnionBuilderOperation.encryptHomoAdd(amount_normal);
+		f.setAmount_add(amount_add.toString());
+
 		HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders());
 		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
 				SignedResults.class);
@@ -66,7 +73,11 @@ public class TransferServiceClass implements TransferServiceInter {
 		String url = createURL(REMOVE);
 		AddRemoveForm f = new AddRemoveForm();
 		f.setId(id);
-		f.setAmount_add(amount);
+
+		BigInteger amount_normal = BigInteger.valueOf(amount);
+		BigInteger amount_add = OnionBuilderOperation.encryptHomoAdd(amount_normal);
+		f.setAmount_add(amount_add.toString());
+
 		HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders());
 		ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
 				SignedResults.class);

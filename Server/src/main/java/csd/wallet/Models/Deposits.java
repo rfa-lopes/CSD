@@ -3,10 +3,7 @@ package csd.wallet.Models;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigInteger;
 
 @Entity
@@ -25,7 +22,9 @@ public class Deposits {
     long walletId;
 
     @NotNull
-    BigInteger amount_add;
+    @Lob
+    @Column(length = 3000)
+    String amount_add;
 
     @NotNull
     long amount_ope;
@@ -36,7 +35,7 @@ public class Deposits {
     public Deposits() {
     }
 
-    public Deposits(long walletId, BigInteger amount_add, long amount_ope, Operation operation) {
+    public Deposits(long walletId, String amount_add, long amount_ope, Operation operation) {
         this.walletId = walletId;
         this.amount_add = amount_add;
         this.amount_ope = amount_ope;
@@ -67,11 +66,11 @@ public class Deposits {
         this.walletId = walletId;
     }
 
-    public BigInteger getAmount_add() {
+    public String getAmount_add() {
         return amount_add;
     }
 
-    public void setAmount_add(BigInteger amount_add) {
+    public void setAmount_add(String amount_add) {
         this.amount_add = amount_add;
     }
 

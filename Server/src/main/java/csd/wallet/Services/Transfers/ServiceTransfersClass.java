@@ -43,7 +43,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public void addMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
 
-        if(accId == AuthenticatorFilter.FAIL_AUTH)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (!isWalletOwner(accId, idAmount.getId()))
@@ -53,27 +53,27 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         Wallet w = wallets.findById(walletId).orElseThrow(() -> new WalletNotExistsException(walletId));
 
-        AmountRestrictions(idAmount.getAmount_ope());
+        //AmountRestrictions(idAmount.getAmount_ope());
 
         BigInteger amount_add = new BigInteger(w.getAmount_add());
-        BigInteger toAdd_add = idAmount.getAmount_add();
+        BigInteger toAdd_add = new BigInteger(idAmount.getAmount_add());
 
-        if(amount_add.equals(BigInteger.ZERO))
+        if (amount_add.equals(BigInteger.ZERO))
             w.setAmount_add(toAdd_add.toString());
-        else{
+        else {
             BigInteger nSquare = new BigInteger(addKey);
             BigInteger result_add = HomoAdd.sum(amount_add, toAdd_add, nSquare);
             w.setAmount_add(result_add.toString());
         }
 
-        depositsRepository.save(new Deposits(walletId, toAdd_add, idAmount.getAmount_ope(), ADD));
+        depositsRepository.save(new Deposits(walletId, toAdd_add.toString(), 0, ADD));
         wallets.save(w);
     }
 
     @Override
     public void removeMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
 
-        if(accId == AuthenticatorFilter.FAIL_AUTH)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (!isWalletOwner(accId, idAmount.getId()))
@@ -81,27 +81,28 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         long walletId = idAmount.getId();
         Wallet w = wallets.findById(walletId).orElseThrow(() -> new WalletNotExistsException(walletId));
-        AmountRestrictions(idAmount.getAmount_ope());
+
+        //AmountRestrictions(idAmount.getAmount_ope());
 
         BigInteger amount_add = new BigInteger(w.getAmount_add());
 
-        BigInteger toRemove_add = idAmount.getAmount_add();
+        BigInteger toRemove_add = new BigInteger(idAmount.getAmount_add());
 
-        if(amount_add.equals(BigInteger.ZERO))
+        if (amount_add.equals(BigInteger.ZERO))
             throw new InvalidAmountException(0);
 
         BigInteger nSquare = new BigInteger(addKey);
         BigInteger result_add = HomoAdd.dif(amount_add, toRemove_add, nSquare);
         w.setAmount_add(result_add.toString());
 
-        depositsRepository.save(new Deposits(walletId, toRemove_add, idAmount.getAmount_ope(), REMOVE));
+        depositsRepository.save(new Deposits(walletId, toRemove_add.toString(), 0, REMOVE));
         wallets.save(w);
     }
 
     @Override
     public void transfer(long accId, Transfer transfer, String addKey) throws InvalidAmountException, WalletNotExistsException, TransferToSameWalletException, AuthenticationErrorException {
 
-        if(accId == AuthenticatorFilter.FAIL_AUTH)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         if (!isWalletOwner(accId, transfer.getFromId()))
@@ -118,11 +119,11 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         Wallet fromW = wallets.findById(fromId).orElseThrow(() -> new WalletNotExistsException(fromId));
         Wallet toW = wallets.findById(toId).orElseThrow(() -> new WalletNotExistsException(toId));
 
-        if(fromW == toW)
+        if (fromW == toW)
             throw new TransferToSameWalletException(fromId);
 
         BigInteger nSquare = new BigInteger(addKey);
-        BigInteger fromResult_add = HomoAdd.dif( new BigInteger(fromW.getAmount_add()), amount_add, nSquare);
+        BigInteger fromResult_add = HomoAdd.dif(new BigInteger(fromW.getAmount_add()), amount_add, nSquare);
         BigInteger toResult_add = HomoAdd.sum(new BigInteger(toW.getAmount_add()), amount_add, nSquare);
 
         fromW.setAmount_add(fromResult_add.toString());
@@ -137,7 +138,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public List<Transfer> ledgerOfGlobalTransfers(long accId) throws AuthenticationErrorException {
 
-        if(accId == AuthenticatorFilter.FAIL_AUTH)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         List<Transfer> globalTransfers = new ArrayList<>();
@@ -148,7 +149,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Override
     public List<Transfer> ledgerOfWalletTransfers(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException {
 
-        if(accId == AuthenticatorFilter.FAIL_AUTH)
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
         wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
@@ -159,7 +160,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     private void AmountRestrictions(long amount) throws InvalidAmountException {
-        if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             throw new InvalidAmountException();
     }
 
