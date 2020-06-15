@@ -136,7 +136,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         long fromId = transfer.getFromId();
         long toId = transfer.getToId();
 
-        AmountRestrictions(amount_ope);
+        //AmountRestrictions(amount_ope);
 
         Wallet fromW = wallets.findById(fromId).orElseThrow(() -> new WalletNotExistsException(fromId));
         Wallet toW = wallets.findById(toId).orElseThrow(() -> new WalletNotExistsException(toId));

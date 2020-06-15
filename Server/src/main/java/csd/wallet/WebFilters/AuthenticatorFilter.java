@@ -25,7 +25,7 @@ public class AuthenticatorFilter implements Filter {
     AccountRepository accountRepository;
 
     public static final int NO_AUTH = -2;
-    public static final int FAIL_AUTH = -2;
+    public static final int FAIL_AUTH = -1;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -42,7 +42,7 @@ public class AuthenticatorFilter implements Filter {
             req.setAttribute("id", id);
         } catch (Exception e) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            req.setAttribute("id", -1);
+            req.setAttribute("id", FAIL_AUTH);
         }
         chain.doFilter(request, response);
     }
