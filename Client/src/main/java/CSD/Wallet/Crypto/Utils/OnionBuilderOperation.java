@@ -9,6 +9,7 @@ import CSD.Wallet.Crypto.Sum.HomoAdd;
 import CSD.Wallet.Services.LocalRepo.LocalRepo;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.util.Base64;
 import java.util.Locale;
@@ -21,11 +22,9 @@ public class OnionBuilderOperation {
     public enum Operation {
         ONION_EQUALITY,ONION_ORDER, ONION_ADD, ONION_SEARCH
     }
+   static LocalRepo repo = LocalRepo.getInstance();
 
-
-
-    public static String generateOnion(Operation op, byte[] value) {
-        LocalRepo repo = LocalRepo.getInstance();
+    public static String generateOnion(Operation op, byte[] value)  {
         OnionBuilder onionBuilder = new OnionBuilder(value);
         String RNDKey = null;
         SecretKey RNDKeySecret;
@@ -33,33 +32,38 @@ public class OnionBuilderOperation {
         switch (op) {
             case ONION_EQUALITY:
                 RNDKey = repo.getKey(RND);
-                RNDKeySecret = HomoRand.keyFromString(RNDKey);
+                byte[] RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
+                RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
                 iv = repo.getKey(IV);
                 String DETKey = repo.getKey(DET);
-                SecretKey DETKeySecret = HomoDet.keyFromString(DETKey);
-
-                String encr = "RkEzMjNrRFN2OVRnMXVidDRBQi84WUwvTFZBTEpqTlJRNCtYazE4Uk5BVHNXMWxZTDJJV2g0TFpTVFZ4ZXJHSGxlN2VBVTI4RHFBV1pSS0VKdnRlZEE9PQ==";
-                String resultRND = HomoRand.decrypt(RNDKeySecret,Base64.getDecoder().decode(iv), encr);
-                String resultDet =  HomoDet.decrypt(DETKeySecret, resultRND);
-                System.out.println("Resultado: " + resultDet);
-
-
+                byte[] DETKeySecretBytes = Base64.getDecoder().decode(DETKey);
+                SecretKey DETKeySecret = new SecretKeySpec(DETKeySecretBytes, 0, DETKeySecretBytes.length, "AES");
                 return onionBuilder.DET(DETKeySecret).RND(RNDKeySecret, Base64.getDecoder().decode(iv)).getB64Result();
             case ONION_ORDER:
                 RNDKey = repo.getKey(RND);
-                RNDKeySecret = HomoRand.keyFromString(RNDKey);
+                RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
+                RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
+                iv = repo.getKey(IV);
                 String OPEKey = repo.getKey(OPE);
                 HomoOpeInt ope = new HomoOpeInt(OPEKey);
                 return HomoRand.encrypt(RNDKeySecret,Base64.getDecoder().decode(iv),String.valueOf(ope.encrypt(new BigInteger(value).intValue())));
-            case ONION_ADD:
-                String PLKey = repo.getKey(PL);
-                return HomoAdd.encrypt(PLKey, new String(value));
             case ONION_SEARCH:
                 String SRKey = repo.getKey(SR);
                 return HomoSearch.encrypt(SRKey, new String(value));
         }
         return null;
     }
+
+    public static BigInteger encryptHomoAdd(BigInteger bi) {
+        PaillierKey PLKey = repo.getPk();
+        try {
+            return HomoAdd.encrypt(bi, PLKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 
 

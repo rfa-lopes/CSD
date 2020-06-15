@@ -50,7 +50,7 @@ public class AuthServiceClass implements AuthServiceInter {
         return String.format(SERVER_URL  + BASE + method);
     }
 
-    private ResponseEntity<SignedResults> request(String url, String username, String password){
+    private ResponseEntity<SignedResults> request(String url, String username, String password)  {
         String onionUsername = OnionBuilderOperation.generateOnion(ONION_EQUALITY, username.getBytes());
         HttpEntity<Account> entity = new HttpEntity<>(new Account(onionUsername,password));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,

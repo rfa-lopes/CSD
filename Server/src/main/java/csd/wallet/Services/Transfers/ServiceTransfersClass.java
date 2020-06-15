@@ -55,15 +55,15 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         AmountRestrictions(idAmount.getAmount_ope());
 
-        BigInteger amount_add = w.getAmount_add();
+        BigInteger amount_add = new BigInteger(w.getAmount_add());
         BigInteger toAdd_add = idAmount.getAmount_add();
 
         if(amount_add.equals(BigInteger.ZERO))
-            w.setAmount_add(toAdd_add);
+            w.setAmount_add(toAdd_add.toString());
         else{
             BigInteger nSquare = new BigInteger(addKey);
             BigInteger result_add = HomoAdd.sum(amount_add, toAdd_add, nSquare);
-            w.setAmount_add(result_add);
+            w.setAmount_add(result_add.toString());
         }
 
         depositsRepository.save(new Deposits(walletId, toAdd_add, idAmount.getAmount_ope(), ADD));
@@ -83,7 +83,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         Wallet w = wallets.findById(walletId).orElseThrow(() -> new WalletNotExistsException(walletId));
         AmountRestrictions(idAmount.getAmount_ope());
 
-        BigInteger amount_add = w.getAmount_add();
+        BigInteger amount_add = new BigInteger(w.getAmount_add());
 
         BigInteger toRemove_add = idAmount.getAmount_add();
 
@@ -92,7 +92,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         BigInteger nSquare = new BigInteger(addKey);
         BigInteger result_add = HomoAdd.dif(amount_add, toRemove_add, nSquare);
-        w.setAmount_add(result_add);
+        w.setAmount_add(result_add.toString());
 
         depositsRepository.save(new Deposits(walletId, toRemove_add, idAmount.getAmount_ope(), REMOVE));
         wallets.save(w);
@@ -122,11 +122,11 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
             throw new TransferToSameWalletException(fromId);
 
         BigInteger nSquare = new BigInteger(addKey);
-        BigInteger fromResult_add = HomoAdd.dif(fromW.getAmount_add(), amount_add, nSquare);
-        BigInteger toResult_add = HomoAdd.sum(toW.getAmount_add(), amount_add, nSquare);
+        BigInteger fromResult_add = HomoAdd.dif( new BigInteger(fromW.getAmount_add()), amount_add, nSquare);
+        BigInteger toResult_add = HomoAdd.sum(new BigInteger(toW.getAmount_add()), amount_add, nSquare);
 
-        fromW.setAmount_add(fromResult_add);
-        toW.setAmount_add(toResult_add);
+        fromW.setAmount_add(fromResult_add.toString());
+        toW.setAmount_add(toResult_add.toString());
 
         transfers.save(new Transfer(fromId, toId, amount_add, amount_ope));
 

@@ -1,5 +1,6 @@
 package CSD.Wallet.Services.Wallets;
 
+import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Wallet;
 import CSD.Wallet.Services.LocalRepo.LocalRepo;
@@ -12,8 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import static CSD.Wallet.Crypto.Utils.OnionBuilderOperation.Operation.ONION_ADD;
+import static CSD.Wallet.Crypto.Utils.OnionBuilderOperation.Operation.ONION_EQUALITY;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -43,7 +48,11 @@ public class WalletServiceClass implements WalletServiceInter {
     @Override
     public ResponseEntity<SignedResults> create(String name) {
         String url = createURL(CREATE);
-        HttpEntity<Wallet> entity = new HttpEntity<Wallet>(new Wallet(name), createHeaders());
+        String onionWalletName = OnionBuilderOperation.generateOnion(ONION_EQUALITY, name.getBytes());
+        Wallet wallet = new Wallet(onionWalletName);
+        BigInteger onionAmount = OnionBuilderOperation.encryptHomoAdd(new BigInteger("0"));
+        wallet.setAmount_add(onionAmount.toString());
+        HttpEntity<Wallet> entity = new HttpEntity<Wallet>(wallet, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
                 SignedResults.class);
         return signedResults;

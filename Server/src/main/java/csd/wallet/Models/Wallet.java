@@ -25,14 +25,14 @@ public class Wallet implements Serializable {
     String name;
 
     @NotNull
-    BigInteger amount_add;
+    String amount_add;
 
     public Wallet() {
     }
 
     public Wallet(@NotNull String name) {
         this.name = name;
-        this.amount_add = BigInteger.ZERO;
+        this.amount_add = "0";
     }
 
     public long getId() {
@@ -51,11 +51,11 @@ public class Wallet implements Serializable {
         this.name = name;
     }
 
-    public BigInteger getAmount_add() {
+    public String getAmount_add() {
         return amount_add;
     }
 
-    public void setAmount_add(BigInteger amount_add) {
+    public void setAmount_add(String amount_add) {
         this.amount_add = amount_add;
     }
 }
