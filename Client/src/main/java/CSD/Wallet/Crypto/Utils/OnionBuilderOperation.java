@@ -1,6 +1,5 @@
 package CSD.Wallet.Crypto.Utils;
 
-import CSD.Wallet.Crypto.Deterministic.HomoDet;
 import CSD.Wallet.Crypto.OnionBuilder;
 import CSD.Wallet.Crypto.Order.HomoOpeInt;
 import CSD.Wallet.Crypto.Random.HomoRand;
@@ -12,10 +11,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.util.Base64;
-import java.util.Locale;
 
 import static CSD.Wallet.Services.LocalRepo.KeyType.*;
-
 
 public class OnionBuilderOperation {
 

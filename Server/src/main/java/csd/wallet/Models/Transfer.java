@@ -32,7 +32,7 @@ public class Transfer implements Serializable {
     String amount_add;
 
     @NotNull
-    long amount_ope;
+    String amount_ope;
 
     @NotNull
     String date;
@@ -40,7 +40,7 @@ public class Transfer implements Serializable {
     public Transfer() {
     }
 
-    public Transfer(long fromId, long toId, String amount_add, long amount_ope) {
+    public Transfer(long fromId, long toId, String amount_add, String amount_ope) {
         this.fromId = fromId;
         this.toId = toId;
         this.amount_add = amount_add;
@@ -84,11 +84,11 @@ public class Transfer implements Serializable {
         this.amount_add = amount_add;
     }
 
-    public long getAmount_ope() {
+    public String getAmount_ope() {
         return amount_ope;
     }
 
-    public void setAmount_ope(long amount_ope) {
+    public void setAmount_ope(String amount_ope) {
         this.amount_ope = amount_ope;
     }
 

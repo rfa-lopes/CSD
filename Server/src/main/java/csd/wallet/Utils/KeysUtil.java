@@ -6,7 +6,7 @@ import java.util.Map;
 public class KeysUtil {
 
     public enum KeyType {
-        RND, DET, OPE, HOMOADD
+        RND, DET, OPE, HOMOADD, IV
     }
 
     private Map<String, String> keysMap;

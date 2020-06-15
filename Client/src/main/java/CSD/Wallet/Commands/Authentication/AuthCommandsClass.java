@@ -27,6 +27,7 @@ public class AuthCommandsClass implements AuthCommandInter {
     private static final String UNAUTHORIZED = "Username or password are wrong!";
     private static final String MESSAGE_TIMEOUT = "Time out request.";
     private static final String BAD_REQUEST = "Invalid parameters." ;
+    private static final String CONFLICT = "Account already exists";
 
     private final AuthServiceInter service;
 
@@ -85,6 +86,8 @@ public class AuthCommandsClass implements AuthCommandInter {
                 return MESSAGE_TIMEOUT;
             case "BAD_REQUEST":
                 return BAD_REQUEST;
+            case "CONFLICT":
+                return CONFLICT;
             default:
                 return MESSAGE_ERROR;
         }
