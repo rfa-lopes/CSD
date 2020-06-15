@@ -1,5 +1,6 @@
 package CSD.Wallet.Services.Transfers;
 
+import CSD.Wallet.Crypto.Order.HomoOpeInt;
 import CSD.Wallet.Crypto.Random.HomoRand;
 import CSD.Wallet.Crypto.Sum.HomoAdd;
 import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
@@ -25,6 +26,7 @@ import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.util.Base64;
 
+import static CSD.Wallet.Crypto.Utils.OnionBuilderOperation.Operation.ONION_ORDER;
 import static CSD.Wallet.Services.LocalRepo.KeyType.IV;
 import static CSD.Wallet.Services.LocalRepo.KeyType.RND;
 
@@ -78,7 +80,12 @@ public class TransferServiceClass implements TransferServiceInter {
         BigInteger amount_add = OnionBuilderOperation.encryptHomoAdd(amount_normal);
         f.setAmount_add(amount_add.toString());
 
-        String keys = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
+        f.setAmount_ope_rnd(OnionBuilderOperation.generateOnion(ONION_ORDER, BigInteger.valueOf(amount).toByteArray()));
+
+        String HomoAddKey = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
+        String HomoRNDKey = "RND:" + LocalRepo.getInstance().getKey(RND);
+        String keys = HomoAddKey + " " + HomoRNDKey;
+
         HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders(keys));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
                 SignedResults.class);
@@ -95,7 +102,12 @@ public class TransferServiceClass implements TransferServiceInter {
         BigInteger amount_add = OnionBuilderOperation.encryptHomoAdd(amount_normal);
         f.setAmount_add(amount_add.toString());
 
-        String keys = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
+        f.setAmount_ope_rnd(OnionBuilderOperation.generateOnion(ONION_ORDER, BigInteger.valueOf(amount).toByteArray()));
+
+        String HomoAddKey = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
+        String HomoRNDKey = "RND:" + LocalRepo.getInstance().getKey(RND);
+        String keys = HomoAddKey + " " + HomoRNDKey;
+
         HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders(keys));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
                 SignedResults.class);

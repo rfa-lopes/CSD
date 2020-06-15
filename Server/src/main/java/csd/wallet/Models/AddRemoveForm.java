@@ -11,7 +11,7 @@ public class AddRemoveForm implements Serializable {
 
     String amount_add;
 
-    //long amount_ope;
+    String amount_ope_rnd;
 
     public long getId() {
         return id;
@@ -29,11 +29,11 @@ public class AddRemoveForm implements Serializable {
         this.amount_add = amount_add;
     }
 
-    //public long getAmount_ope() {
-    //  return amount_ope;
-    //}
+    public String getAmount_ope_rnd() {
+        return amount_ope_rnd;
+    }
 
-    //public void setAmount_ope(long amount_ope) {
-    //    this.amount_ope = amount_ope;
-    //}
+    public void setAmount_ope_rnd(String amount_ope_rnd) {
+        this.amount_ope_rnd = amount_ope_rnd;
+    }
 }

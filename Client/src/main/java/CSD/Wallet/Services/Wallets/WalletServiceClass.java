@@ -52,7 +52,7 @@ public class WalletServiceClass implements WalletServiceInter {
         String url = createURL(CREATE);
         String onionWalletName = OnionBuilderOperation.generateOnion(ONION_EQUALITY, name.getBytes());
         Wallet wallet = new Wallet(onionWalletName);
-        BigInteger onionAmount = OnionBuilderOperation.encryptHomoAdd(new BigInteger("10"));
+        BigInteger onionAmount = OnionBuilderOperation.encryptHomoAdd(new BigInteger("0"));
         wallet.setAmount_add(onionAmount.toString());
         HttpEntity<Wallet> entity = new HttpEntity<>(wallet, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
@@ -68,7 +68,7 @@ public class WalletServiceClass implements WalletServiceInter {
         HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders());
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(new URI(url + idToDelete), HttpMethod.GET, entity,
                 SignedResults.class);
-        
+
         return signedResults;
     }
 

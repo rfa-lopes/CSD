@@ -167,20 +167,7 @@ public class TransferCommandsClass implements TransferCommandsInter {
 
         switch (res.getError()) {
             case "OK":
-                ObjectMapper mapper = new ObjectMapper();
-                List<Transfer> list = mapper.convertValue(
-                        res.getResult(),
-                        new TypeReference<List<Transfer>>() {
-                        }
-                );
-                BigInteger amount_add;
-                BigInteger amount;
-                for (Transfer t : list) {
-                    amount_add = new BigInteger(t.getAmount_add());
-                    amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
-                    t.setAmount_add(amount + "");
-                }
-                return stringInfoTransfers(list);
+                return stringInfoTransfers((List<Transfer>) res.getResult());
             case "BAD_REQUEST":
                 return MESSAGE_400;
             case "NOT_FOUND":
@@ -229,7 +216,12 @@ public class TransferCommandsClass implements TransferCommandsInter {
         List<String> toPrint = new ArrayList<>();
         List<Transfer> arrayList = new ObjectMapper().convertValue(list, new TypeReference<List<Transfer>>() {
         });
-        arrayList.forEach(transfer -> toPrint.add(transfer.getInfo()));
+        arrayList.forEach(transfer -> {
+            BigInteger amount_add = new BigInteger(transfer.getAmount_add());
+            BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
+            transfer.setAmount_add(amount + "");
+            toPrint.add(transfer.getInfo());
+        });
         return String.join(DELIMITER, toPrint);
     }
 

@@ -53,7 +53,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         Wallet w = wallets.findById(walletId).orElseThrow(() -> new WalletNotExistsException(walletId));
 
-        //AmountRestrictions(idAmount.getAmount_ope());
+        //AmountRestrictions(idAmount.getAmount_ope_rnd());
 
         BigInteger amount_add = new BigInteger(w.getAmount_add());
         BigInteger toAdd_add = new BigInteger(idAmount.getAmount_add());
@@ -66,7 +66,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
             w.setAmount_add(result_add.toString());
         }
 
-        //depositsRepository.save(new Deposits(walletId, toAdd_add.toString(), 0, ADD));
+        depositsRepository.save(new Deposits(walletId, idAmount.getAmount_add(), idAmount.getAmount_ope_rnd(), ADD));
         wallets.save(w);
     }
 
@@ -95,7 +95,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         BigInteger result_add = HomoAdd.dif(amount_add, toRemove_add, nSquare);
         w.setAmount_add(result_add.toString());
 
-        //depositsRepository.save(new Deposits(walletId, toRemove_add.toString(), 0, REMOVE));
+        depositsRepository.save(new Deposits(walletId, idAmount.getAmount_add(), idAmount.getAmount_ope_rnd(), REMOVE));
         wallets.save(w);
     }
 

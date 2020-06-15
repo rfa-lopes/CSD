@@ -26,7 +26,7 @@ public class Deposits {
     String amount_add;
 
     @NotNull
-    long amount_ope;
+    String amount_ope_rnd;
 
     @NotNull
     String operation;
@@ -34,10 +34,10 @@ public class Deposits {
     public Deposits() {
     }
 
-    public Deposits(long walletId, String amount_add, long amount_ope, Operation operation) {
+    public Deposits(long walletId, String amount_add, String amount_ope_rnd, Operation operation) {
         this.walletId = walletId;
         this.amount_add = amount_add;
-        this.amount_ope = amount_ope;
+        this.amount_ope_rnd = amount_ope_rnd;
         this.operation = operation.name();
     }
 
@@ -73,11 +73,11 @@ public class Deposits {
         this.amount_add = amount_add;
     }
 
-    public long getAmount_ope() {
-        return amount_ope;
+    public String getAmount_ope_rnd() {
+        return amount_ope_rnd;
     }
 
-    public void setAmount_ope(long amount_ope) {
-        this.amount_ope = amount_ope;
+    public void setAmount_ope_rnd(String amount_ope_rnd) {
+        this.amount_ope_rnd = amount_ope_rnd;
     }
 }
