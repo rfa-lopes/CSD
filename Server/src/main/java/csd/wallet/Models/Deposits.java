@@ -4,7 +4,6 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 @Entity
 @Data
@@ -30,7 +29,7 @@ public class Deposits {
     long amount_ope;
 
     @NotNull
-    Operation operation;
+    String operation;
 
     public Deposits() {
     }
@@ -39,14 +38,14 @@ public class Deposits {
         this.walletId = walletId;
         this.amount_add = amount_add;
         this.amount_ope = amount_ope;
-        this.operation = operation;
+        this.operation = operation.name();
     }
 
-    public Operation getOperation() {
+    public String getOperation() {
         return operation;
     }
 
-    public void setOperation(Operation operation) {
+    public void setOperation(String operation) {
         this.operation = operation;
     }
 

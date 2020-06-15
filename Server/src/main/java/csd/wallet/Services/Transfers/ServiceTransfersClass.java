@@ -66,7 +66,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
             w.setAmount_add(result_add.toString());
         }
 
-        depositsRepository.save(new Deposits(walletId, toAdd_add.toString(), 0, ADD));
+        //depositsRepository.save(new Deposits(walletId, toAdd_add.toString(), 0, ADD));
         wallets.save(w);
     }
 
@@ -95,7 +95,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         BigInteger result_add = HomoAdd.dif(amount_add, toRemove_add, nSquare);
         w.setAmount_add(result_add.toString());
 
-        depositsRepository.save(new Deposits(walletId, toRemove_add.toString(), 0, REMOVE));
+        //depositsRepository.save(new Deposits(walletId, toRemove_add.toString(), 0, REMOVE));
         wallets.save(w);
     }
 
@@ -108,19 +108,21 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         if (!isWalletOwner(accId, transfer.getFromId()))
             throw new AuthenticationErrorException();
 
-        BigInteger amount_add = transfer.getAmount_add();
-        long amount_ope = transfer.getAmount_ope();
+        BigInteger amount_add = new BigInteger(transfer.getAmount_add());
+        //long amount_ope = transfer.getAmount_ope();
 
         long fromId = transfer.getFromId();
         long toId = transfer.getToId();
 
-        AmountRestrictions(amount_ope);
+        //AmountRestrictions(amount_ope);
 
         Wallet fromW = wallets.findById(fromId).orElseThrow(() -> new WalletNotExistsException(fromId));
         Wallet toW = wallets.findById(toId).orElseThrow(() -> new WalletNotExistsException(toId));
 
         if (fromW == toW)
             throw new TransferToSameWalletException(fromId);
+
+        System.out.println(amount_add.toString());
 
         BigInteger nSquare = new BigInteger(addKey);
         BigInteger fromResult_add = HomoAdd.dif(new BigInteger(fromW.getAmount_add()), amount_add, nSquare);
@@ -129,7 +131,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         fromW.setAmount_add(fromResult_add.toString());
         toW.setAmount_add(toResult_add.toString());
 
-        transfers.save(new Transfer(fromId, toId, amount_add, amount_ope));
+        transfers.save(new Transfer(fromId, toId, amount_add.toString(), 0));
 
         wallets.save(fromW);
         wallets.save(toW);

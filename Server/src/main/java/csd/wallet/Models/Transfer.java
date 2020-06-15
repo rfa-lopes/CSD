@@ -1,11 +1,10 @@
 package csd.wallet.Models;
 
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -16,7 +15,7 @@ import java.util.Date;
 public class Transfer implements Serializable {
 
     public static final String FORMAT_DATE = "yyyy/MM/dd HH:mm:ss";
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -28,17 +27,20 @@ public class Transfer implements Serializable {
     long toId;
 
     @NotNull
-    BigInteger amount_add;
+    @Lob
+    @Column(length = 5000)
+    String amount_add;
 
     @NotNull
     long amount_ope;
-    
+
     @NotNull
     String date;
 
-    public Transfer(){}
+    public Transfer() {
+    }
 
-    public Transfer(long fromId, long toId, BigInteger amount_add, long amount_ope){
+    public Transfer(long fromId, long toId, String amount_add, long amount_ope) {
         this.fromId = fromId;
         this.toId = toId;
         this.amount_add = amount_add;
@@ -74,11 +76,11 @@ public class Transfer implements Serializable {
         this.toId = toId;
     }
 
-    public BigInteger getAmount_add() {
+    public String getAmount_add() {
         return amount_add;
     }
 
-    public void setAmount_add(BigInteger amount_add) {
+    public void setAmount_add(String amount_add) {
         this.amount_add = amount_add;
     }
 

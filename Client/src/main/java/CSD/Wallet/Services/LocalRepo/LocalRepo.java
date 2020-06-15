@@ -61,7 +61,7 @@ public class LocalRepo {
         pk = new PaillierKey(p,q,lambda,n,nsquare,g,mu);
     }
 
-    public static PaillierKey getPk() {
+    public PaillierKey getPk() {
         return pk;
     }
 

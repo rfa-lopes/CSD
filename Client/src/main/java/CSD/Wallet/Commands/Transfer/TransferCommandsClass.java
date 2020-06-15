@@ -1,5 +1,6 @@
 package CSD.Wallet.Commands.Transfer;
 
+import CSD.Wallet.Crypto.Utils.OnionBuilderOperation;
 import CSD.Wallet.Models.SignedResults;
 import CSD.Wallet.Models.Transfer;
 import CSD.Wallet.Services.Transfers.TransferServiceInter;
@@ -14,6 +15,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 
 @ShellComponent
-public class TransferCommandsClass implements TransferCommandsInter{
+public class TransferCommandsClass implements TransferCommandsInter {
 
     private static final String MESSAGE_404 = "Wallet ID doesn't exist.";
     private static final String MESSAGE_400 = "Bad request, try again.";
@@ -43,7 +45,7 @@ public class TransferCommandsClass implements TransferCommandsInter{
 
     @Autowired
     public TransferCommandsClass(TransferServiceInter service, Environment env) {
-        System.setProperty("javax.net.ssl.trustStore",  env.getProperty("client.ssl.trust-store"));
+        System.setProperty("javax.net.ssl.trustStore", env.getProperty("client.ssl.trust-store"));
         System.setProperty("javax.net.ssl.trustStorePassword", env.getProperty("client.ssl.trust-store-password"));
         this.service = service;
     }
@@ -53,12 +55,12 @@ public class TransferCommandsClass implements TransferCommandsInter{
     public String transfer(
             @ShellOption({"-f", "-fromId"}) long fromId,
             @ShellOption({"-t", "-toId"}) long toId,
-            @ShellOption({"-a", "-amount"})  long amount) {
+            @ShellOption({"-a", "-amount"}) long amount) {
 
-        if(fromId == toId)
+        if (fromId == toId)
             return "fromId should be different from toId.";
 
-        if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             return "Incorrect amount.";
 
         ResponseEntity<SignedResults> signedResults = service.transfer(fromId, toId, amount);
@@ -66,16 +68,22 @@ public class TransferCommandsClass implements TransferCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
-            case "OK": return "Transfer concluded.";
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+        switch (res.getError()) {
+            case "OK":
+                return "Transfer concluded.";
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
 
     }
@@ -84,9 +92,9 @@ public class TransferCommandsClass implements TransferCommandsInter{
     @ShellMethod("Add money to a wallet.")
     public String addAmount(
             @ShellOption({"-id"}) long id,
-            @ShellOption({"-a", "-amount"})  long amount) {
+            @ShellOption({"-a", "-amount"}) long amount) {
 
-        if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             return "Incorrect amount.";
 
         ResponseEntity<SignedResults> signedResults = service.addAmount(id, amount);
@@ -94,25 +102,32 @@ public class TransferCommandsClass implements TransferCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
-            case "OK": return "Amount added";
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+        switch (res.getError()) {
+            case "OK":
+                return "Amount added";
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
     }
+
     @Override
     @ShellMethod("Remove money from a wallet.")
     public String removeAmount(
             @ShellOption({"-id"}) long id,
-            @ShellOption({"-a", "-amount"})  long amount) {
+            @ShellOption({"-a", "-amount"}) long amount) {
 
-        if(amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
             return "Incorrect amount.";
 
         ResponseEntity<SignedResults> signedResults = service.removeAmount(id, amount);
@@ -120,16 +135,22 @@ public class TransferCommandsClass implements TransferCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
-            case "OK": return "Amount removed";
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+        switch (res.getError()) {
+            case "OK":
+                return "Amount removed";
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
     }
 
@@ -141,16 +162,35 @@ public class TransferCommandsClass implements TransferCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
-            case "OK": return stringInfoTransfers((List<Transfer>)res.getResult());
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+        switch (res.getError()) {
+            case "OK":
+                ObjectMapper mapper = new ObjectMapper();
+                List<Transfer> list = mapper.convertValue(
+                        res.getResult(),
+                        new TypeReference<List<Transfer>>() {
+                        }
+                );
+                BigInteger amount_add;
+                BigInteger amount;
+                for (Transfer t : list) {
+                    amount_add = new BigInteger(t.getAmount_add());
+                    amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
+                    t.setAmount_add(amount + "");
+                }
+                return stringInfoTransfers(list);
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
     }
 
@@ -164,28 +204,34 @@ public class TransferCommandsClass implements TransferCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
+        switch (res.getError()) {
 
-            case "OK": return stringInfoTransfers((List<Transfer>)res.getResult());
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+            case "OK":
+                return stringInfoTransfers((List<Transfer>) res.getResult());
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
     }
 
-    private String stringInfoTransfers(List<Transfer> list){
+    private String stringInfoTransfers(List<Transfer> list) {
 
         List<String> toPrint = new ArrayList<>();
-        List<Transfer> arrayList = new ObjectMapper().convertValue(list, new TypeReference<List<Transfer>>(){});
-        arrayList.forEach(transfer->toPrint.add(transfer.getInfo()));
-        return String.join(DELIMITER,toPrint);
+        List<Transfer> arrayList = new ObjectMapper().convertValue(list, new TypeReference<List<Transfer>>() {
+        });
+        arrayList.forEach(transfer -> toPrint.add(transfer.getInfo()));
+        return String.join(DELIMITER, toPrint);
     }
-
 
 
 }
