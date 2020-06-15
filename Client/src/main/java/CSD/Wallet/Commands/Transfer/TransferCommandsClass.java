@@ -94,7 +94,10 @@ public class TransferCommandsClass implements TransferCommandsInter {
             @ShellOption({"-id"}) long id,
             @ShellOption({"-a", "-amount"}) long amount) {
 
-        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        //if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        //   return "Incorrect amount.";
+
+        if(amount <= 0)
             return "Incorrect amount.";
 
         ResponseEntity<SignedResults> signedResults = service.addAmount(id, amount);
@@ -127,7 +130,10 @@ public class TransferCommandsClass implements TransferCommandsInter {
             @ShellOption({"-id"}) long id,
             @ShellOption({"-a", "-amount"}) long amount) {
 
-        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        //if (amount < MIN_AMOUNT || amount > MAX_AMOUNT)
+        //    return "Incorrect amount.";
+
+        if(amount <= 0)
             return "Incorrect amount.";
 
         ResponseEntity<SignedResults> signedResults = service.removeAmount(id, amount);

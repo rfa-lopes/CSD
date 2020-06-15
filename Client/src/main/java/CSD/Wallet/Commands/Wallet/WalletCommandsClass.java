@@ -28,7 +28,7 @@ import static CSD.Wallet.Crypto.Utils.OnionBuilderOperation.Operation.ONION_EQUA
 import static CSD.Wallet.Services.LocalRepo.KeyType.*;
 
 @ShellComponent
-public class WalletCommandsClass implements WalletCommandsInter{
+public class WalletCommandsClass implements WalletCommandsInter {
 
     private static final String MESSAGE_404 = "Wallet ID doesn't exist.";
     private static final String MESSAGE_400 = "Bad request, try again.";
@@ -41,7 +41,7 @@ public class WalletCommandsClass implements WalletCommandsInter{
 
     @Autowired
     public WalletCommandsClass(WalletServiceInter service, Environment env) {
-        System.setProperty("javax.net.ssl.trustStore",  env.getProperty("client.ssl.trust-store"));
+        System.setProperty("javax.net.ssl.trustStore", env.getProperty("client.ssl.trust-store"));
         System.setProperty("javax.net.ssl.trustStorePassword", env.getProperty("client.ssl.trust-store-password"));
         this.service = service;
     }
@@ -57,14 +57,15 @@ public class WalletCommandsClass implements WalletCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
+        switch (res.getError()) {
             case "OK":
-                int id = (Integer)res.getResult();
+                int id = (Integer) res.getResult();
                 return "New wallet created!" + "\n" + "Id:" + id;
-            default: return MESSAGE_ERROR;
+            default:
+                return MESSAGE_ERROR;
         }
     }
 
@@ -78,16 +79,22 @@ public class WalletCommandsClass implements WalletCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        switch (res.getError()){
-            case "OK": return "Wallet deleted!";
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+        switch (res.getError()) {
+            case "OK":
+                return "Wallet deleted!";
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
 
     }
@@ -102,19 +109,24 @@ public class WalletCommandsClass implements WalletCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        BigInteger amount_add = (BigInteger) res.getResult();
-        BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
-
-        switch (res.getError()){
-            case "OK": return "Your wallet has the amount of:  " + amount;
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+        switch (res.getError()) {
+            case "OK":
+                BigInteger amount_add = (BigInteger) res.getResult();
+                BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
+                return "Your wallet has the amount of:  " + amount;
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
 
     }
@@ -129,37 +141,42 @@ public class WalletCommandsClass implements WalletCommandsInter{
         SignedResults s = signedResults.getBody();
         Result res = s.getResult();
 
-        if(VerifySignatures.verify(s.getSignatureReceive(), res))
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
             return WRONG_SIGNATURE;
 
-        ObjectMapper mapper = new ObjectMapper();
-        Wallet result = mapper.convertValue(res.getResult(), Wallet.class);
+        switch (res.getError()) {
+            case "OK":
+                ObjectMapper mapper = new ObjectMapper();
+                Wallet result = mapper.convertValue(res.getResult(), Wallet.class);
 
-        BigInteger amount_add = new BigInteger(result.getAmount_add());
-        BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
-        result.setAmount_add(amount.toString());
+                BigInteger amount_add = new BigInteger(result.getAmount_add());
+                BigInteger amount = OnionBuilderOperation.decryptHomoAdd(amount_add);
+                result.setAmount_add(amount.toString());
 
-        LocalRepo l = LocalRepo.getInstance();
-        String name_det_rnd = result.getName();
-        String RNDKey = l.getKey(RND);
-        byte[] RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
-        SecretKey RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
-        String name_det = HomoRand.decrypt(RNDKeySecret, Base64.getDecoder().decode(l.getKey(IV)), name_det_rnd);
+                LocalRepo l = LocalRepo.getInstance();
+                String name_det_rnd = result.getName();
+                String RNDKey = l.getKey(RND);
+                byte[] RNDKeySecretBytes = Base64.getDecoder().decode(RNDKey);
+                SecretKey RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
+                String name_det = HomoRand.decrypt(RNDKeySecret, Base64.getDecoder().decode(l.getKey(IV)), name_det_rnd);
 
-        String DETKey = l.getKey(DET);
-        byte[] DETKeySecretBytes = Base64.getDecoder().decode(DETKey);
-        SecretKey DETKeySecret = new SecretKeySpec(DETKeySecretBytes, 0, DETKeySecretBytes.length, "AES");
-        String name = HomoDet.decrypt(DETKeySecret, name_det);
+                String DETKey = l.getKey(DET);
+                byte[] DETKeySecretBytes = Base64.getDecoder().decode(DETKey);
+                SecretKey DETKeySecret = new SecretKeySpec(DETKeySecretBytes, 0, DETKeySecretBytes.length, "AES");
+                String name = HomoDet.decrypt(DETKeySecret, name_det);
 
-        result.setName(name);
-
-        switch (res.getError()){
-            case "OK": return "Your wallet's information:" + result.getInfo();
-            case "BAD_REQUEST": return MESSAGE_400;
-            case "NOT_FOUND": return MESSAGE_404;
-            case "TIME_OUT": return MESSAGE_TIMEOUT;
-            case "UNAUTHORIZED": return UNAUTHORIZED;
-            default: return MESSAGE_ERROR;
+                result.setName(name);
+                return "Your wallet's information:" + result.getInfo();
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
         }
 
     }

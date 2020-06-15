@@ -79,6 +79,7 @@ public class TransferServiceClass implements TransferServiceInter {
 
         String endDate =  HomoSearch.encrypt(SRKeySecret,date);
         body.setDate(endDate);
+
         String keys = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
 
         HttpEntity<Transfer> entity = new HttpEntity<>(body, createHeaders(keys));
@@ -101,7 +102,8 @@ public class TransferServiceClass implements TransferServiceInter {
 
         String HomoAddKey = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
         String HomoRNDKey = "RND:" + LocalRepo.getInstance().getKey(RND);
-        String keys = HomoAddKey + " " + HomoRNDKey;
+        String HomoRNDKeyIV = "IV:" + LocalRepo.getInstance().getKey(IV);
+        String keys = HomoAddKey + " " + HomoRNDKey + " " + HomoRNDKeyIV;
 
         HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders(keys));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
@@ -123,7 +125,8 @@ public class TransferServiceClass implements TransferServiceInter {
 
         String HomoAddKey = "HOMOADD:" + LocalRepo.getInstance().getPk().getNsquare().toString();
         String HomoRNDKey = "RND:" + LocalRepo.getInstance().getKey(RND);
-        String keys = HomoAddKey + " " + HomoRNDKey;
+        String HomoRNDKeyIV = "IV:" + LocalRepo.getInstance().getKey(IV);
+        String keys = HomoAddKey + " " + HomoRNDKey + " " + HomoRNDKeyIV;
 
         HttpEntity<AddRemoveForm> entity = new HttpEntity<>(f, createHeaders(keys));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
@@ -134,7 +137,7 @@ public class TransferServiceClass implements TransferServiceInter {
     @Override
     public ResponseEntity<SignedResults> listGlobalTransfers() throws URISyntaxException {
         String url = createURL(GLOBAL);
-        HttpEntity entity = new HttpEntity(createHeaders(null));
+        HttpEntity entity = new HttpEntity(createHeaders(""));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.GET, entity,
                 SignedResults.class);
         return signedResults;
@@ -144,7 +147,7 @@ public class TransferServiceClass implements TransferServiceInter {
     public ResponseEntity<SignedResults> listWalletTransfers(long id) throws URISyntaxException {
         String url = createURL(WALLET);
         String idToGet = url + BACKSLASH + id;
-        HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders(null));
+        HttpEntity<Long> entity = new HttpEntity<>(id, createHeaders(""));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(idToGet, HttpMethod.GET, entity,
                 SignedResults.class);
         return signedResults;
@@ -160,7 +163,7 @@ public class TransferServiceClass implements TransferServiceInter {
         SecretKeySpec srKeySecret = new SecretKeySpec(srKeyBytes, 0, srKeyBytes.length, "AES");
         String dateEnc = HomoSearch.wordDigest64(srKeySecret, date);
 
-        HttpEntity entity = new HttpEntity(new StringWrapper(dateEnc),createHeaders(null));
+        HttpEntity entity = new HttpEntity(new StringWrapper(dateEnc),createHeaders("null"));
         ResponseEntity<SignedResults> signedResults = restTemplate.exchange(url, HttpMethod.POST, entity,
                 SignedResults.class);
         return signedResults;
@@ -179,7 +182,7 @@ public class TransferServiceClass implements TransferServiceInter {
         return new HttpHeaders() {
             {
                 set("Authorization", LocalRepo.getInstance().getJWT());
-                if (keys != null)
+                if (!keys.equals(""))
                     set("keys", keys);
             }
         };

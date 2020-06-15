@@ -4,10 +4,12 @@ import bftsmart.tom.ServiceProxy;
 
 import static csd.wallet.Replication.Operations.Result.*;
 import static csd.wallet.Replication.Operations.Result.ErrorCode.INTERNAL_ERROR;
+import static csd.wallet.WebFilters.AuthenticatorFilter.NO_AUTH;
 
 import csd.wallet.Enums.RequestType;
 import csd.wallet.Replication.Operations.Result;
 import csd.wallet.Replication.ServiceProxy.BFTServiceProxy;
+import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,7 @@ public class BFTClient {
 
             objOut.writeObject(req);
 
-            if (accId != -2)
+            if (accId != NO_AUTH)
                 objOut.writeObject(accId);
 
             for (T input : inputs)

@@ -1,5 +1,6 @@
 package csd.wallet.Services.Transfers;
 
+import csd.wallet.Crypto.Random.HomoRand;
 import csd.wallet.Crypto.Searchable.HomoSearch;
 import csd.wallet.Crypto.Sum.HomoAdd;
 import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
@@ -16,8 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import csd.wallet.Repository.TransferRepository;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,11 +42,20 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     @Autowired
     DepositsRepository depositsRepository;
 
-    public static long MIN_AMOUNT = 0;
-    public static long MAX_AMOUNT = 999999999;
+    /*
+    key = 2053700769052212928
+    HomoOPE{0}= 2305825490042093576
+    HomoOPE{999999999}= 3379523840383123456
+     */
+    public static Long MIN_AMOUNT = Long.parseLong("2305825490042093576");
+    public static Long MAX_AMOUNT = Long.parseLong("3379523840383123456");
+
+    //public static long MIN_AMOUNT = 0;
+    //public static long MAX_AMOUNT = 999999999;
+
 
     @Override
-    public void addMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
+    public void addMoney(long accId, AddRemoveForm idAmount, String addKey, String rndKey, String rndKeyIV) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
 
         if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
@@ -54,7 +67,12 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         Wallet w = wallets.findById(walletId).orElseThrow(() -> new WalletNotExistsException(walletId));
 
-        //AmountRestrictions(idAmount.getAmount_ope_rnd());
+        String amount_ope_rnd = idAmount.getAmount_ope_rnd();
+        byte[] RNDKeySecretBytes = Base64.getDecoder().decode(rndKey);
+        SecretKey RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
+        Long amount_ope = Long.parseLong(HomoRand.decrypt(RNDKeySecret, Base64.getDecoder().decode(rndKeyIV), amount_ope_rnd));
+
+        AmountRestrictions(amount_ope);
 
         BigInteger amount_add = new BigInteger(w.getAmount_add());
         BigInteger toAdd_add = new BigInteger(idAmount.getAmount_add());
@@ -72,7 +90,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
     }
 
     @Override
-    public void removeMoney(long accId, AddRemoveForm idAmount, String addKey) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
+    public void removeMoney(long accId, AddRemoveForm idAmount, String addKey, String rndKey, String rndKeyIV) throws InvalidAmountException, WalletNotExistsException, AuthenticationErrorException {
 
         if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
@@ -83,10 +101,14 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         long walletId = idAmount.getId();
         Wallet w = wallets.findById(walletId).orElseThrow(() -> new WalletNotExistsException(walletId));
 
-        //AmountRestrictions(idAmount.getAmount_ope());
+        String amount_ope_rnd = idAmount.getAmount_ope_rnd();
+        byte[] RNDKeySecretBytes = Base64.getDecoder().decode(rndKey);
+        SecretKey RNDKeySecret = new SecretKeySpec(RNDKeySecretBytes, 0, RNDKeySecretBytes.length, "AES");
+        Long amount_ope = Long.parseLong(HomoRand.decrypt(RNDKeySecret, Base64.getDecoder().decode(rndKeyIV), amount_ope_rnd));
+
+        AmountRestrictions(amount_ope);
 
         BigInteger amount_add = new BigInteger(w.getAmount_add());
-
         BigInteger toRemove_add = new BigInteger(idAmount.getAmount_add());
 
         if (amount_add.equals(BigInteger.ZERO))
@@ -110,7 +132,7 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
             throw new AuthenticationErrorException();
 
         BigInteger amount_add = new BigInteger(transfer.getAmount_add());
-        //long amount_ope = transfer.getAmount_ope();
+        long amount_ope = Long.parseLong(transfer.getAmount_ope());
 
         long fromId = transfer.getFromId();
         long toId = transfer.getToId();
@@ -123,8 +145,6 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         if (fromW == toW)
             throw new TransferToSameWalletException(fromId);
 
-        System.out.println(amount_add.toString());
-
         BigInteger nSquare = new BigInteger(addKey);
         BigInteger fromResult_add = HomoAdd.dif(new BigInteger(fromW.getAmount_add()), amount_add, nSquare);
         BigInteger toResult_add = HomoAdd.sum(new BigInteger(toW.getAmount_add()), amount_add, nSquare);
@@ -132,9 +152,9 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         fromW.setAmount_add(fromResult_add.toString());
         toW.setAmount_add(toResult_add.toString());
 
-        transfers.save(transfer);
+        Transfer t = new Transfer(fromId, toId, amount_add.toString(), transfer.getAmount_ope(),transfer.getDate());
+        transfers.save(t);
 
-        System.out.println("Transfer Date: "+ transfer.getDate());
 
         wallets.save(fromW);
         wallets.save(toW);

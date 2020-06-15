@@ -1,6 +1,5 @@
 package csd.wallet.Services.Wallets;
 
-import csd.wallet.Utils.JSON;
 import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 

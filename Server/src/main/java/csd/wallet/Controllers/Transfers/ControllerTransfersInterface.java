@@ -93,7 +93,6 @@ public interface ControllerTransfersInterface {
     ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(@RequestAttribute("id") long accId,@PathVariable long id);
 
 
-
     /**
      * @return OK and List of all transfers.
      * INTERNAL_SERVER_ERROR, if server error.
