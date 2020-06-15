@@ -1,5 +1,6 @@
 package csd.wallet.Services.Transfers;
 
+import csd.wallet.Crypto.Searchable.HomoSearch;
 import csd.wallet.Crypto.Sum.HomoAdd;
 import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Exceptions.TransfersExceptions.TransferToSameWalletException;
@@ -131,7 +132,9 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         fromW.setAmount_add(fromResult_add.toString());
         toW.setAmount_add(toResult_add.toString());
 
-        transfers.save(new Transfer(fromId, toId, amount_add.toString(), 0));
+        transfers.save(transfer);
+
+        System.out.println("Transfer Date: "+ transfer.getDate());
 
         wallets.save(fromW);
         wallets.save(toW);
@@ -159,6 +162,22 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         walletTransfers.addAll(transfers.findAllByFromId(id));
         walletTransfers.addAll(transfers.findAllByToId(id));
         return walletTransfers;
+    }
+
+    @Override
+    public List<Transfer> ledgerOfDateTransfers(long accId, String date) throws AuthenticationErrorException {
+
+        if (accId == AuthenticatorFilter.FAIL_AUTH)
+            throw new AuthenticationErrorException();
+
+        List<Transfer> resultTransfers = new ArrayList<>();
+
+        transfers.findAll().forEach(transfer->{
+            if(HomoSearch.pesquisa(date, transfer.getDate()))
+                resultTransfers.add(transfer);
+        });
+
+        return resultTransfers;
     }
 
     private void AmountRestrictions(long amount) throws InvalidAmountException {

@@ -1,7 +1,9 @@
 package csd.wallet.Controllers.Transfers;
 
 import csd.wallet.Models.AddRemoveForm;
+import csd.wallet.Models.StringWrapper;
 import csd.wallet.Models.Transfer;
+import csd.wallet.Models.Wallet;
 import csd.wallet.WebFilters.KeysFilter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public interface ControllerTransfersInterface {
     String TRANSFER = "/transfer";
     String GLOBAL = "/globaltransfers";
     String WALLET = "/wallettransfers/{id}";
+    String DATE_TRANSFERS = "/datetransfers";
 
     /**
      * @param idAmount: Wallet id. | Amount to add to the wallet.
@@ -89,5 +92,16 @@ public interface ControllerTransfersInterface {
             produces = APPLICATION_JSON_VALUE)
     ResponseEntity<List<Transfer>> ledgerOfWalletTransfers(@RequestAttribute("id") long accId,@PathVariable long id);
 
+
+
+    /**
+     * @return OK and List of all transfers.
+     * INTERNAL_SERVER_ERROR, if server error.
+     * @Description //TODO:
+     */
+    @PostMapping(
+            value = DATE_TRANSFERS,consumes = APPLICATION_JSON_VALUE,
+            produces = APPLICATION_JSON_VALUE)
+    ResponseEntity<List<Transfer>> ledgerOfDateTransfers(@RequestAttribute("id") long accId,  @RequestBody StringWrapper date);
 
 }

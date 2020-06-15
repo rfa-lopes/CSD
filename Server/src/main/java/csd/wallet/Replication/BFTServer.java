@@ -129,6 +129,10 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 				result = transfers.ledgerOfWalletTransfers((long)objIn.readObject(), (long) objIn.readObject());
 				break;
 
+			case TRANSFERS_DATETRANSFERS:
+				result = transfers.ledgerOfDateTransfers((long)objIn.readObject(), (String) objIn.readObject());
+				break;
+
 			case WALLET_INFO:
 				result = wallets.getWalletInfo((long)objIn.readObject(), (long) objIn.readObject());
 				break;
@@ -189,6 +193,10 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 
 			case TRANSFERS_WALLETTRANSFERS:
 				result = transfers.ledgerOfWalletTransfers((long)objIn.readObject(), (long) objIn.readObject());
+				break;
+
+			case TRANSFERS_DATETRANSFERS:
+				result = transfers.ledgerOfDateTransfers((long)objIn.readObject(), (String) objIn.readObject());
 				break;
 
 			case WALLET_INFO:

@@ -20,4 +20,6 @@ public interface TransferServiceInter {
 
     ResponseEntity<SignedResults> listWalletTransfers (long id) throws URISyntaxException;
 
+    ResponseEntity<SignedResults> listDateTransfers (String date) throws URISyntaxException;
+
 }

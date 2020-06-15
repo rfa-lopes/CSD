@@ -40,12 +40,12 @@ public class Transfer implements Serializable {
     public Transfer() {
     }
 
-    public Transfer(long fromId, long toId, String amount_add, long amount_ope) {
+    public Transfer(long fromId, long toId, String amount_add, long amount_ope, String date) {
         this.fromId = fromId;
         this.toId = toId;
         this.amount_add = amount_add;
         this.amount_ope = amount_ope;
-        this.date = getActualDate();
+        this.date = date;
     }
 
     public long getId() {

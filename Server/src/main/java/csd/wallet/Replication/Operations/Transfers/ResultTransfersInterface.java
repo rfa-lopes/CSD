@@ -15,4 +15,6 @@ public interface ResultTransfersInterface {
     Result ledgerOfGlobalTransfers(long accId);
 
     Result ledgerOfWalletTransfers(long accId, long id);
+
+    Result ledgerOfDateTransfers(long accId, String id);
 }

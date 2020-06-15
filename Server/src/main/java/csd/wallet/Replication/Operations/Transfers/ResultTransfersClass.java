@@ -102,4 +102,13 @@ public class ResultTransfersClass implements ResultTransfersInterface{
             return getError(UNAUTHORIZED);
         }
     }
+
+    @Override
+    public Result ledgerOfDateTransfers(long accId, String date) {
+        try {
+            return ok(transfers.ledgerOfDateTransfers(accId,date));
+        } catch (AuthenticationErrorException e) {
+            return getError(UNAUTHORIZED);
+        }
+    }
 }

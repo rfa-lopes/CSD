@@ -22,4 +22,6 @@ public interface ServiceTransfersInterface {
     List<Transfer> ledgerOfGlobalTransfers(long accId) throws AuthenticationErrorException;
 
     List<Transfer> ledgerOfWalletTransfers(long accId, long id) throws WalletNotExistsException, AuthenticationErrorException;
+
+    List<Transfer> ledgerOfDateTransfers(long accId, String date) throws WalletNotExistsException, AuthenticationErrorException;
 }

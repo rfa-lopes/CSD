@@ -2,6 +2,7 @@ package CSD.Wallet.Models;
 
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -76,8 +77,17 @@ public class Transfer {
         this.date = date;
     }
 
-    private String getActualDate() {
+    public String getActualDate() {
         return new SimpleDateFormat(FORMAT_DATE).format(new Date());
+    }
+
+    public String getNextDay() {
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 1);
+        dt = c.getTime();
+        return new SimpleDateFormat(FORMAT_DATE).format(dt);
     }
 
     public void setToId(long toId) {
@@ -93,6 +103,6 @@ public class Transfer {
     }
 
     public String getInfo() {
-        return String.format("\n" + "FromID: %s\n" + "ToID: %s\n" + "Amount: %s\n" + "Date: %s\n", fromId, toId, amount_add, date);
+        return String.format("\n" + "FromID: %s\n" + "ToID: %s\n" + "Amount: %s\n", fromId, toId, amount_add);
     }
 }

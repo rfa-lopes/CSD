@@ -1,6 +1,8 @@
 package CSD.Wallet.Commands.Transfer;
 
 import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 
 import java.net.URISyntaxException;
 
@@ -49,5 +51,14 @@ public interface TransferCommandsInter {
 	 * @return Status code of operation
 	 */
 	String listWalletTransfers(long id) throws URISyntaxException;
+
+
+	/**
+	 * Description Lists all made transfers in the giving date
+	 *
+	 * @param date Date
+	 * @return Status code of operation
+	 */
+	String listDateTransfers(String date) throws URISyntaxException;
 
 }

@@ -1,6 +1,7 @@
 package csd.wallet.Controllers.Transfers;
 
 import csd.wallet.Models.AddRemoveForm;
+import csd.wallet.Models.StringWrapper;
 import csd.wallet.Models.Transfer;
 import csd.wallet.Replication.BFTClient;
 import csd.wallet.Controllers.RestResource;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -56,6 +58,13 @@ public class ControllerTransfersClass extends RestResource implements Controller
         Logger.info("Request: LEDGEROFWALLETTRANSFERS");
         return super.getResponse(
                 bftClient.getInvoke(RequestType.TRANSFERS_WALLETTRANSFERS, MessageType.ASYNC_REQUEST, accId, id));
+    }
+
+    @Override
+    public ResponseEntity<List<Transfer>> ledgerOfDateTransfers(long accId, StringWrapper date) {
+        Logger.info("Request: LEDGEROFDATETRANSFERS");
+        return super.getResponse(
+                bftClient.getInvoke(RequestType.TRANSFERS_DATETRANSFERS, MessageType.ASYNC_REQUEST, accId, date.getValue()));
     }
 
 }

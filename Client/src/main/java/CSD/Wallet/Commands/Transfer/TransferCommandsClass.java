@@ -211,6 +211,35 @@ public class TransferCommandsClass implements TransferCommandsInter {
         }
     }
 
+    @Override
+    @ShellMethod("List all transfers regarding wallet in a certain date.")
+    public String listDateTransfers(@ShellOption({"-d", "-date"}) String date) throws URISyntaxException {
+
+        ResponseEntity<SignedResults> signedResults = service.listDateTransfers(date);
+
+        SignedResults s = signedResults.getBody();
+        Result res = s.getResult();
+
+        if (VerifySignatures.verify(s.getSignatureReceive(), res))
+            return WRONG_SIGNATURE;
+
+        switch (res.getError()) {
+
+            case "OK":
+                return stringInfoTransfers((List<Transfer>) res.getResult());
+            case "BAD_REQUEST":
+                return MESSAGE_400;
+            case "NOT_FOUND":
+                return MESSAGE_404;
+            case "TIME_OUT":
+                return MESSAGE_TIMEOUT;
+            case "UNAUTHORIZED":
+                return UNAUTHORIZED;
+            default:
+                return MESSAGE_ERROR;
+        }
+    }
+
     private String stringInfoTransfers(List<Transfer> list) {
 
         List<String> toPrint = new ArrayList<>();
