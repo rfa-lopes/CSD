@@ -21,6 +21,12 @@ mvn spring-boot:run
 
 ---
 
+## Funcionalidades
+
+![Funcionalidades](CLIENT.png)
+
+---
+
 ## Configurações TLS
 ### Setup
 * Exportar certificado do servidor da sua keystore
