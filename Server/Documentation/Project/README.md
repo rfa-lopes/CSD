@@ -70,7 +70,7 @@ Como já foi referido, a arquitectura atual do sistema não está otimizada para
 ### Mudança de chaves.
 Para uma maior confidencialidade dos dados, as chaves poderiam ser trocadas diáriamente numa altura de menor acesso aos dados.
 
-### Insentivo de verificação de fraude.
+### Incentivo de verificação de fraude.
 Na atual arquitectura do sistema, há a necessidade de os clientes se verificarem entre si, mitigando o uso de fraudes ao sistema. Para tal, teria que haver um incentivo à verificação deste tipo de problema.
 
 ### Smart Contracts a executar operações do sistema.
