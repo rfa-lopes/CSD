@@ -22,6 +22,10 @@ Começamos por estudar a nossa base de dados e entender os dados mais relevantes
 
 Para o melhor entendimento da forma como estruturamos a nossa base de dados e cifras decidimos criar uma imagem para cada tabela com a informação de cada coluna e respetivas cifras.
 
+#### Accounts table
+
+![]()
+
 
 
 ## Trabalhos futuros
