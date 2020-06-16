@@ -24,9 +24,39 @@ Para o melhor entendimento da forma como estruturamos a nossa base de dados e ci
 
 #### Accounts table
 
-![Replicação com BFT-SMaRt](../Images/ACCOUNTS.png)
+Para a tabela de accounts pensamos em utilizar uma Onion Equality de modo a encontrarmos o username na tabela no ato de login. A password poderia ser ainda cifrada com mais uma camada RND para mitigar possiveis cracks à hash, mas achamos por bem não o fazer também para sobre carregar o sistema com tantas operações.
+
+![Accounts table](../Images/ACCOUNTS.png)
+
+---
+
+#### Wallets table
+
+Na tabela de wallets usamos a mesma estratégia do username do utilizador para a cifra do nome da wallet, sendo que para o atributo amount, dado que faziamos operações de soma e subtração neste campo, houve a necessidade de uma cifra de HOMOADD para a continuidade das mesma operações sobre este campo.
+
+![Accounts table](../Images/WALLETS.png)
+
+---
+
+#### Transfers table
+
+![Accounts table](../Images/TRANSFERS.png)
+
+---
+
+#### Deposits table
+
+![Accounts table](../Images/DEPOSITS.png)
+
+---
+
+#### Account - Wallets association table
 
 
+---
+
+---
+---
 
 ## Trabalhos futuros
 * TODO:
