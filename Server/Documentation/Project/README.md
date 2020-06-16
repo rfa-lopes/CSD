@@ -2,10 +2,10 @@
 
 ## Trabalho realizado
 * TLS - Autenticação do lado do servidor: [aqui](../../../Server#configurações-tls-wa1)
-* Tolerância a falhas Bizantinas: [aqui](Server#garantias-para-tolerância-a-servidores-bizantinos)
-* Assinaturas das replicas: [aqui](Server#receção-das-respostas-assinadas-das-réplicas-postman)
+* Tolerância a falhas Bizantinas: [aqui](../../../Server#garantias-para-tolerância-a-servidores-bizantinos)
+* Assinaturas das replicas: [aqui](../../../Server#receção-das-respostas-assinadas-das-réplicas-postman)
 * Smart Contracts com restrições na Sandbox: [aqui](Server#smart-contracts) TODO
-* Autenticação: [aqui](Server/Documentation/AUTHENTICATION.md)
+* Autenticação: [aqui](../../../Server/Documentation/AUTHENTICATION.md)
 * Homomorphic encryption: 
 
 ## Trabalhos futuros
