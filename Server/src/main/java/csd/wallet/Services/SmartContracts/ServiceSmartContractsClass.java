@@ -3,6 +3,7 @@ package csd.wallet.Services.SmartContracts;
 import csd.wallet.Exceptions.AccountsExceptions.AuthenticationErrorException;
 import csd.wallet.Models.SmartContract;
 
+import csd.wallet.Utils.Logger;
 import csd.wallet.WebFilters.AuthenticatorFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,17 +40,21 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
         try {
             Path sourcePath = Paths.get("SmartContract/", "SmartContractClient.java");
-            System.out.println("OLA3");
             Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             compiler.run(null, null, null, sourcePath.toFile().getAbsolutePath());
             Path compiled = sourcePath.getParent().resolve("SmartContractClient.class");
-            Thread thread = new Thread() {
+            URL classUrl = compiled.getParent().toFile().toURI().toURL();
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});
+            Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
+            clazz.newInstance();
+
+            /*Thread thread = new Thread() {
                 public void run() {
                     try {
-                        System.setProperty("java.security.policy", "SmartContract/SC.policy");
-                        System.setSecurityManager(new SecurityManager());
+                        //System.setProperty("java.security.policy", "SmartContract/SC.policy");
+                        //System.setSecurityManager(new SecurityManager());
 
                         URL classUrl = compiled.getParent().toFile().toURI().toURL();
                         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});
@@ -58,14 +63,14 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
                         clazz.newInstance();
 
                     } catch (Exception e) {
-                        System.out.println("OLA-T");
+                        Logger.error("SMART CONTRACTS THREAD ERROR");
                     }
                 }
             };
-            thread.start();
+            thread.start();*/
 
         } catch (Exception e) {
-            System.out.println("OLA-E");
+            Logger.error("SMART CONTRACTS ERROR");
         }
     }
 }

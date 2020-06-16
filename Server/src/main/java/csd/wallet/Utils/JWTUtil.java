@@ -14,7 +14,7 @@ public class JWTUtil {
 
     private static final byte[] KEY_BYTES = KEY.getBytes();
 
-    private static final int JWT_MINUTS_TIME = 10000; //10 minutos
+    private static final int JWT_MINUTS_TIME = 10; //10 minutos
 
     private static final long JWT_EXPIRATION_TIME = JWT_MINUTS_TIME * 60 * 1000;
 
