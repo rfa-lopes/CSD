@@ -18,5 +18,11 @@ O sistema de autenticação utiliza um mecânismo de tokens sendo este um JSON W
 
 A parte mais importante do projeto foi a utilização de cifras homomórficas que fornecem operações sobre dados cifrados. 
 
+Começamos por estudar a nossa base de dados e entender os dados mais relevantes a serem cifrados e a forma como o iamos fazer para cada dado de acordo com as operações fornecidas. Visto que a arquitectura inicial do projeto não foi desenhada a pensar nesta fase final, tivemos que nos adaptar à medida que iamos iterando o projeto ao longo do semestre. 
+
+Para o melhor entendimento da forma como estruturamos a nossa base de dados e cifras decidimos criar uma imagem para cada tabela com a informação de cada coluna e respetivas cifras.
+
+
+
 ## Trabalhos futuros
 * TODO:
