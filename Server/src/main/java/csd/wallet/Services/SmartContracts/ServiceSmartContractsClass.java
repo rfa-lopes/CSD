@@ -39,7 +39,6 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
 		try {
 			Path sourcePath = Paths.get("SmartContract/", "SmartContractClient.java");
-			System.out.println("OLA3");
 			Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
 
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -53,7 +52,7 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 			clazz.newInstance();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+		
 		}
 
 	}
