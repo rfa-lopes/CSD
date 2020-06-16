@@ -28,7 +28,7 @@ public class ResultSmartContractClass implements ResultSmartContractInterface {
             return ok();
         } catch (AuthenticationErrorException authenticationErrorException) {
             return getError(UNAUTHORIZED);
-        } catch (IOException | IllegalAccessException | InstantiationException e) {
+        } catch (Exception e) {
             return getError(BAD_REQUEST);
         }
     }

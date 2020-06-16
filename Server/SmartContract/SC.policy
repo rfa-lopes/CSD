@@ -4,3 +4,4 @@ deny  {
     permission java.io.FilePermission "lol.txt", "write";
 };
 
+

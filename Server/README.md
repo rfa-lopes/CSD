@@ -5,12 +5,13 @@
 
 * **Spring Boot 2.2.5** (WA1, WA2, WA3 e WA4)
 * **Maven** (WA1, WA2, WA3 e WA4)
-* **Java 8** (WA1, WA2, WA3 e WA4)
+* **Java 8/11** (WA1, WA2, WA3 e WA4)
 * **MySQL** (WA1, WA2, WA3 e WA4)
 * **BFT-SMaRt** (WA2, WA3 e WA4)
 * **Docker** (WA3 e WA4)
 * **Docker Compose** (WA3 e WA4)
-* **homomorphic encryption** (PROJ)
+* **Homomorphic encryption** (PROJ)
+* **JSON Web Tokens** (AUTENTICAÇÃO)
 
 Spring initializer [aqui](https://start.spring.io/).
 
@@ -111,7 +112,7 @@ No futuro poderemos adaptar este SmartContract para fazer operações arbitrári
 
 ## Receção das respostas assinadas das réplicas (Postman).
 
-![Postman](Documentation/Images/WA4-Postman.png)
+![Postman](Documentation/Images/Assinaturas.png)
 
 ---
 
