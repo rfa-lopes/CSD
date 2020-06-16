@@ -47,7 +47,7 @@ public class SmartContractClass implements SmartContractInterface {
 
             return "EXECUTED.";
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return "File does not exist.";
         }
     }

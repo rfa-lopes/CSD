@@ -67,7 +67,8 @@ public class BFTClient {
                 default:
                     return getError(INTERNAL_ERROR);
             }
-
+            
+         
             ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
             ObjectInput objIn = new ObjectInputStream(byteIn);
 

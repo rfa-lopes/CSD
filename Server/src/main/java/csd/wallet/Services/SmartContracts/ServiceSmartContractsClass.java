@@ -33,39 +33,31 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
         if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
-        byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
-        String sourceCode = new String(sourceCodeByte);
+		byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
+		String sourceCode = new String(sourceCodeByte);
+		
+		System.setProperty("java.security.policy","SmartContract/SC.policy");
+		System.setSecurityManager(new SecurityManager());
+		
+		try {
+			
+			Path sourcePath = Paths.get("SmartContract/", "SmartContractClient.java");
+			Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
 
-        File f = new File("/tmp/SmartContractClient.java");
-        FileWriter fileWriter = new FileWriter(f);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        printWriter.print(sourceCode);
-        printWriter.close();
+			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
-        //String tmpProperty = System.getProperty("java.io.tmpdir");
-        //Path sourcePath = Paths.get(tmpProperty, "SmartContractClient.java");
-        //Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
+			compiler.run(null, null, null, sourcePath.toFile().getAbsolutePath());
 
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, null, null, f.getAbsolutePath());
-        String compiledPath = f.getParent();
+			Path compiled = sourcePath.getParent().resolve("SmartContractClient.class");
 
-        Policy.setPolicy(new PluginSecurityPolicy());
-        //System.setSecurityManager(new SecurityManager());
+			URL classUrl = compiled.getParent().toFile().toURI().toURL();
+			URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { classUrl });
+			Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
 
-        PluginLoader loader = new PluginLoader();
-        loader.setPluginDirectory(compiledPath);
-        String[] pluginNames = loader.listPlugins();
+			clazz.newInstance();
 
-        Class<?> pluginClass = loader.loadClass(pluginNames[0]);
+		} catch (Exception e) {
 
-        if (pluginClass != null)
-            pluginClass.newInstance();
-
-        //URL classUrl = compiled.getParent().toFile().toURI().toURL();
-        //URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});
-        //Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
-
-        //clazz.newInstance();
+		}
     }
 }

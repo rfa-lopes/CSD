@@ -67,8 +67,6 @@ public class BFTServiceProxy implements ReplyListener {
             }
 
 
-            //PublicKey pubKey = asynchServiceProxy.getViewManager().getStaticConf().getPublicKey(id);
-
             boolean isValid = TOMUtil.verifySignature(pubKey, reply, signature);
             if (isValid) {
                 signatureReceive.put(id, signature);
@@ -100,8 +98,11 @@ public class BFTServiceProxy implements ReplyListener {
                 res = Convert.toBytes(getError(TIME_OUT));
                 break;
             }
+        
+     
         if (res == null)
             res = Convert.toBytes(ok(result));
+
         return res;
     }
 }
