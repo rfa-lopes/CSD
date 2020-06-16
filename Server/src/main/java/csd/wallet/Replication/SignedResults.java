@@ -7,7 +7,12 @@ import java.util.Map;
 
 public class SignedResults implements Serializable {
 
-    Map<Integer, byte[]> signatureReceive;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8244957475689532671L;
+
+	Map<Integer, byte[]> signatureReceive;
 
     Result result;
 

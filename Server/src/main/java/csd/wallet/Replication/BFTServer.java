@@ -152,6 +152,7 @@ public class BFTServer extends DefaultSingleRecoverable implements Serializable 
 				result = login.login((Account) objIn.readObject());
 				break;
 			}
+
 			SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
 			objOut.writeObject(sigResult);
