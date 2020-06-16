@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -33,31 +34,38 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
         if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
 
-		byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
-		String sourceCode = new String(sourceCodeByte);
-		
-		System.setProperty("java.security.policy","SmartContract/SC.policy");
-		System.setSecurityManager(new SecurityManager());
-		
-		try {
-			
-			Path sourcePath = Paths.get("SmartContract/", "SmartContractClient.java");
-			Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
+        byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
+        String sourceCode = new String(sourceCodeByte);
 
-			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        try {
+            Path sourcePath = Paths.get("SmartContract/", "SmartContractClient.java");
+            System.out.println("OLA3");
+            Files.write(sourcePath, sourceCode.getBytes("UTF-8"));
 
-			compiler.run(null, null, null, sourcePath.toFile().getAbsolutePath());
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            compiler.run(null, null, null, sourcePath.toFile().getAbsolutePath());
+            Path compiled = sourcePath.getParent().resolve("SmartContractClient.class");
+            Thread thread = new Thread() {
+                public void run() {
+                    try {
+                        System.setProperty("java.security.policy", "SmartContract/SC.policy");
+                        System.setSecurityManager(new SecurityManager());
 
-			Path compiled = sourcePath.getParent().resolve("SmartContractClient.class");
+                        URL classUrl = compiled.getParent().toFile().toURI().toURL();
+                        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});
+                        Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
 
-			URL classUrl = compiled.getParent().toFile().toURI().toURL();
-			URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { classUrl });
-			Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
+                        clazz.newInstance();
 
-			clazz.newInstance();
+                    } catch (Exception e) {
+                        System.out.println("OLA-T");
+                    }
+                }
+            };
+            thread.start();
 
-		} catch (Exception e) {
-
-		}
+        } catch (Exception e) {
+            System.out.println("OLA-E");
+        }
     }
 }
