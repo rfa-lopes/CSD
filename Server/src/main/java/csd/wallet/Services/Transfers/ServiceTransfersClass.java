@@ -152,9 +152,8 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
         fromW.setAmount_add(fromResult_add.toString());
         toW.setAmount_add(toResult_add.toString());
 
-        Transfer t = new Transfer(fromId, toId, amount_add.toString(), transfer.getAmount_ope(),transfer.getDate());
+        Transfer t = new Transfer(fromId, toId, amount_add.toString(), transfer.getAmount_ope(), transfer.getDate());
         transfers.save(t);
-
 
         wallets.save(fromW);
         wallets.save(toW);
@@ -192,8 +191,8 @@ public class ServiceTransfersClass implements ServiceTransfersInterface {
 
         List<Transfer> resultTransfers = new ArrayList<>();
 
-        transfers.findAll().forEach(transfer->{
-            if(HomoSearch.pesquisa(date, transfer.getDate()))
+        transfers.findAll().forEach(transfer -> {
+            if (HomoSearch.pesquisa(date, transfer.getDate()))
                 resultTransfers.add(transfer);
         });
 

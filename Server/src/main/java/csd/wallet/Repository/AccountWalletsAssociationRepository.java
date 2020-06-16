@@ -11,5 +11,6 @@ public interface AccountWalletsAssociationRepository extends CrudRepository<Acco
 
     List<AccountWalletsAssociation> findAllByUserId(long userId);
     List<AccountWalletsAssociation> findByUserId(long userId);
+    void deleteAllByWalletId(long walletId);
 
 }

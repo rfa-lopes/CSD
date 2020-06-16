@@ -16,14 +16,14 @@ nrdb=$1
 dropall=$((nrdb + 20))
 
 for ((i = 0 ; i < dropall ; i++ ));
-do 	
+do
 	#echo "Drop database: wallet$i";
 	mysql -u${username} -p${password} -e "DROP DATABASE wallet$i;" > /dev/null 2>&1;
 done
 
 for ((i = 0 ; i < nrdb ; i++ ));
-do 	
-	echo "Create database: wallet$i";	
+do 
+	echo "Create database: wallet$i";
 	mysql -u${username} -p${password} -e "CREATE DATABASE wallet$i;" > /dev/null 2>&1;
 done
 

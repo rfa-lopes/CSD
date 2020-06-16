@@ -30,208 +30,207 @@ import java.security.spec.InvalidKeySpecException;
 @Component
 public class BFTServer extends DefaultSingleRecoverable implements Serializable {
 
-	@Autowired
-	ResultTestsClass tests;
+    @Autowired
+    ResultTestsClass tests;
 
-	@Autowired
-	ResultTransfersClass transfers;
+    @Autowired
+    ResultTransfersClass transfers;
 
-	@Autowired
-	ResultWalletsClass wallets;
+    @Autowired
+    ResultWalletsClass wallets;
 
-	@Autowired
-	ResultSmartContractClass smartcontract;
+    @Autowired
+    ResultSmartContractClass smartcontract;
 
-	@Autowired
-	ResultAccountsClass accounts;
+    @Autowired
+    ResultAccountsClass accounts;
 
-	@Autowired
-	ResultLoginClass login;
+    @Autowired
+    ResultLoginClass login;
 
-	PrivateKey privKey;
+    PrivateKey privKey;
 
-	int id;
+    int id;
 
-	ServiceReplica a;
+    ServiceReplica a;
 
-	public BFTServer(@Value("${bftsmart.id}") int id) {
-		a = new ServiceReplica(id, this, this);
-		this.id = id;
-	}
+    public BFTServer(@Value("${bftsmart.id}") int id) {
+        a = new ServiceReplica(id, this, this);
+        this.id = id;
+    }
 
-	@Override
-	public void installSnapshot(byte[] bytes) {
-		// TODO:
-	}
+    @Override
+    public void installSnapshot(byte[] bytes) {
+        // TODO:
+    }
 
-	@Override
-	public byte[] getSnapshot() {
-		// TODO:
-		return new byte[0];
-	}
+    @Override
+    public byte[] getSnapshot() {
+        // TODO:
+        return new byte[0];
+    }
 
-	@Override
-	public byte[] appExecuteOrdered(byte[] command, MessageContext messageContext) {
-		byte[] reply = null;
-		Result result = null;
+    @Override
+    public byte[] appExecuteOrdered(byte[] command, MessageContext messageContext) {
+        byte[] reply = null;
+        Result result = null;
 
-		try {
-			ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
-			ObjectInput objIn = new ObjectInputStream(byteIn);
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			ObjectOutput objOut = new ObjectOutputStream(byteOut);
+        try {
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
+            ObjectInput objIn = new ObjectInputStream(byteIn);
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutput objOut = new ObjectOutputStream(byteOut);
 
-			RequestType reqType = (RequestType) objIn.readObject();
+            RequestType reqType = (RequestType) objIn.readObject();
 
-			switch (reqType) {
-			case TEST_1:
-				result = tests.test1();
-				break;
+            switch (reqType) {
+                case TEST_1:
+                    result = tests.test1();
+                    break;
 
-			case TEST_2:
-				result = tests.test2();
-				break;
+                case TEST_2:
+                    result = tests.test2();
+                    break;
 
-			case TEST_3: // "Otherwise, an ordered request is issued internally using the invokeOrdered
-							// method."
-				result = tests.test3();
-				break;
+                case TEST_3: // "Otherwise, an ordered request is issued internally using the invokeOrdered method".
+                    result = tests.test3();
+                    break;
 
-			case TEST_4:
-				result = tests.test4();
-				break;
+                case TEST_4:
+                    result = tests.test4();
+                    break;
 
-			case TRANSFERS_ADD:
-				result = transfers.addMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject(), (String)objIn.readObject());
-				break;
+                case TRANSFERS_ADD:
+                    result = transfers.addMoney((long) objIn.readObject(), (AddRemoveForm) objIn.readObject(), (String) objIn.readObject());
+                    break;
 
-			case TRANSFERS_REMOVE:
-				result = transfers.removeMoney((long)objIn.readObject(), (AddRemoveForm) objIn.readObject(), (String)objIn.readObject());
-				break;
+                case TRANSFERS_REMOVE:
+                    result = transfers.removeMoney((long) objIn.readObject(), (AddRemoveForm) objIn.readObject(), (String) objIn.readObject());
+                    break;
 
-			case TRANSFERS_TRANSFER:
-				result = transfers.transfer((long)objIn.readObject(), (Transfer) objIn.readObject(), (String)objIn.readObject());
-				break;
+                case TRANSFERS_TRANSFER:
+                    result = transfers.transfer((long) objIn.readObject(), (Transfer) objIn.readObject(), (String) objIn.readObject());
+                    break;
 
-			case WALLET_CREATE:
-				result = wallets.createWallet((long)objIn.readObject(), (Wallet) objIn.readObject());
-				break;
+                case WALLET_CREATE:
+                    result = wallets.createWallet((long) objIn.readObject(), (Wallet) objIn.readObject());
+                    break;
 
-			case WALLET_DELETE:
-				result = wallets.deleteWallet((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case WALLET_DELETE:
+                    result = wallets.deleteWallet((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case TRANSFERS_GLOBALTRANSFERS:
-				result = transfers.ledgerOfGlobalTransfers((long)objIn.readObject());
-				break;
+                case TRANSFERS_GLOBALTRANSFERS:
+                    result = transfers.ledgerOfGlobalTransfers((long) objIn.readObject());
+                    break;
 
-			case TRANSFERS_WALLETTRANSFERS:
-				result = transfers.ledgerOfWalletTransfers((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case TRANSFERS_WALLETTRANSFERS:
+                    result = transfers.ledgerOfWalletTransfers((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case TRANSFERS_DATETRANSFERS:
-				result = transfers.ledgerOfDateTransfers((long)objIn.readObject(), (String) objIn.readObject());
-				break;
+                case TRANSFERS_DATETRANSFERS:
+                    result = transfers.ledgerOfDateTransfers((long) objIn.readObject(), (String) objIn.readObject());
+                    break;
 
-			case WALLET_INFO:
-				result = wallets.getWalletInfo((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case WALLET_INFO:
+                    result = wallets.getWalletInfo((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case WALLET_AMOUNT:
-				result = wallets.getCurrentAmount((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case WALLET_AMOUNT:
+                    result = wallets.getCurrentAmount((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case SMART_CONTRACT_EXECUTE:
-				result = smartcontract.executeSmartContract((long)objIn.readObject(), (SmartContract) objIn.readObject());
-				break;
-			case ACCOUNT_CREATE:
-				result = accounts.createAccount((Account) objIn.readObject());
-				break;
+                case SMART_CONTRACT_EXECUTE:
+                    result = smartcontract.executeSmartContract((long) objIn.readObject(), (SmartContract) objIn.readObject());
+                    break;
+                case ACCOUNT_CREATE:
+                    result = accounts.createAccount((Account) objIn.readObject());
+                    break;
 
-			case LOGIN:
-				result = login.login((Account) objIn.readObject());
-				break;
-			}
-			SignedResult sigResult = new SignedResult(result, signReply(result), id);
+                case LOGIN:
+                    result = login.login((Account) objIn.readObject());
+                    break;
+            }
+            SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
-			objOut.writeObject(sigResult);
-			objOut.flush();
-			byteOut.flush();
-			reply = byteOut.toByteArray();
+            objOut.writeObject(sigResult);
+            objOut.flush();
+            byteOut.flush();
+            reply = byteOut.toByteArray();
 
-			Logger.replication("Replication - " + reqType);
-		} catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-			Logger.error("<<<BFT Server error>>>");
-		}
-		return reply;
-	}
+            Logger.replication("Replication - " + reqType);
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            Logger.error("<<<BFT Server error>>>");
+        }
+        return reply;
+    }
 
-	@Override
-	public byte[] appExecuteUnordered(byte[] command, MessageContext messageContext) {
-		byte[] reply = null;
-		Result result = null;
-		try {
-			ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
-			ObjectInput objIn = new ObjectInputStream(byteIn);
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			ObjectOutput objOut = new ObjectOutputStream(byteOut);
+    @Override
+    public byte[] appExecuteUnordered(byte[] command, MessageContext messageContext) {
+        byte[] reply = null;
+        Result result = null;
+        try {
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
+            ObjectInput objIn = new ObjectInputStream(byteIn);
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutput objOut = new ObjectOutputStream(byteOut);
 
-			RequestType reqType = (RequestType) objIn.readObject();
+            RequestType reqType = (RequestType) objIn.readObject();
 
-			switch (reqType) {
-			case TEST_2:
-				result = tests.test2();
-				break;
+            switch (reqType) {
+                case TEST_2:
+                    result = tests.test2();
+                    break;
 
-			case TEST_4:
-				result = tests.test4();
-				break;
+                case TEST_4:
+                    result = tests.test4();
+                    break;
 
-			case TRANSFERS_GLOBALTRANSFERS:
-				result = transfers.ledgerOfGlobalTransfers((long)objIn.readObject());
-				break;
+                case TRANSFERS_GLOBALTRANSFERS:
+                    result = transfers.ledgerOfGlobalTransfers((long) objIn.readObject());
+                    break;
 
-			case TRANSFERS_WALLETTRANSFERS:
-				result = transfers.ledgerOfWalletTransfers((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case TRANSFERS_WALLETTRANSFERS:
+                    result = transfers.ledgerOfWalletTransfers((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case TRANSFERS_DATETRANSFERS:
-				result = transfers.ledgerOfDateTransfers((long)objIn.readObject(), (String) objIn.readObject());
-				break;
+                case TRANSFERS_DATETRANSFERS:
+                    result = transfers.ledgerOfDateTransfers((long) objIn.readObject(), (String) objIn.readObject());
+                    break;
 
-			case WALLET_INFO:
-				result = wallets.getWalletInfo((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case WALLET_INFO:
+                    result = wallets.getWalletInfo((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case WALLET_AMOUNT:
-				result = wallets.getCurrentAmount((long)objIn.readObject(), (long) objIn.readObject());
-				break;
+                case WALLET_AMOUNT:
+                    result = wallets.getCurrentAmount((long) objIn.readObject(), (long) objIn.readObject());
+                    break;
 
-			case SMART_CONTRACT_EXECUTE:
-				result = smartcontract.executeSmartContract((long)objIn.readObject(), (SmartContract) objIn.readObject());
-				break;
-			}
+                case SMART_CONTRACT_EXECUTE:
+                    result = smartcontract.executeSmartContract((long) objIn.readObject(), (SmartContract) objIn.readObject());
+                    break;
+            }
 
-			SignedResult sigResult = new SignedResult(result, signReply(result), id);
+            SignedResult sigResult = new SignedResult(result, signReply(result), id);
 
-			objOut.writeObject(sigResult);
-			objOut.flush();
-			byteOut.flush();
-			reply = byteOut.toByteArray();
-			Logger.replication("Replication - " + reqType);
-		} catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-			e.printStackTrace();
-			Logger.error("<<<BFT Server error>>>");
-		}
-		return reply;
-	}
+            objOut.writeObject(sigResult);
+            objOut.flush();
+            byteOut.flush();
+            reply = byteOut.toByteArray();
+            Logger.replication("Replication - " + reqType);
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+            Logger.error("<<<BFT Server error>>>");
+        }
+        return reply;
+    }
 
-	private byte[] signReply(Result result) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-		ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
-		privKey = keyloader.loadPrivateKey();
-		String json = JSON.toJson(result);
-		return TOMUtil.signMessage(privKey, json.getBytes());
-	}
+    private byte[] signReply(Result result) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        ECDSAKeyLoader keyloader = new ECDSAKeyLoader(id, "", false, "EC");
+        privKey = keyloader.loadPrivateKey();
+        String json = JSON.toJson(result);
+        return TOMUtil.signMessage(privKey, json.getBytes());
+    }
 
 }

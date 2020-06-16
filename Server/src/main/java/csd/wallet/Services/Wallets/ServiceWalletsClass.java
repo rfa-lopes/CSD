@@ -51,6 +51,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
 
         Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
         wallets.delete(w);
+        //accountWalletsAssociation.deleteAllByWalletId(id);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ServiceWalletsClass implements ServiceWalletsInterface {
             throw new AuthenticationErrorException();
 
         Wallet w = wallets.findById(id).orElseThrow(() -> new WalletNotExistsException(id));
-        return  new BigInteger(w.getAmount_add());
+        return new BigInteger(w.getAmount_add());
     }
 
     @Override
