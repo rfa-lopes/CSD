@@ -6,7 +6,7 @@
 * Spring Shell - [Referência](https://projects.spring.io/spring-shell/)
 * Spring Boot 2.2.5
 * Maven
-* Java 8
+* Java 8/11
 
 Initializer [aqui](https://start.spring.io/).
 
