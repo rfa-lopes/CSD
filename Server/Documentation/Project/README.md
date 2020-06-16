@@ -63,4 +63,18 @@ Esta tabela é uma tabela auxiliar que associa o utilizador às suas wallets. Os
 ---
 
 ## Trabalhos futuros
-* TODO:
+
+### Melhoramentos da arquitectura do sistema.
+Como já foi referido, a arquitectura atual do sistema não está otimizada para lidar com as atuais cifras homomorficas, pelo que seria interessante criar uma arquitectura melhorada, onde o cliente fazia pedidos normais a uma proxy que seria criada entre o cliente e o servidor, sendo esta proxy o principal responsável pela conversão da informação utilizando as cifras homomórficas. Esta proxy também ficaria com um cargo de autenticador do cliente sendo esta a responsável por fornecer as chaves ao cliente.
+
+### Mudança de chaves.
+Para uma maior confidencialidade dos dados, as chaves poderiam ser trocadas diáriamente numa altura de menor acesso aos dados.
+
+### Insentivo de verificação de fraude.
+Na atual arquitectura do sistema, há a necessidade de os clientes se verificarem entre si, mitigando o uso de fraudes ao sistema. Para tal, teria que haver um incentivo à verificação deste tipo de problema.
+
+### Smart Contracts a executar operações do sistema.
+Atualmente o sistema faz operações muito simples utilizando smart contracts, pelo que seria interessante no futuro, estes poderem utilizar código confiável do sistema.
+
+### Smart Contracts com a noção de Gás.
+Para evitar loops infinitos, a utilização de "gás" será necessária de modo a que o cliente pague as suas operações no sistema, mitigando assim o uso excessivo de recursos.
