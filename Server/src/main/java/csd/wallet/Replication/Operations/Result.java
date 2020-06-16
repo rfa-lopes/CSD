@@ -7,7 +7,7 @@ import java.io.Serializable;
 public interface Result<T> extends Serializable {
 
 	enum ErrorCode {
-		OK, BAD_REQUEST, NOT_FOUND, INTERNAL_ERROR, NOT_IMPLEMENTED, TIME_OUT, CONFLICT, UNAUTHORIZED
+		OK, BAD_REQUEST, NOT_FOUND, INTERNAL_ERROR, NOT_IMPLEMENTED, TIME_OUT, CONFLICT, UNAUTHORIZED, ACCESS_DENIED
 	}
 
 	T getResult();

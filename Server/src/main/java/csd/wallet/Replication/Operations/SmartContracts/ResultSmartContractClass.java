@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-import static csd.wallet.Replication.Operations.Result.ErrorCode.BAD_REQUEST;
+import static csd.wallet.Replication.Operations.Result.ErrorCode.ACCESS_DENIED;
 import static csd.wallet.Replication.Operations.Result.ErrorCode.UNAUTHORIZED;
 import static csd.wallet.Replication.Operations.Result.getError;
 import static csd.wallet.Replication.Operations.Result.ok;
@@ -29,7 +29,7 @@ public class ResultSmartContractClass implements ResultSmartContractInterface {
         } catch (AuthenticationErrorException authenticationErrorException) {
             return getError(UNAUTHORIZED);
         } catch (Exception e) {
-            return getError(BAD_REQUEST);
+            return getError(ACCESS_DENIED);
         }
     }
 }

@@ -20,7 +20,6 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Policy;
 import java.util.Base64;
 
 @Service
@@ -30,7 +29,8 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
     int this_id;
 
     @Override
-    public void executeSmartContract(long accId, SmartContract smartContract) throws AuthenticationErrorException, IOException, IllegalAccessException, InstantiationException {
+    public void executeSmartContract(long accId, SmartContract smartContract)
+            throws AuthenticationErrorException, IOException, IllegalAccessException, InstantiationException {
 
         if (accId == AuthenticatorFilter.FAIL_AUTH)
             throw new AuthenticationErrorException();
@@ -53,14 +53,14 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
             /*Thread thread = new Thread() {
                 public void run() {
                     try {
-                        //System.setProperty("java.security.policy", "SmartContract/SC.policy");
-                        //System.setSecurityManager(new SecurityManager());
+                        System.setProperty("java.security.policy", "SmartContract/SC.policy");
+                        System.setSecurityManager(new SecurityManager());
 
                         URL classUrl = compiled.getParent().toFile().toURI().toURL();
-                        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});
+                        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { classUrl });
                         Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
 
-                        clazz.newInstance();
+			            clazz.newInstance();
 
                     } catch (Exception e) {
                         Logger.error("SMART CONTRACTS THREAD ERROR");

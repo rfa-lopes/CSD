@@ -73,7 +73,7 @@ public class BFTServiceProxy implements ReplyListener {
                 numValidReplicas++;
                 replies.put(id, signedResult.getResult());
                 if (numValidReplicas >= minReplicas) {
-                    result = new SignedResults(signatureReceive, replies.get(this_id));
+                    result = new SignedResults(signatureReceive, replies.get(id));
                     //asynchServiceProxy.cleanAsynchRequest(requestContext.getOperationId());
                 }
             }

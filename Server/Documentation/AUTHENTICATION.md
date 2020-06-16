@@ -1,6 +1,6 @@
 [< Para trás](../README.md#Funcionalidades)
 
-# Documentação da Autenticação
+# Documentação da Autenticação ([JWT](https://jwt.io/))
 
 ## Login
 ### Request
