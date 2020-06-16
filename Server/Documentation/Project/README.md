@@ -24,7 +24,7 @@ Para o melhor entendimento da forma como estruturamos a nossa base de dados e ci
 
 #### Accounts table
 
-![]()
+![Replicação com BFT-SMaRt](../Images/ACCOUNTS.png)
 
 
 
