@@ -10,7 +10,8 @@ public class WalletApplication {
 		
 		System.setProperty("java.security.policy","SmartContract/SC.policy");
 		
-		System.setSecurityManager(new SecurityManager());
+		java.security.Policy.setPolicy(new net.sourceforge.prograde.policy.ProGradePolicy());
+
 		
 		SpringApplication.run(WalletApplication.class, args);
 	}

@@ -18,7 +18,6 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Policy;
 import java.util.Base64;
 
 @Service
@@ -51,6 +50,7 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
 			URL classUrl = compiled.getParent().toFile().toURI().toURL();
 			URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { classUrl });
+			
 			Class<?> clazz = Class.forName("SmartContractClient", true, classLoader);
 
 			clazz.newInstance();
