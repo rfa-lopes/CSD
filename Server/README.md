@@ -112,7 +112,7 @@ No futuro poderemos adaptar este SmartContract para fazer operações arbitrári
 
 ## Receção das respostas assinadas das réplicas (Postman).
 
-![Postman](Documentation/Images/WA4-Postman.png)
+![Postman](Documentation/Images/Assinaturas.png)
 
 ---
 
