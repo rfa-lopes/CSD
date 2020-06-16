@@ -12,7 +12,12 @@ Initializer [aqui](https://start.spring.io/).
 
 ---
 
-## Funcionalidades
+## Quick start
+
+```cmd
+cd Client
+mvn spring-boot:run
+```
 
 ---
 
