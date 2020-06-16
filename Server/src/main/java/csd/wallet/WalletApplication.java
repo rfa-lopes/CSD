@@ -7,6 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WalletApplication {
 
 	public static void main(String[] args) {
+		
+		System.setProperty("java.security.policy","SmartContract/SC.policy");
+		
+		System.setSecurityManager(new SecurityManager());
+		
 		SpringApplication.run(WalletApplication.class, args);
 	}
 

@@ -23,7 +23,9 @@ import java.util.Base64;
 
 @Service
 public class ServiceSmartContractsClass implements ServiceSmartContractsInterface {
+	
 
+	
     @Value("${bftsmart.id}")
     int this_id;
 
@@ -35,9 +37,6 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 
 		byte[] sourceCodeByte = Base64.getDecoder().decode(smartContract.getCode());
 		String sourceCode = new String(sourceCodeByte);
-		
-		System.setProperty("java.security.policy","SmartContract/SC.policy");
-		System.setSecurityManager(new SecurityManager());
 		
 		try {
 			
@@ -57,7 +56,7 @@ public class ServiceSmartContractsClass implements ServiceSmartContractsInterfac
 			clazz.newInstance();
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
     }
 }
