@@ -32,7 +32,7 @@ Para a tabela de accounts pensamos em utilizar uma Onion Equality de modo a enco
 
 #### Wallets table
 
-Na tabela de wallets usamos a mesma estratégia do username do utilizador para a cifra do nome da wallet, sendo que para o atributo amount, dado que faziamos operações de soma e subtração neste campo, houve a necessidade de uma cifra de HOMOADD para a continuidade das mesma operações sobre este campo.
+Na tabela de wallets usamos a mesma estratégia do username do utilizador para a cifra do nome da wallet, sendo que para o atributo amount, dado que faziamos operações de soma e subtração neste campo, houve a necessidade de uma cifra com Onion Add para a continuidade das mesma operações sobre este campo.
 
 ![Accounts table](../Images/WALLETS.png)
 
@@ -40,11 +40,15 @@ Na tabela de wallets usamos a mesma estratégia do username do utilizador para a
 
 #### Transfers table
 
+Na tabela das transferências, a sua caractristica em relação às outras, é a utilização da Onion Search que possibilita a procura de uma transferência dada uma data sobre dados cifrados, isto permite na nossa aplicação a procura de todas as transferencias feitas dado um dia.
+
 ![Accounts table](../Images/TRANSFERS.png)
 
 ---
 
 #### Deposits table
+
+Esta tabela de depositos foi projetada a pensar em trabalhos futuros, dado que neste momento estamos a confiar nos clientes quando estes fazem um deposito, dado que precisamos da quantia cifrada com Onion Add e Onion Order, e aqui reside um problema... Então e se o cliente enviar valores encritados diferentes um do outro? Para tentar mitigar isso, tivemos a ideia de criar este registo para que este seja usado por outros clientes de modo a tentarem encontrar alguma incoeirência nos valores cifrados e talvez assim ganhar algum dinheiro extra ao avisarem o servidor sobre um potencial atacante. Este mecanismo não foi implementado dado o pouco tempo para a entrega do projeto, mas foi pensado e encaminhado para um possivel trabalho futuro.
 
 ![Accounts table](../Images/DEPOSITS.png)
 
@@ -52,8 +56,8 @@ Na tabela de wallets usamos a mesma estratégia do username do utilizador para a
 
 #### Account - Wallets association table
 
+Esta tabela é uma tabela auxiliar que associa o utilizador às suas wallets. Os dados nela contidos não são cifrados, dado que o servidor precisa de ter acesso a estes para poder fornecer o serviço ao cliente. Num trabalho futuro, todos os ID's na base de dados poderiam ser cifrados pelo próprio servidor, gerando este chaves simétricas random e mudando de chaves em horas "mortas" do sistema de modo a mitigar qualquer tipo de inferência a partir dos id's.
 
----
 
 ---
 ---
